@@ -35,6 +35,7 @@ StarWiki utiliza una **arquitectura Cliente-Servidor** que separa claramente las
 ## 🛠️ Tecnologías
 
 ### Backend
+
 - **Node.js**: Entorno de ejecución para JavaScript
 - **Express.js**: Framework web minimalista y flexible
 - **PostgreSQL**: Base de datos relacional de código abierto
@@ -42,9 +43,10 @@ StarWiki utiliza una **arquitectura Cliente-Servidor** que separa claramente las
 - **API RESTful**: Arquitectura para servicios web
 
 ### Frontend
+
 - **Ionic Framework**: Framework para aplicaciones móviles híbridas
 - **React**: Biblioteca de JavaScript para construir interfaces de usuario
-- **TypeScript/JavaScript**: Lenguaje de programación
+- **TypeScript**: Lenguaje de programación
 - **CSS3/Sass**: Estilos y diseño responsive
 
 ## 📁 Estructura del Proyecto
@@ -52,20 +54,22 @@ StarWiki utiliza una **arquitectura Cliente-Servidor** que separa claramente las
 ```
 StarWiki-App/
 ├── backend/
-│   ├── src/
-│   │   ├── modules/             # Módulos por dominio de negocio
-│   │   │   ├── auth/            # Autenticación y autorización
-│   │   │   ├── email/           # Gestión de correos electrónicos
-│   │   │   └── users/           # Gestión de usuarios
-│   │   ├── routes/              # Definición de rutas de la API
-│   │   │   └── index.js         # Rutas principales
-│   │   └── shared/              # Código compartido entre módulos
-│   │       ├── config/          # Configuración de la aplicación
-│   │       ├── middlewares/     # Middlewares personalizados
-│   │       ├── models/          # Modelos de datos (Sequelize)
-│   │       └── repositories/    # Patrón Repository para acceso a datos
-│   └── server.js                # Punto de entrada del servidor
-|   └── .env                # Variables de entorno
+│   └── src/
+│       ├── modules/             # Módulos por dominio de negocio
+│       │   ├── auth/            # Autenticación y autorización
+│       │   ├── categorias/      # Gestión de categorías del blog
+│       │   ├── comentarios/     # Sistema de comentarios
+│       │   ├── email/           # Gestión de correos electrónicos
+│       │   ├── posts/           # Gestión de posts del blog
+│       │   └── users/           # Gestión de usuarios
+│       ├── routes/              # Definición de rutas de la API
+│       │   └── index.js         # Rutas principales
+│       ├── shared/              # Código compartido entre módulos
+│       │   ├── config/          # Configuración de la aplicación
+│       │   ├── middlewares/     # Middlewares personalizados
+│       │   ├── models/          # Modelos de datos (Sequelize)
+│       │   └── repositories/    # Patrón Repository para acceso a datos
+│       └── server.js            # Punto de entrada del servidor
 ├── frontend/
 │   ├── src/
 │   │   ├── components/          # Componentes reutilizables
@@ -86,7 +90,7 @@ Cada módulo en `src/modules/` sigue una estructura consistente que promueve la 
 modules/auth/
 ├── controllers/     # Controladores del módulo
 ├── services/        # Lógica de negocio
-├── processes/       # Procesos en segundo plano y tareas 
+├── processes/       # Procesos en segundo plano y tareas
 ├── validators/     # Validaciones específicas
 └── routes.js       # Rutas del módulo
 ```
@@ -102,6 +106,7 @@ modules/auth/
 ## 🚀 Instalación y Configuración
 
 ### Prerrequisitos
+
 - Node.js (v14 o superior)
 - PostgreSQL (v12 o superior)
 - npm o yarn
@@ -110,16 +115,19 @@ modules/auth/
 ### Backend
 
 1. Navega al directorio del backend:
+
    ```bash
    cd backend
    ```
 
 2. Instala las dependencias:
+
    ```bash
    npm install
    ```
 
 3. Configura las variables de entorno:
+
    ```bash
    .env
    # Edita .env con tu configuración de PostgreSQL
@@ -135,11 +143,13 @@ modules/auth/
 ### Frontend
 
 1. Navega al directorio del frontend:
+
    ```bash
    cd frontend
    ```
 
 2. Instala las dependencias:
+
    ```bash
    npm install
    ```
@@ -154,11 +164,13 @@ modules/auth/
 ## 🔧 Scripts Disponibles
 
 ### Backend
+
 - `npm start` - Inicia el servidor en producción
 - `npm run dev` - Inicia el servidor en modo desarrollo
 - `npm run lint` - Ejecuta el linter
 
 ### Frontend
+
 - `ionic serve` - Inicia la aplicación en desarrollo
 - `ionic build` - Construye la aplicación para producción
 - `ionic capacitor run ios` - Ejecuta en iOS
@@ -174,7 +186,6 @@ modules/auth/
 - [ ] PWA (Progressive Web App)
 - [ ] Integración con redes sociales
 
-
 ## 👥 Autores
 
-- **Alan Yahir García Bernal** - *Desarrollo inicial* - [GitHub](https://github.com/AlanGaber11)
+- **Alan Yahir García Bernal** - _Desarrollo inicial_ - [GitHub](https://github.com/AlanGaber11)
