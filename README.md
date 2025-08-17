@@ -57,8 +57,8 @@ StarWiki-App/
 │   └── src/
 │       ├── modules/             # Módulos por dominio de negocio
 │       │   ├── auth/            # Autenticación y autorización
-│       │   ├── categorias/      # Gestión de categorías del blog
-│       │   ├── comentarios/     # Sistema de comentarios
+│       │   ├── categories/      # Gestión de categorías del blog
+│       │   ├── comments/        # Sistema de comentarios
 │       │   ├── email/           # Gestión de correos electrónicos
 │       │   ├── posts/           # Gestión de posts del blog
 │       │   └── users/           # Gestión de usuarios
@@ -66,9 +66,9 @@ StarWiki-App/
 │       │   └── index.js         # Rutas principales
 │       ├── shared/              # Código compartido entre módulos
 │       │   ├── config/          # Configuración de la aplicación
+│       │   ├── interfaces/      # Interfaces para patrón repository
 │       │   ├── middlewares/     # Middlewares personalizados
-│       │   ├── models/          # Modelos de datos (Sequelize)
-│       │   └── repositories/    # Patrón Repository para acceso a datos
+│       │   └── models/      # Modelos de datos (Sequelize)
 │       └── server.js            # Punto de entrada del servidor
 ├── frontend/
 │   ├── src/
@@ -88,20 +88,23 @@ Cada módulo en `src/modules/` sigue una estructura consistente que promueve la 
 
 ```
 modules/auth/
-├── controllers/     # Controladores del módulo
-├── services/        # Lógica de negocio
-├── processes/       # Procesos en segundo plano y tareas
-├── validators/     # Validaciones específicas
-└── routes.js       # Rutas del módulo
+├── controllers/    # Controladores del módulo
+├── processes/      # Procesos en segundo plano y tareas
+├── repositories/   # Patrón Repository para acceso a datos
+├── routes.js       # Rutas del módulo
+├── services/       # Lógica de negocio
+└── validators/     # Validaciones específicas
+
 ```
 
 **Descripción de cada carpeta:**
 
 - **`controllers/`**: Maneja las peticiones HTTP y coordina entre servicios
-- **`services/`**: Contiene la lógica de negocio y reglas del dominio
-- **`processes/`**: Contiene las funciones específicas que manejan procesos en segundo plano o tareas que requieren ser ejecutadas independientemente del flujo principal, como procesamiento de datos, integración con otros servicios, etc.
-- **`validators/`**: Validaciones específicas del módulo usando librerías como Joi o Yup
+- **`processes/`**: Procesos en segundo plano y tareas independientes
+- **`repositories/`**: Acceso a datos mediante el patrón Repository
 - **`routes.js`**: Define las rutas específicas del módulo
+- **`services/`**: Contiene la lógica de negocio y reglas del dominio
+- **`validators/`**: Validaciones específicas del módulo
 
 ## 🚀 Instalación y Configuración
 
