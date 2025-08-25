@@ -1,7 +1,7 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../config/db");
-const Categoria = require("./Categoria");
-const Usuario = require("./Usuario");
+const Category = require("./Category");
+const User = require("./Usuario");
 
 const Post = sequelize.define(
   "Post",
@@ -59,7 +59,7 @@ const Post = sequelize.define(
 );
 
 // Relaciones
-Post.belongsTo(Usuario, { foreignKey: "id_usuario" });
-Post.belongsTo(Categoria, { foreignKey: "id_categoria" });
+Post.belongsTo(User, { foreignKey: "id_usuario" });
+Post.belongsTo(Category, { foreignKey: "id_categoria" });
 
 module.exports = Post;

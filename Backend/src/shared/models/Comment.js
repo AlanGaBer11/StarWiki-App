@@ -1,6 +1,6 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../config/db");
-const Usuario = require("./Usuario");
+const User = require("./Usuario");
 const Post = require("./Post");
 
 const Comments = sequelize.define(
@@ -51,7 +51,7 @@ const Comments = sequelize.define(
 );
 
 // Relaciones
-Comments.belongsTo(Usuario, { foreignKey: "id_usuario" });
+Comments.belongsTo(User, { foreignKey: "id_usuario" });
 Comments.belongsTo(Post, { foreignKey: "id_post" });
 
 module.exports = Comments;

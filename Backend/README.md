@@ -15,6 +15,7 @@
 - `npm express-rate-limit` - Limita el número de peticiones a la API
 - `npm helmet` - Protege la APP de vulnerabilidades de XSS
 - `npm standard -D` - Asegura la consistencia y calidad del código (linting)
+- `npm install module-alias --save` - Alias para importar archivos
 - `npm nodemailer` - Enviar correos electrónicos
 - `npm multer` - Subida de archivos (imágenes, documentos)
 - `npm sharp` - Optimización de imágenes (redimensionar, comprimir, convertir formatos)

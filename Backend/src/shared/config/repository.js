@@ -1,8 +1,10 @@
 class RepositoryConfig {
   static getRepository(type) {
-    const repositories = {};
+    const repositories = {
+      user: require("../repositories/implementations/userRepository.sequelize"),
+    };
 
-    return new RepositoryConfig[type]();
+    return new repositories[type]();
   }
 }
 

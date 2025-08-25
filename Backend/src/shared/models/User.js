@@ -1,8 +1,8 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../config/db");
 
-const Usuario = sequelize.define(
-  "Usuario",
+const User = sequelize.define(
+  "User",
   {
     id: {
       type: DataTypes.INTEGER,
@@ -35,6 +35,9 @@ const Usuario = sequelize.define(
     avatar_url: {
       type: DataTypes.STRING(255),
       allowNull: true,
+      validate: {
+        isUrl: true,
+      },
     },
     biografia: {
       type: DataTypes.TEXT,
@@ -72,4 +75,4 @@ const Usuario = sequelize.define(
   }
 );
 
-module.exports = Usuario;
+module.exports = User;

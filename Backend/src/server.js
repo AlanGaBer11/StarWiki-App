@@ -1,4 +1,5 @@
 require("dotenv").config();
+require("module-alias/register");
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
@@ -8,11 +9,11 @@ const sequelize = require("./shared/config/db");
 const corsOptions = require("./shared/config/cors");
 
 // IMPORTAR RUTAS PRINCIPALES
-// const routes = require("./routes/index");
+const routes = require("./routes/index");
 
 // Sincronizar modelos con la base de datos
 sequelize
-  .sync({ alter: true })
+  .sync({ alter: false }) // alter: true para crear tablas si no existen
   .then(() => {
     console.log("✅ Modelos sincronizados con la base de datos");
   })
@@ -54,7 +55,7 @@ app.get("/", (req, res) => {
 });
 
 // USAR TODAS LAS RUTAS
-// app.use("/api", routes);
+app.use("/api", routes);
 
 // RUTAS QUE NO EXISTEN
 app.use((req, res, next) => {
