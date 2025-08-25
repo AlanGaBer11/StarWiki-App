@@ -1,4 +1,4 @@
-const UserService = require("../services/user.service");
+const UserService = require("@/modules/users/services/user.service");
 
 class UserProcess {
   constructor() {

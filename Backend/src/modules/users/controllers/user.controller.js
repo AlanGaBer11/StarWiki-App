@@ -1,4 +1,4 @@
-const UserProcess = require("../processes/user.process");
+const UserProcess = require("@/modules/users/processes/user.process");
 
 class UserController {
   constructor() {

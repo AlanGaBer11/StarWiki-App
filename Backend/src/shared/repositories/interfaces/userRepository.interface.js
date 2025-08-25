@@ -1,4 +1,4 @@
-const IBaseRepository = require("./baseRepository.interface");
+const IBaseRepository = require("@/shared/repositories/interfaces/baseRepository.interface");
 
 class IUserRepository extends IBaseRepository {
   async findByEmail(email) {

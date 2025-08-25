@@ -1,5 +1,5 @@
-const IUserRepository = require("../interfaces/userRepository.interface");
-const User = require("../../models/User");
+const IUserRepository = require("@/shared/repositories/interfaces/userRepository.interface");
+const User = require("@/shared/models/User");
 
 class UserRepository extends IUserRepository {
   async findAll(page = 1, limit = 10) {

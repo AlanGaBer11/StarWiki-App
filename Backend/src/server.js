@@ -5,11 +5,11 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const rateLimit = require("express-rate-limit");
 const helmet = require("helmet");
-const sequelize = require("./shared/config/db");
-const corsOptions = require("./shared/config/cors");
+const sequelize = require("@/shared/config/db");
+const corsOptions = require("@/shared/config/cors");
 
 // IMPORTAR RUTAS PRINCIPALES
-const routes = require("./routes/index");
+const routes = require("@/routes/index");
 
 // Sincronizar modelos con la base de datos
 sequelize

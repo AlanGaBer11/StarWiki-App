@@ -1,7 +1,7 @@
 const { DataTypes } = require("sequelize");
-const sequelize = require("../config/db");
-const Category = require("./Category");
-const User = require("./Usuario");
+const sequelize = require("@/shared/config/db");
+const Category = require("@/shared/models/Category");
+const User = require("@/shared/models/User");
 
 const Post = sequelize.define(
   "Post",

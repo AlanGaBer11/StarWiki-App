@@ -1,5 +1,5 @@
 const bcrypt = require("bcryptjs");
-const RepositoryConfig = require("../../../shared/config/repository");
+const RepositoryConfig = require("@/shared/config/repository");
 
 class UserService {
   constructor() {
