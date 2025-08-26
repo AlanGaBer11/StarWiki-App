@@ -9,7 +9,7 @@ CREATE TABLE usuarios (
     apellido VARCHAR(100) NOT NULL, 
     email VARCHAR(100) NOT NULL UNIQUE,
     contrasena VARCHAR(255) NOT NULL,
-    avatar_url VARCHAR(255), -- URL del avatar
+    avatar_url VARCHAR(255) DEFAULT 'https://www.pokemon.com/static-assets/content-assets/cms2/img/pokedex/full/025_f2.png', 
     biografia TEXT,
     fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     rol VARCHAR(20) DEFAULT 'USER' CHECK (rol IN ('ADMIN', 'EDITOR', 'USER')),

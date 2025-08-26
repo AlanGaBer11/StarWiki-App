@@ -34,6 +34,8 @@ const User = sequelize.define(
     },
     avatar_url: {
       type: DataTypes.STRING(255),
+      defaultValue:
+        "https://www.pokemon.com/static-assets/content-assets/cms2/img/pokedex/full/025_f2.png",
       allowNull: true,
       validate: {
         isUrl: true,

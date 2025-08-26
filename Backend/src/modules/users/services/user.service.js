@@ -1,5 +1,5 @@
-const bcrypt = require("bcryptjs");
 const RepositoryConfig = require("@/shared/config/repository");
+const UserBuilder = require("@/modules/users/builders/user.builder");
 
 class UserService {
   constructor() {
@@ -26,19 +26,21 @@ class UserService {
 
   async createUser(userData) {
     try {
-      const { contrasena, rol } = userData;
+      const { nombre, apellido, email, contrasena, rol } = userData;
 
-      // HASHEAR CONTRASEÑA
-      const salt = await bcrypt.genSalt(10);
-      const hashedPassword = await bcrypt.hash(contrasena, salt);
+      const builder = new UserBuilder()
+        .setNombre(nombre)
+        .setApellido(apellido)
+        .setEmail(email)
+        .setRol(rol)
+        .setEstado(true)
+        .setVerificado(rol !== "USER");
 
-      // Preparar datos del usuario
-      const userToCreate = {
-        ...userData,
-        contrasena: hashedPassword,
-        verificado: rol !== "USER", // Admin esta verificado por defecto
-        estado: true, // Activo por defecto
-      };
+      if (contrasena) {
+        await builder.setContrasena(contrasena);
+      }
+
+      const userToCreate = builder.build();
 
       return await this.userRepository.create(userToCreate);
     } catch (error) {
@@ -49,16 +51,31 @@ class UserService {
 
   async updateUser(id, userData) {
     try {
-      const { contrasena } = userData;
-      let dataToUpdate = { ...userData };
+      const {
+        nombre,
+        apellido,
+        email,
+        contrasena,
+        rol,
+        avatar_url,
+        biografia,
+      } = userData;
 
-      // Hashear la nueva contraseña si se proporciona
+      const builder = new UserBuilder()
+        .setNombre(nombre)
+        .setApellido(apellido)
+        .setEmail(email)
+        .setRol(rol)
+        .setAvatarUrl(avatar_url)
+        .setBiografia(biografia);
+
       if (contrasena) {
-        const salt = await bcrypt.genSalt(10);
-        dataToUpdate.contrasena = await bcrypt.hash(contrasena, salt);
+        await builder.setContrasena(contrasena);
       }
 
-      return await this.userRepository.update(id, dataToUpdate);
+      const userToUpdate = builder.build();
+
+      return await this.userRepository.update(id, userToUpdate);
     } catch (error) {
       console.error("Error al actualizar el usuario");
       throw error;
