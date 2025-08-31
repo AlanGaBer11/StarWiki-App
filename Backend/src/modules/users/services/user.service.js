@@ -28,6 +28,7 @@ class UserService {
     try {
       const { nombre, apellido, email, contrasena, rol } = userData;
 
+      // Aplicamos el builder
       const builder = new UserBuilder()
         .setNombre(nombre)
         .setApellido(apellido)
@@ -42,6 +43,7 @@ class UserService {
 
       const userToCreate = builder.build();
 
+      // Creamos el usuario
       return await this.userRepository.create(userToCreate);
     } catch (error) {
       console.error("Error al crear el usuario");

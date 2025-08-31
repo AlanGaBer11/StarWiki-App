@@ -32,31 +32,6 @@ class UserRepository extends IUserRepository {
     return user;
   }
 
-  async findByEmail(email) {
-    const user = await User.findOne({
-      where: { email: email },
-      attributes: {
-        exclude: ["contrasena", "codigo_verificacion", "expiracion_codigo"],
-      },
-    });
-    if (!user) {
-      throw new Error("Usuario no encontrado");
-    }
-    return user;
-  }
-  async findByName(nombre) {
-    const user = await User.findOne({
-      where: { nombre: nombre },
-      attributes: {
-        exclude: ["contrasena", "codigo_verificacion", "expiracion_codigo"],
-      },
-    });
-    if (!user) {
-      throw new Error("Usuario no encontrado");
-    }
-    return user;
-  }
-
   async create(userData) {
     const existingUser = await User.findOne({
       where: { email: userData.email },

@@ -2,16 +2,16 @@ const IBaseRepository = require("@/shared/repositories/interfaces/baseRepository
 
 class IUserRepository extends IBaseRepository {
   async findByEmail(email) {
-    throw new Error("Method not implemented");
+    throw new Error("Método no implementado");
   }
-  async findByName(name) {
-    throw new Error("Method not implemented");
+  async findByName(nombre) {
+    throw new Error("Método no implementado");
   }
   async deactivate(id) {
-    throw new Error("Method not implemented");
+    throw new Error("Método no implementado");
   }
   async reactivate(id) {
-    throw new Error("Method not implemented");
+    throw new Error("Método no implementado");
   }
 }
 

@@ -25,6 +25,8 @@ class UserController {
 
       // Llamar al proceso
       const result = await this.UserProcess.findAllUsers(page, finalLimit);
+
+      // Validar si se encontraron usuarios
       if (!result.users || result.users.length == 0) {
         return res.status(404).json({
           success: false,
@@ -58,7 +60,8 @@ class UserController {
 
   async findUserById(req, res) {
     try {
-      const id = req.params.id;
+      const { id } = req.params;
+      // Llamar al proceso
       const user = await this.UserProcess.findUserById(id);
       if (!user) {
         return res.status(400).json({
@@ -92,6 +95,7 @@ class UserController {
           message: "Todos los campos son obligatorios",
         });
       }
+      // Llamar al proceso
       const newUser = await this.UserProcess.createUser({
         nombre,
         apellido,
@@ -108,7 +112,10 @@ class UserController {
       console.error("Error al crear el usuario:", error);
       // Si es un error de email duplicado
       if (error.message === "El correo electrónico ya está en uso") {
-        return res.status(404).json({ success: false, message: error.message });
+        return res.status(404).json({
+          success: false,
+          message: error.message,
+        });
       }
       res.status(500).json({
         success: false,
@@ -131,6 +138,7 @@ class UserController {
         });
       }
 
+      // Llamar al proceso
       const updatedUser = await this.UserProcess.updateUser(id, userData);
 
       if (!updatedUser) {
