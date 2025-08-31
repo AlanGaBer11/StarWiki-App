@@ -47,7 +47,7 @@ StarWiki utiliza una **arquitectura Cliente-Servidor** que separa claramente las
 - **Ionic Framework**: Framework para aplicaciones móviles híbridas
 - **React**: Biblioteca de JavaScript para construir interfaces de usuario
 - **TypeScript**: Lenguaje de programación
-- **CSS3/Sass**: Estilos y diseño responsive
+- **CSS3**: Estilos y diseño responsive
 
 ## 📁 Estructura del Proyecto
 
@@ -55,21 +55,23 @@ StarWiki utiliza una **arquitectura Cliente-Servidor** que separa claramente las
 StarWiki-App/
 ├── backend/
 │   └── src/
-│       ├── modules/             # Módulos por dominio de negocio
-│       │   ├── auth/            # Autenticación y autorización
-│       │   ├── categories/      # Gestión de categorías del blog
-│       │   ├── comments/        # Sistema de comentarios
-│       │   ├── email/           # Gestión de correos electrónicos
-│       │   ├── posts/           # Gestión de posts del blog
-│       │   └── users/           # Gestión de usuarios
-│       ├── routes/              # Definición de rutas de la API
-│       │   └── index.js         # Rutas principales
-│       ├── shared/              # Código compartido entre módulos
-│       │   ├── config/          # Configuración de la aplicación
-│       │   ├── interfaces/      # Interfaces para patrón repository
-│       │   ├── middlewares/     # Middlewares personalizados
-│       │   └── models/      # Modelos de datos (Sequelize)
-│       └── server.js            # Punto de entrada del servidor
+│       ├── modules/                   # Módulos por dominio de negocio
+│       │   ├── auth/                  # Autenticación y autorización
+│       │   ├── categories/            # Gestión de categorías del blog
+│       │   ├── comments/              # Sistema de comentarios
+│       │   ├── email/                 # Gestión de correos electrónicos
+│       │   ├── posts/                 # Gestión de posts del blog
+│       │   └── users/                 # Gestión de usuarios
+│       ├── routes/                    # Definición de rutas de la API
+│       │   └── index.js               # Rutas principales
+│       ├── shared/                    # Código compartido entre módulos
+│       │   ├── config/                # Configuración de la aplicación
+│       │   ├── middlewares/           # Middlewares personalizados
+│       │   ├── models/                # Modelos de datos (Sequelize)
+│       │   └── repositories/          # Patrón Repository para acceso a datos
+│       │       ├── implementations/   # Implementaciones concretas de los repositorios
+│       │       └── interfaces/        # Definición de contratos e interfaces de repositorios
+│       └── server.js                  # Punto de entrada del servidor
 ├── frontend/
 │   ├── src/
 │   │   ├── components/          # Componentes reutilizables
@@ -80,6 +82,10 @@ StarWiki-App/
 │   └── ionic.config.json        # Configuración de Ionic
 ├── docs/                        # Documentación
 └── README.md
+
+│
+
+
 ```
 
 ### 💡 Estructura Interna de Módulos
@@ -88,10 +94,10 @@ Cada módulo en `src/modules/` sigue una estructura consistente que promueve la 
 
 ```
 modules/auth/
+├── builders/       # Patrón Builder
 ├── controllers/    # Controladores del módulo
 ├── processes/      # Procesos en segundo plano y tareas
-├── repositories/   # Patrón Repository para acceso a datos
-├── routes.js       # Rutas del módulo
+├── routes/         # Rutas del módulo
 ├── services/       # Lógica de negocio
 └── validators/     # Validaciones específicas
 
@@ -99,10 +105,10 @@ modules/auth/
 
 **Descripción de cada carpeta:**
 
+- **`builders/`**: Patron Builder para la creación de objetos
 - **`controllers/`**: Maneja las peticiones HTTP y coordina entre servicios
 - **`processes/`**: Procesos en segundo plano y tareas independientes
-- **`repositories/`**: Acceso a datos mediante el patrón Repository
-- **`routes.js`**: Define las rutas específicas del módulo
+- **`routes/`**: Define las rutas específicas del módulo
 - **`services/`**: Contiene la lógica de negocio y reglas del dominio
 - **`validators/`**: Validaciones específicas del módulo
 

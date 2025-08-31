@@ -44,13 +44,14 @@
 
 ## Categorías
 
-| Método | Endpoint                            | Descripción                  |
-| ------ | ----------------------------------- | ---------------------------- |
-| GET    | `/api/categorys/getCategorys`       | Obtiene todas las categorías |
-| GET    | `/api/categorys/getCategory/:id`    | Obtiene una categoría por ID |
-| POST   | `/api/categorys/createCategory`     | Crea una categoría           |
-| PATCH  | `/api/categorys/updateCategory/:id` | Actualiza una categoría      |
-| DELETE | `/api/categorys/deleteCategory/:id` | Elimina una categoría        |
+| Método | Endpoint                                    | Descripción                         |
+| ------ | ------------------------------------------- | ----------------------------------- |
+| GET    | `/api/categories/getCategories`             | Obtiene todas las categorías        |
+| GET    | `/api/categories/getCategory/:id`           | Obtiene una categoría por ID        |
+| GET    | `/api/categories/getCategoryByName/:nombre` | Obtiene una categoría por su nombre |
+| POST   | `/api/categories/createCategory`            | Crea una categoría                  |
+| PATCH  | `/api/categories/updateCategory/:id`        | Actualiza una categoría             |
+| DELETE | `/api/categories/deleteCategory/:id`        | Elimina una categoría               |
 
 ## Posts
 
