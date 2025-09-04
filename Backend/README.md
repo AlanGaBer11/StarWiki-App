@@ -61,7 +61,7 @@
 | GET    | `/api/posts/getPost/:id`    | Obtiene un post por ID  |
 | GET    | `/api/posts/category/:id `  | Posts por categoría     |
 | GET    | `/api/posts/user/:id `      | Posts por usuario       |
-| GET    | `/api/posts/search?q=term`  | Búsqueda de posts       |
+| GET    | `/api/posts/search`         | Búsqueda de posts       |
 | POST   | `/api/posts/createPost`     | Crea un post            |
 | PATCH  | `/api/posts/updatePost/:id` | Actualiza un post       |
 | DELETE | `/api/posts/deletePost/:id` | Elimina un post         |

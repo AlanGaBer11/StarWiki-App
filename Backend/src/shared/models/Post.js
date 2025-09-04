@@ -30,6 +30,7 @@ const Post = sequelize.define(
     titulo: {
       type: DataTypes.STRING(255),
       allowNull: false,
+      unique: true,
     },
     contenido: {
       type: DataTypes.TEXT,

@@ -13,7 +13,7 @@ const routes = require("@/routes/index");
 
 // Sincronizar modelos con la base de datos
 sequelize
-  .sync({ alter: false }) // alter: true para crear tablas si no existen
+  .sync({ alter: true }) // alter: true para crear tablas si no existen
   .then(() => {
     console.log("✅ Modelos sincronizados con la base de datos");
   })
