@@ -78,7 +78,7 @@ class CategoryController {
       res.status(200).json({
         success: true,
         message: "Categoría obtenida exitosamente",
-        data: category,
+        category,
       });
     } catch (error) {
       console.error("Error al obtener la categoría:", error);
@@ -109,7 +109,7 @@ class CategoryController {
       res.status(200).json({
         success: true,
         message: "Categoría obtenida exitosamente",
-        data: category,
+        category,
       });
     } catch (error) {
       console.error("Error al obtener la categoría:", error);
@@ -195,7 +195,7 @@ class CategoryController {
       res.status(200).json({
         success: true,
         message: "Categoría actualizada exitosamente",
-        data: updatedCategory,
+        updatedCategory,
       });
     } catch (error) {
       console.error("Error al actualizar la categoría:", error);
