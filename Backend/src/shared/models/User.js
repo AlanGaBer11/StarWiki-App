@@ -1,4 +1,4 @@
-const { DataTypes } = require("sequelize");
+const { DataTypes, STRING } = require("sequelize");
 const sequelize = require("@/shared/config/db");
 
 const User = sequelize.define(
@@ -16,6 +16,11 @@ const User = sequelize.define(
     apellido: {
       type: DataTypes.STRING(100),
       allowNull: false,
+    },
+    nombre_usuario: {
+      type: DataTypes.STRING(100),
+      allowNull: false,
+      unique: true,
     },
     email: {
       type: DataTypes.STRING(100),

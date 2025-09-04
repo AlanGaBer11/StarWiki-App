@@ -15,6 +15,11 @@ class UserBuilder {
     return this;
   }
 
+  setNombreUsuario(nombre_usuario) {
+    this.user.nombre_usuario = nombre_usuario;
+    return this;
+  }
+
   setEmail(email) {
     this.user.email = email;
     return this;

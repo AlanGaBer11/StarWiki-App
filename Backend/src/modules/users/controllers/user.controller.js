@@ -72,7 +72,7 @@ class UserController {
       res.status(200).json({
         success: true,
         message: "Usuario obtenido exitosamente",
-        data: user,
+        user,
       });
     } catch (error) {
       console.error("Error al obtener el usuario:", error);
@@ -87,9 +87,17 @@ class UserController {
 
   async createUser(req, res) {
     try {
-      const { nombre, apellido, email, contrasena, rol } = req.body;
+      const { nombre, apellido, nombre_usuario, email, contrasena, rol } =
+        req.body;
       // Validaciones básicas
-      if (!nombre || !apellido || !email || !contrasena || !rol) {
+      if (
+        !nombre ||
+        !apellido ||
+        !nombre_usuario ||
+        !email ||
+        !contrasena ||
+        !rol
+      ) {
         return res.status(400).json({
           success: false,
           message: "Todos los campos son obligatorios",
@@ -99,6 +107,7 @@ class UserController {
       const newUser = await this.UserProcess.createUser({
         nombre,
         apellido,
+        nombre_usuario,
         email,
         contrasena,
         rol,
@@ -106,12 +115,18 @@ class UserController {
       res.status(201).json({
         success: true,
         message: "Usuario creado exitosamente",
-        data: newUser,
+        newUser,
       });
     } catch (error) {
       console.error("Error al crear el usuario:", error);
       // Si es un error de email duplicado
       if (error.message === "El correo electrónico ya está en uso") {
+        return res.status(404).json({
+          success: false,
+          message: error.message,
+        });
+      }
+      if (error.message === "El nombre de usuario ya está en uso") {
         return res.status(404).json({
           success: false,
           message: error.message,
@@ -151,7 +166,7 @@ class UserController {
       res.status(200).json({
         success: true,
         message: "Usuario actualizado exitosamente",
-        data: updatedUser,
+        updatedUser,
       });
     } catch (error) {
       console.error("Error al actualizar usuario:", error);

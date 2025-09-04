@@ -32,12 +32,38 @@ class UserRepository extends IUserRepository {
     return user;
   }
 
+  async findByEmal(email) {
+    const user = await User.findOne({
+      where: { email: email },
+    });
+    if (!user) {
+      throw new Error("Usuario no encontrado");
+    }
+    return user;
+  }
+
+  async findByUsername(nombre_usuario) {
+    const user = await User.findOne({
+      where: { nombre_usuario: nombre_usuario },
+    });
+    if (!user) {
+      throw new Error("Usuario no encontrado");
+    }
+    return user;
+  }
+
   async create(userData) {
-    const existingUser = await User.findOne({
+    const existingEmail = await User.findOne({
       where: { email: userData.email },
     });
-    if (existingUser) {
+    if (existingEmail) {
       throw new Error("El correo electrónico ya está en uso");
+    }
+    const existingUsername = await User.findOne({
+      where: { nombre_usuario: userData.nombre_usuario },
+    });
+    if (existingUsername) {
+      throw new Error("El nombre de usuario ya está en uso");
     }
     return await User.create(userData);
   }

@@ -7,6 +7,7 @@ CREATE TABLE usuarios (
     id SERIAL PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
     apellido VARCHAR(100) NOT NULL, 
+    nombre_usuario VARCHAR(100) NOT NULL UNIQUE,
     email VARCHAR(100) NOT NULL UNIQUE,
     contrasena VARCHAR(255) NOT NULL,
     avatar_url VARCHAR(255) DEFAULT 'https://www.pokemon.com/static-assets/content-assets/cms2/img/pokedex/full/025_f2.png', 

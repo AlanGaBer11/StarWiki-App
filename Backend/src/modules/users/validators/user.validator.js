@@ -29,6 +29,14 @@ const userValidator = [
     .isLength({ min: 5 })
     .withMessage("El email debe tener al menos 5 caracteres")
     .trim(),
+  check("nombre_usuario")
+    .notEmpty()
+    .withMessage("El nombre de usuario es obligatorio")
+    .isLength({ min: 5 })
+    .withMessage("El nombre de usuario debe tener al menos 5 caracteres")
+    .isLength({ max: 100 })
+    .withMessage("El nombre de usuario debe tener menos de 100 caracteres")
+    .trim(),
   check("contrasena")
     .notEmpty()
     .withMessage("La contraseña es obligatoria")

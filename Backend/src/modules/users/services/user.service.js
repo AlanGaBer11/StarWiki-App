@@ -26,12 +26,14 @@ class UserService {
 
   async createUser(userData) {
     try {
-      const { nombre, apellido, email, contrasena, rol } = userData;
+      const { nombre, apellido, nombre_usuario, email, contrasena, rol } =
+        userData;
 
       // Aplicamos el builder
       const builder = new UserBuilder()
         .setNombre(nombre)
         .setApellido(apellido)
+        .setNombreUsuario(nombre_usuario)
         .setEmail(email)
         .setRol(rol)
         .setEstado(true)
@@ -56,6 +58,7 @@ class UserService {
       const {
         nombre,
         apellido,
+        nombre_usuario,
         email,
         contrasena,
         rol,
@@ -66,6 +69,7 @@ class UserService {
       const builder = new UserBuilder()
         .setNombre(nombre)
         .setApellido(apellido)
+        .setNombreUsuario(nombre_usuario)
         .setEmail(email)
         .setRol(rol)
         .setAvatarUrl(avatar_url)
