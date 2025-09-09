@@ -3,12 +3,12 @@ const UserBuilder = require("@/modules/users/builders/user.builder");
 
 class UserService {
   constructor() {
-    this.userRepository = RepositoryConfig.getRepository("user");
+    this.UserRepository = RepositoryConfig.getRepository("user");
   }
 
   async findAllUsers(page = 1, limit = 10) {
     try {
-      return await this.userRepository.findAll(page, limit);
+      return await this.UserRepository.findAll(page, limit);
     } catch (error) {
       console.error("Error al obtener todos los usuarios");
       throw error;
@@ -17,7 +17,7 @@ class UserService {
 
   async findUserById(id) {
     try {
-      return await this.userRepository.findById(id);
+      return await this.UserRepository.findById(id);
     } catch (error) {
       console.error("Error al obtener el usuario");
       throw error;
@@ -46,7 +46,7 @@ class UserService {
       const userToCreate = builder.build();
 
       // Creamos el usuario
-      return await this.userRepository.create(userToCreate);
+      return await this.UserRepository.create(userToCreate);
     } catch (error) {
       console.error("Error al crear el usuario");
       throw error;
@@ -81,7 +81,7 @@ class UserService {
 
       const userToUpdate = builder.build();
 
-      return await this.userRepository.update(id, userToUpdate);
+      return await this.UserRepository.update(id, userToUpdate);
     } catch (error) {
       console.error("Error al actualizar el usuario");
       throw error;
@@ -90,7 +90,7 @@ class UserService {
 
   async deleteUser(id) {
     try {
-      return await this.userRepository.delete(id);
+      return await this.UserRepository.delete(id);
     } catch (error) {
       console.error("Error al eliminar el usuario");
       throw error;

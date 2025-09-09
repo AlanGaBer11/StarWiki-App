@@ -1,5 +1,3 @@
-# Estructura
-
 # Dependencias
 
 - `npm express` - Framework web para Node.js (GET, POST, DELETE, PUT, PATCH)

@@ -3,12 +3,12 @@ const CategoryBuilder = require("@/modules/categories/builders/category.builder"
 
 class CategoryService {
   constructor() {
-    this.categoryRepository = RepositoryConfig.getRepository("category");
+    this.CategoryRepository = RepositoryConfig.getRepository("category");
   }
 
   async findAllCategories(page = 1, limit = 10) {
     try {
-      return await this.categoryRepository.findAll(page, limit);
+      return await this.CategoryRepository.findAll(page, limit);
     } catch (error) {
       console.error("Error al obtener todas las categorías");
       throw error;
@@ -17,7 +17,7 @@ class CategoryService {
 
   async findCategoryById(id) {
     try {
-      return await this.categoryRepository.findById(id);
+      return await this.CategoryRepository.findById(id);
     } catch (error) {
       console.error("Error al obtener la categoría");
       throw error;
@@ -26,7 +26,7 @@ class CategoryService {
 
   async findCategoryByName(nombre) {
     try {
-      return await this.categoryRepository.findByName(nombre);
+      return await this.CategoryRepository.findByName(nombre);
     } catch (error) {
       console.error("Error al obtener la categoría");
       throw error;
@@ -45,7 +45,7 @@ class CategoryService {
       const categoryToCreate = builder.build();
 
       // Creamos la categoría
-      return await this.categoryRepository.create(categoryToCreate);
+      return await this.CategoryRepository.create(categoryToCreate);
     } catch (error) {
       console.error("Error al crear la categoría");
       throw error;
@@ -62,7 +62,7 @@ class CategoryService {
 
       const categoryToUpdate = builder.build();
 
-      return await this.categoryRepository.update(id, categoryToUpdate);
+      return await this.CategoryRepository.update(id, categoryToUpdate);
     } catch {
       console.error("Error al actualizar la categoría");
       throw error;
@@ -71,7 +71,7 @@ class CategoryService {
 
   async deleteCategory(id) {
     try {
-      return await this.categoryRepository.delete(id);
+      return await this.CategoryRepository.delete(id);
     } catch (error) {
       console.error("Error al eliminar la categoría");
       throw error;
