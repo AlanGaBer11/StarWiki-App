@@ -5,10 +5,12 @@ const router = express.Router();
 const userRoutes = require("@/modules/users/routes/user.route");
 const categoryRoutes = require("@/modules/categories/routes/category.route");
 const postRoutes = require("@/modules/posts/routes/post.route");
+const commentRoutes = require("@/modules/comments/routes/comment.router");
 
 // Configurar rutas
 router.use("/users", userRoutes);
 router.use("/categories", categoryRoutes);
 router.use("/posts", postRoutes);
+router.use("/comments", commentRoutes);
 
 module.exports = router;

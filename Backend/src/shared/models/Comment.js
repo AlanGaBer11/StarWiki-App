@@ -40,8 +40,8 @@ const Comments = sequelize.define(
       defaultValue: DataTypes.NOW,
     },
     estado: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: true,
+      type: DataTypes.ENUM("BORRADOR", "PUBLICADO", "ARCHIVADO"),
+      defaultValue: "BORRADOR",
     },
   },
   {

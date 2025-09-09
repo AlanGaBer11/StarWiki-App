@@ -6,8 +6,6 @@ const categoryValidator = [
     .withMessage("El nombre es obligatorio")
     .isLength({ min: 4 })
     .withMessage("El nombre debe tener al menos 4 caracteres")
-    .isAlpha()
-    .withMessage("El nombre debe contener solo letras")
     .matches(/^[a-zA-Z\s]+$/)
     .withMessage("El nombre debe contener solo letras y espacios")
     .trim(),
