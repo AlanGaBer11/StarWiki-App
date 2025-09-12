@@ -35,12 +35,12 @@ class CommentService {
 
   async createComment(commentData) {
     try {
-      const { id_post, id_usuario, contenido } = commentData;
+      const { titulo_post, nombre_usuario, contenido } = commentData;
 
       // Aplicamos el builder
       const builder = new CommentBuilder()
-        .setIdPost(id_post)
-        .setIdUsuario(id_usuario)
+        .setTituloPost(titulo_post)
+        .setNombreUsuario(nombre_usuario)
         .setContenido(contenido);
 
       const commentToCreate = builder.build();
@@ -55,13 +55,13 @@ class CommentService {
 
   async updateComment(id, commentData) {
     try {
-      const { id_post, id_usuario, contenido, fecha_actualizacion } =
+      const { titulo_post, nombre_usuario, contenido, fecha_actualizacion } =
         commentData;
 
       // Aplicamos el builder
       const builder = new CommentBuilder()
-        .setIdPost(id_post)
-        .setIdUsuario(id_usuario)
+        .setTituloPost(titulo_post)
+        .setNombreUsuario(nombre_usuario)
         .setContenido(contenido)
         .setFechaActualizacion(fecha_actualizacion);
 

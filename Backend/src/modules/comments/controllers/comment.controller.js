@@ -129,10 +129,10 @@ class CommentController {
 
   async createComment(req, res) {
     try {
-      const { id_post, id_usuario, contenido } = req.body;
+      const { titulo_post, nombre_usuario, contenido } = req.body;
 
       // Validaciones básicas
-      if (!id_post || !id_usuario || !contenido) {
+      if (!titulo_post || !nombre_usuario || !contenido) {
         return res.status(400).json({
           success: false,
           message: "Todos los campos son obligatorios",
@@ -141,8 +141,8 @@ class CommentController {
 
       // Llamar al proceso
       const newComment = await this.CommentProcess.createComment({
-        id_post,
-        id_usuario,
+        titulo_post,
+        nombre_usuario,
         contenido,
       });
 

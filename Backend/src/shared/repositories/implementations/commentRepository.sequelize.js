@@ -87,21 +87,77 @@ class CommentRepository extends ICommentRepository {
   }
 
   async create(commentData) {
+    const { titulo_post, nombre_usuario } = commentData;
+
+    // Buscar post por titulo
+    const post = await Post.findOne({
+      where: { titulo: titulo_post },
+    });
+    if (!post) {
+      throw new Error("El post existe");
+    }
+
+    // Buscar el usuario por nombre_usuario
+    const user = await User.findOne({
+      where: { nombre_usuario },
+    });
+    if (!user) {
+      throw new Error("El usuario no existe");
+    }
+
+    // Verificar si el comentario existe
     const existingComment = await Comment.findOne({
       where: { contenido: commentData.contenido },
     });
     if (existingComment) {
       throw new Error("El comentario ya existe");
     }
-    return await Comment.create(commentData);
+
+    // Crear el comentario con los IDs obtenidos
+    const newComment = await Comment.create({
+      ...commentData,
+      id_post: post.id,
+      id_usuario: user.id,
+    });
+    return newComment;
   }
 
   async update(id, commentData) {
+    const { titulo_post, nombre_usuario, ...updateData } = commentData;
+
+    // Buscar post por titulo
+    if (titulo_post) {
+      const post = await Post.findOne({
+        where: { titulo: titulo_post },
+      });
+      if (!post) {
+        throw new Error("El post no existe");
+      }
+      updateData.id_post = post.id;
+    }
+
+    // Buscar el usuario por nombre_usuario
+    if (nombre_usuario) {
+      const user = await User.findOne({
+        where: { nombre_usuario },
+      });
+      if (!user) {
+        throw new Error("El usuario no existe");
+      }
+      updateData.id_usuario = user.id;
+    }
+
+    // Aztualizar el campo de fecha_actualizacion
+    updateData.fecha_actualizacion = new Date();
+
+    // Bucar el comentario por id
     const comment = await Comment.findByPk(id);
     if (!comment) {
       throw new Error("Comentario no enconrado");
     }
-    return await comment.update(commentData);
+
+    // Actualizar el comentario
+    return await comment.update(updateData);
   }
 
   async delete(id) {

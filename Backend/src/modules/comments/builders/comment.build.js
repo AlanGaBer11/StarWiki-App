@@ -3,13 +3,13 @@ class CommentBuilder {
     this.comment = {};
   }
 
-  setIdPost(id_post) {
-    this.comment.id_post = id_post;
+  setTituloPost(titulo_post) {
+    this.comment.titulo_post = titulo_post;
     return this;
   }
 
-  setIdUsuario(id_usuario) {
-    this.comment.id_usuario = id_usuario;
+  setNombreUsuario(nombre_usuario) {
+    this.comment.nombre_usuario = nombre_usuario;
     return this;
   }
 
