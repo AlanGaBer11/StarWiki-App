@@ -24,6 +24,20 @@ CREATE TABLE usuarios (
 CREATE INDEX idx_email ON usuarios(email);
 CREATE INDEX idx_rol ON usuarios(rol);
 
+
+-- Tabla Roles
+CREATE TABLE roles(
+    id SERIAL PRIMARY KEY, 
+    nombre VARCHAR(20) NOT NULL UNIQUE,
+    descripcion TEXT,
+    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+)
+
+-- Índices de la tabla roles
+CREATE INDEX idx_nombre ON roles(nombre)
+
+
+
 -- Tabla Categorías
 CREATE TABLE categorias (
     id SERIAL PRIMARY KEY,
