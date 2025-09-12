@@ -1,13 +1,13 @@
 const { check, validationResult } = require("express-validator");
 
 const postValidator = [
-  check("id_usuario")
-    .isInt({ min: 1 })
-    .withMessage("El ID de usuario debe ser un número entero válido"),
+  check("nombre_usuario")
+    .notEmpty()
+    .withMessage("El nombre de usuario es obligatorio"),
 
-  check("id_categoria")
-    .isInt({ min: 1 })
-    .withMessage("El ID de categoría debe ser un número entero válido"),
+  check("nombre_categoria")
+    .notEmpty()
+    .withMessage("El nombre de categoría es obligatorio"),
 
   check("titulo")
     .notEmpty()

@@ -199,13 +199,18 @@ class PostController {
 
   async createPost(req, res) {
     try {
-      const { id_usuario, id_categoria, titulo, contenido, url_imagen } =
-        req.body;
+      const {
+        nombre_usuario,
+        nombre_categoria,
+        titulo,
+        contenido,
+        url_imagen,
+      } = req.body;
 
       //Validaciones básicas
       if (
-        !id_usuario ||
-        !id_categoria ||
+        !nombre_usuario ||
+        !nombre_categoria ||
         !titulo ||
         !contenido ||
         !url_imagen
@@ -218,8 +223,8 @@ class PostController {
 
       // Llamar al proceso
       const newPost = await this.PostProcess.createPost({
-        id_usuario,
-        id_categoria,
+        nombre_usuario,
+        nombre_categoria,
         titulo,
         contenido,
         url_imagen,

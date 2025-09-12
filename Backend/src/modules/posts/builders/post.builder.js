@@ -3,13 +3,13 @@ class PostBuilder {
     this.post = {};
   }
 
-  setIdUsuario(id_usuario) {
-    this.post.id_usuario = id_usuario;
+  setNomreUsuario(nombre_usuario) {
+    this.post.nombre_usuario = nombre_usuario;
     return this;
   }
 
-  setIdCategoria(id_categoria) {
-    this.post.id_categoria = id_categoria;
+  setNombreCategoria(nombre_categoria) {
+    this.post.nombre_categoria = nombre_categoria;
     return this;
   }
 

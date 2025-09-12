@@ -47,6 +47,7 @@ const Post = sequelize.define(
     fecha_actualizacion: {
       type: DataTypes.DATE,
       defaultValue: DataTypes.NOW,
+      onUpdate: "CURRENT_TIMESTAMP",
     },
     estado: {
       type: DataTypes.ENUM("BORRADOR", "PUBLICADO", "ARCHIVADO"),
@@ -55,6 +56,7 @@ const Post = sequelize.define(
   },
   {
     tableName: "posts",
+    updatedAt: "fecha_actualizacion",
     timestamps: false,
   }
 );

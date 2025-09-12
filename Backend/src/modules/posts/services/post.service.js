@@ -4,7 +4,6 @@ const PostBuilder = require("@/modules/posts/builders/post.builder");
 class PostService {
   constructor() {
     this.PostRepository = RepositoryConfig.getRepository("post");
-    this.UserRepository = RepositoryConfig.getRepository("user");
   }
 
   async findAllPosts(page = 1, limit = 10) {
@@ -54,13 +53,18 @@ class PostService {
 
   async createPost(postData) {
     try {
-      const { id_usuario, id_categoria, titulo, contenido, url_imagen } =
-        postData;
+      const {
+        nombre_usuario,
+        nombre_categoria,
+        titulo,
+        contenido,
+        url_imagen,
+      } = postData;
 
       // Aplicamos el builder
       const builder = new PostBuilder()
-        .setIdUsuario(id_usuario)
-        .setIdCategoria(id_categoria)
+        .setNomreUsuario(nombre_usuario)
+        .setNombreCategoria(nombre_categoria)
         .setTitulo(titulo)
         .setContenido(contenido)
         .setUrlImagen(url_imagen);
@@ -78,7 +82,7 @@ class PostService {
   async updatePost(id, postData) {
     try {
       const {
-        id_categoria,
+        nombre_categoria,
         titulo,
         contenido,
         url_imagen,
@@ -88,7 +92,7 @@ class PostService {
 
       // Aplicamos el builder
       const builder = new PostBuilder()
-        .setIdCategoria(id_categoria)
+        .setNombreCategoria(nombre_categoria)
         .setTitulo(titulo)
         .setContenido(contenido)
         .setUrlImagen(url_imagen)
