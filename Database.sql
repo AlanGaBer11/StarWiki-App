@@ -22,6 +22,7 @@ CREATE TABLE usuarios (
 
 -- Índices
 CREATE INDEX idx_email ON usuarios(email);
+CREATE INDEX idx_nombre_usuario ON usuarios(nombre_usuario);
 CREATE INDEX idx_rol ON usuarios(rol);
 
 
@@ -46,6 +47,8 @@ CREATE TABLE categorias (
     fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+CREATE INDEX idx_nombre ON categorias(nombre);
+
 -- Tabla Posts
 CREATE TABLE posts (
     id SERIAL PRIMARY KEY,
@@ -63,6 +66,7 @@ CREATE TABLE posts (
 );
 
 -- Índices
+-- CREATE INDEX idx_titulo ON posts (titulo);
 CREATE INDEX idx_usuario ON posts(id_usuario);
 CREATE INDEX idx_categoria ON posts(id_categoria);
 CREATE INDEX idx_fecha ON posts(fecha_publicacion);
