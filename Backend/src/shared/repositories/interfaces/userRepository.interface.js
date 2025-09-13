@@ -1,6 +1,13 @@
 const IBaseRepository = require("@/shared/repositories/interfaces/baseRepository.interface");
 
 class IUserRepository extends IBaseRepository {
+  async register(userData) {
+    throw new Error("Método no implementado");
+  }
+  async login(email, contrasena) {
+    throw new Error("Método no implementado");
+  }
+
   async findByEmail(email) {
     throw new Error("Método no implementado");
   }
