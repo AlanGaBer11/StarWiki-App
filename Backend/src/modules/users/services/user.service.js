@@ -3,7 +3,7 @@ const UserBuilder = require("@/modules/users/builders/user.builder");
 
 class UserService {
   constructor() {
-    this.UserRepository = RepositoryConfig.getRepository("user");
+    this.UserRepository = RepositoryConfig.getRepository("userRepository");
   }
 
   async findAllUsers(page = 1, limit = 10) {

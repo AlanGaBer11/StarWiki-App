@@ -3,7 +3,8 @@ const CategoryBuilder = require("@/modules/categories/builders/category.builder"
 
 class CategoryService {
   constructor() {
-    this.CategoryRepository = RepositoryConfig.getRepository("category");
+    this.CategoryRepository =
+      RepositoryConfig.getRepository("categoryRepository");
   }
 
   async findAllCategories(page = 1, limit = 10) {

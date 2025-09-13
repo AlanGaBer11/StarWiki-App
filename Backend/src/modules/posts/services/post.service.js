@@ -3,7 +3,7 @@ const PostBuilder = require("@/modules/posts/builders/post.builder");
 
 class PostService {
   constructor() {
-    this.PostRepository = RepositoryConfig.getRepository("post");
+    this.PostRepository = RepositoryConfig.getRepository("postRepository");
   }
 
   async findAllPosts(page = 1, limit = 10) {

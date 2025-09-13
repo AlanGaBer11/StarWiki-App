@@ -3,7 +3,8 @@ const CommentBuilder = require("@/modules/comments/builders/comment.build");
 
 class CommentService {
   constructor() {
-    this.CommentRepository = RepositoryConfig.getRepository("comment");
+    this.CommentRepository =
+      RepositoryConfig.getRepository("commentRepository");
   }
 
   async findAllComments(page = 1, limit = 10) {
