@@ -23,6 +23,15 @@ class PostProcess {
     }
   }
 
+  async findPostByTitle(titulo) {
+    try {
+      return await this.PostService.findPostByTitle(titulo);
+    } catch (error) {
+      console.error("Error al obtener el post");
+      throw error;
+    }
+  }
+
   async findPostByUser(id_usuario) {
     try {
       return await this.PostService.findPostsByUser(id_usuario);

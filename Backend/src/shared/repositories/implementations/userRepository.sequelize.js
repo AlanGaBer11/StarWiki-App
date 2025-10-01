@@ -2,6 +2,7 @@ const IUserRepository = require("@/shared/repositories/interfaces/userRepository
 const User = require("@/shared/models/User");
 
 class UserRepository extends IUserRepository {
+  // MÉTODOS
   async findAll(page = 1, limit = 10) {
     const offset = (page - 1) * limit;
     const { count, rows } = await User.findAndCountAll({
@@ -21,69 +22,34 @@ class UserRepository extends IUserRepository {
   }
 
   async findById(id) {
-    const user = await User.findByPk(id, {
+    return await User.findByPk(id, {
       attributes: {
         exclude: ["contrasena", "codigo_verificacion", "expiracion_codigo"],
       },
     });
-    if (!user) {
-      throw new Error("Usuario no encontrado");
-    }
-    return user;
   }
 
-  async findByEmal(email) {
-    const user = await User.findOne({
-      where: { email: email },
-    });
-    if (!user) {
-      throw new Error("Usuario no encontrado");
-    }
-    return user;
+  async findByEmail(email) {
+    return await User.findOne({ where: { email } });
   }
 
   async findByUsername(nombre_usuario) {
-    const user = await User.findOne({
-      where: { nombre_usuario: nombre_usuario },
-    });
-    if (!user) {
-      throw new Error("Usuario no encontrado");
-    }
-    return user;
+    return await User.findOne({ where: { nombre_usuario } });
   }
 
   async create(userData) {
-    const existingEmail = await User.findOne({
-      where: { email: userData.email },
-    });
-    if (existingEmail) {
-      throw new Error("El correo electrónico ya está en uso");
-    }
-    const existingUsername = await User.findOne({
-      where: { nombre_usuario: userData.nombre_usuario },
-    });
-    if (existingUsername) {
-      throw new Error("El nombre de usuario ya está en uso");
-    }
     return await User.create(userData);
   }
 
   async update(id, userData) {
     const user = await User.findByPk(id);
-    if (!user) {
-      throw new Error("Usuario no encontrado");
-    }
+    if (!user) return null;
     return await user.update(userData);
   }
 
   async delete(id) {
     const user = await User.findByPk(id);
-    if (!user) {
-      throw new Error("Usuario no encontrado");
-    }
-    if (user.rol && user.rol.toUpperCase() === "ADMIN") {
-      throw new Error("No se puede eliminar un usuario con rol ADMIN");
-    }
+    if (!user) return null;
     return await user.destroy();
   }
 

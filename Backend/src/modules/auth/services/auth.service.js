@@ -1,5 +1,6 @@
 const RepositoryConfig = require("@/shared/config/repository");
 const UserBuilder = require("@/modules/users/builders/user.builder");
+const bcrypt = require("bcryptjs");
 
 class AuthService {
   constructor() {
@@ -9,6 +10,12 @@ class AuthService {
   async register(userData) {
     try {
       const { nombre, apellido, nombre_usuario, email, contrasena } = userData;
+
+      // Verificar que el usuario no exista por email
+      const existingUser = await this.AuthRepository.findByEmail(email);
+      if (existingUser) {
+        throw new Error("El usuario ya está registrado con ese email");
+      }
 
       // Aplicamos el builder
       const builder = new UserBuilder()
@@ -33,7 +40,17 @@ class AuthService {
 
   async login(email, contrasena) {
     try {
-      return await this.AuthRepository.login(email, contrasena);
+      const user = await this.AuthRepository.findByEmail(email);
+      if (!user) {
+        throw new Error("El usuario no existe");
+      }
+
+      const isMatch = await bcrypt.compare(contrasena, user.contrasena);
+      if (!isMatch) {
+        throw new Error("Contraseña incorrecta");
+      }
+
+      return user;
     } catch (error) {
       console.error("Error al iniciar sesión");
       throw error;

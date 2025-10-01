@@ -3,7 +3,7 @@ class PostBuilder {
     this.post = {};
   }
 
-  setNomreUsuario(nombre_usuario) {
+  setNombreUsuario(nombre_usuario) {
     this.post.nombre_usuario = nombre_usuario;
     return this;
   }

@@ -23,19 +23,15 @@ class CategoryRepository extends ICategoryRepository {
   }
 
   async findById(id) {
-    const category = await Category.findByPk(id, {
+    return await Category.findByPk(id, {
       attributes: {
         exclude: ["fecha_creacion"],
       },
     });
-    if (!category) {
-      throw new Error("Categoría no encontrada");
-    }
-    return category;
   }
 
   async findByName(nombre) {
-    const category = await Category.findOne({
+    return await Category.findOne({
       where: {
         nombre: {
           [Op.iLike]: `%${nombre}%`,
@@ -45,35 +41,21 @@ class CategoryRepository extends ICategoryRepository {
         exclude: ["fecha_creacion"],
       },
     });
-    if (!category) {
-      throw new Error("Categoría no encontrada");
-    }
-    return category;
   }
 
   async create(categoryData) {
-    const existingCategory = await Category.findOne({
-      where: { nombre: categoryData.nombre },
-    });
-    if (existingCategory) {
-      throw new Error("La categoría ya existe");
-    }
     return await Category.create(categoryData);
   }
 
   async update(id, categoryData) {
     const category = await Category.findByPk(id);
-    if (!category) {
-      throw new Error("Categoría no encontrada");
-    }
+    if (!category) return null;
     return await category.update(categoryData);
   }
 
   async delete(id) {
     const category = await Category.findByPk(id);
-    if (!category) {
-      throw new Error("Categoría no encontrada");
-    }
+    if (!category) return null;
     return await category.destroy();
   }
 }

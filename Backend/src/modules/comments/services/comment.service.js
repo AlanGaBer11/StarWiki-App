@@ -5,84 +5,93 @@ class CommentService {
   constructor() {
     this.CommentRepository =
       RepositoryConfig.getRepository("commentRepository");
+    this.PostRepository = RepositoryConfig.getRepository("postRepository");
+    this.UserRepository = RepositoryConfig.getRepository("userRepository");
   }
 
   async findAllComments(page = 1, limit = 10) {
-    try {
-      return await this.CommentRepository.findAll(page, limit);
-    } catch (error) {
-      console.error("Error al obtener todos los comentarios (service)");
-      throw error;
-    }
+    return await this.CommentRepository.findAll(page, limit);
   }
 
   async findCommentById(id) {
-    try {
-      return await this.CommentRepository.findById(id);
-    } catch (error) {
-      console.error("Error al obtener el comentario (service)");
-      throw error;
-    }
+    const comment = await this.CommentRepository.findById(id);
+    if (!comment) throw new Error("Comentario no encontrado");
+    return comment;
   }
 
   async findCommentsByPost(id_post) {
-    try {
-      return await this.CommentRepository.findCommentsByPost(id_post);
-    } catch (error) {
-      console.error("Error al obtener los comentarios del post (service)");
-      throw error;
-    }
+    const comments = await this.CommentRepository.findCommentsByPost(id_post);
+    if (!comments || comments.length === 0)
+      throw new Error("No se encontraron comentarios para este post");
+    return comments;
   }
 
   async createComment(commentData) {
-    try {
-      const { titulo_post, nombre_usuario, contenido } = commentData;
+    const { titulo_post, nombre_usuario, contenido } = commentData;
 
-      // Aplicamos el builder
-      const builder = new CommentBuilder()
-        .setTituloPost(titulo_post)
-        .setNombreUsuario(nombre_usuario)
-        .setContenido(contenido);
+    // Validar post
+    const post = await this.PostRepository.findByTitle(titulo_post);
+    if (!post) throw new Error("El post no existe");
 
-      const commentToCreate = builder.build();
+    // Validar usuario
+    const user = await this.UserRepository.findByUsername(nombre_usuario);
+    if (!user) throw new Error("El usuario no existe");
 
-      // Creamos el comentario
-      return await this.CommentRepository.create(commentToCreate);
-    } catch (error) {
-      console.error("Error al crear el Post (service)");
-      throw error;
-    }
+    // Validar comentario duplicado
+    const existingComment = await this.CommentRepository.create({ contenido });
+    if (existingComment && existingComment.length > 0)
+      throw new Error("El comentario ya existe");
+
+    // Construir el comentario
+    const builder = new CommentBuilder()
+      .setTituloPost(titulo_post)
+      .setNombreUsuario(nombre_usuario)
+      .setContenido(contenido);
+
+    const commentToCreate = {
+      ...builder.build(),
+      id_post: post.id,
+      id_usuario: user.id,
+    };
+
+    return await this.CommentRepository.create(commentToCreate);
   }
 
   async updateComment(id, commentData) {
-    try {
-      const { titulo_post, nombre_usuario, contenido, fecha_actualizacion } =
-        commentData;
+    const { titulo_post, nombre_usuario, contenido, fecha_actualizacion } =
+      commentData;
 
-      // Aplicamos el builder
-      const builder = new CommentBuilder()
-        .setTituloPost(titulo_post)
-        .setNombreUsuario(nombre_usuario)
-        .setContenido(contenido)
-        .setFechaActualizacion(fecha_actualizacion);
+    const updateData = {};
 
-      const commentToUpdate = builder.build();
-
-      // Actualizamos el comentario
-      return await this.CommentRepository.update(id, commentToUpdate);
-    } catch (error) {
-      console.error("Error al actualizar la categoría (service)");
-      throw error;
+    if (titulo_post) {
+      const post = await this.PostRepository.findByTitle(titulo_post);
+      if (!post) throw new Error("El post no existe");
+      updateData.id_post = post.id;
     }
+
+    if (nombre_usuario) {
+      const user = await this.UserRepository.findByUsername(nombre_usuario);
+      if (!user) throw new Error("El usuario no existe");
+      updateData.id_usuario = user.id;
+    }
+
+    // Builder para el resto de los campos
+    const builder = new CommentBuilder()
+      .setContenido(contenido)
+      .setFechaActualizacion(fecha_actualizacion || new Date());
+
+    Object.assign(updateData, builder.build());
+
+    const updatedComment = await this.CommentRepository.update(id, updateData);
+    if (!updatedComment) throw new Error("Comentario no encontrado");
+
+    return updatedComment;
   }
 
   async deleteComment(id) {
-    try {
-      return await this.CommentRepository.delete(id);
-    } catch (error) {
-      console.error("Error al eliminar el comentario (service)");
-      throw error;
-    }
+    const deletedComment = await this.CommentRepository.delete(id);
+    if (!deletedComment) throw new Error("Comentario no encontrado");
+    return deletedComment;
   }
 }
 

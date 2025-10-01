@@ -4,118 +4,131 @@ const PostBuilder = require("@/modules/posts/builders/post.builder");
 class PostService {
   constructor() {
     this.PostRepository = RepositoryConfig.getRepository("postRepository");
+    this.UserRepository = RepositoryConfig.getRepository("userRepository");
+    this.CategoryRepository =
+      RepositoryConfig.getRepository("categoryRepository");
   }
 
   async findAllPosts(page = 1, limit = 10) {
-    try {
-      return await this.PostRepository.findAll(page, limit);
-    } catch (error) {
-      console.error("Error al obtener todos los posts");
-      throw error;
-    }
+    return await this.PostRepository.findAll(page, limit);
   }
 
   async findPostById(id) {
-    try {
-      return await this.PostRepository.findById(id);
-    } catch (error) {
-      console.error("Error al obtener el post");
-      throw error;
-    }
+    const post = await this.PostRepository.findById(id);
+    if (!post) throw new Error("Post no encontrado");
+    return post;
+  }
+
+  async findPostByTitle(titulo) {
+    const post = await this.PostRepository.findByTitle(titulo);
+    if (!post) throw new Error("Post no encontrado");
+    return post;
   }
 
   async findPostsByUser(id_usuario) {
-    try {
-      return await this.PostRepository.findByUser(id_usuario);
-    } catch (error) {
-      console.error("Error al obtener los posts del usuario");
-      throw error;
-    }
+    const posts = await this.PostRepository.findByUser(id_usuario);
+    if (!posts || posts.length === 0)
+      throw new Error("Posts del usuario no encontrados");
+    return posts;
   }
 
   async findPostsByCategory(id_categoria) {
-    try {
-      return await this.PostRepository.findByCategory(id_categoria);
-    } catch (error) {
-      console.error("Error al obtener los post de la categoría");
-      throw error;
-    }
+    const posts = await this.PostRepository.findByCategory(id_categoria);
+    if (!posts || posts.length === 0)
+      throw new Error("Posts de la categoría no encontrados");
+    return posts;
   }
 
   async search(query) {
-    try {
-      return await this.PostRepository.search(query);
-    } catch (error) {
-      console.error("Error al buscar posts");
-      throw error;
-    }
+    const posts = await this.PostRepository.search(query);
+    if (!posts || posts.length === 0)
+      throw new Error("No se encontraron posts");
+    return posts;
   }
 
   async createPost(postData) {
-    try {
-      const {
-        nombre_usuario,
-        nombre_categoria,
-        titulo,
-        contenido,
-        url_imagen,
-      } = postData;
+    const { nombre_usuario, nombre_categoria, titulo, contenido, url_imagen } =
+      postData;
 
-      // Aplicamos el builder
-      const builder = new PostBuilder()
-        .setNomreUsuario(nombre_usuario)
-        .setNombreCategoria(nombre_categoria)
-        .setTitulo(titulo)
-        .setContenido(contenido)
-        .setUrlImagen(url_imagen);
+    // Validar usuario
+    const user = await this.UserRepository.findByUsername(nombre_usuario);
+    if (!user) throw new Error("El usuario no existe");
 
-      const postToCreate = builder.build();
+    // Validar categoría
+    const category = await this.CategoryRepository.findByName(nombre_categoria);
+    if (!category) throw new Error("La categoría no existe");
 
-      // Creamos el post
-      return await this.PostRepository.create(postToCreate);
-    } catch (error) {
-      console.error("Error al crear el post");
-      throw error;
-    }
+    // Validar título único
+    const existingPost = await this.PostRepository.search(titulo);
+    if (existingPost && existingPost.length > 0)
+      throw new Error("El post ya existe");
+
+    // Construir el post
+    const builder = new PostBuilder()
+      .setNombreUsuario(nombre_usuario)
+      .setNombreCategoria(nombre_categoria)
+      .setTitulo(titulo)
+      .setContenido(contenido)
+      .setUrlImagen(url_imagen);
+
+    const postToCreate = {
+      ...builder.build(),
+      id_usuario: user.id,
+      id_categoria: category.id,
+    };
+
+    return await this.PostRepository.create(postToCreate);
   }
 
   async updatePost(id, postData) {
-    try {
-      const {
-        nombre_categoria,
-        titulo,
-        contenido,
-        url_imagen,
-        fecha_actualizacion,
-        estado,
-      } = postData;
+    const {
+      nombre_usuario,
+      nombre_categoria,
+      titulo,
+      contenido,
+      url_imagen,
+      fecha_actualizacion,
+      estado,
+    } = postData;
 
-      // Aplicamos el builder
-      const builder = new PostBuilder()
-        .setNombreCategoria(nombre_categoria)
-        .setTitulo(titulo)
-        .setContenido(contenido)
-        .setUrlImagen(url_imagen)
-        .setFechaActualizacion(fecha_actualizacion)
-        .setEstado(estado);
+    const updateData = {};
 
-      const postToUpdate = builder.build();
-
-      // Actualizamos el post
-      return await this.PostRepository.update(id, postToUpdate);
-    } catch (error) {
-      console.error("Error al actualizar el post");
-      throw error;
+    // Validar usuario
+    if (nombre_usuario) {
+      const user = await this.UserRepository.findByUsername(nombre_usuario);
+      if (!user) throw new Error("El usuario no existe");
+      updateData.id_usuario = user.id;
     }
+
+    // Validar categoría
+    if (nombre_categoria) {
+      const category = await this.CategoryRepository.findByName(
+        nombre_categoria
+      );
+      if (!category) throw new Error("La categoría no existe");
+      updateData.id_categoria = category.id;
+    }
+
+    // Builder para el resto de campos
+    const builder = new PostBuilder()
+      .setTitulo(titulo)
+      .setContenido(contenido)
+      .setUrlImagen(url_imagen)
+      .setFechaActualizacion(fecha_actualizacion || new Date())
+      .setEstado(estado);
+
+    Object.assign(updateData, builder.build());
+
+    const updatedPost = await this.PostRepository.update(id, updateData);
+    if (!updatedPost) throw new Error("Post no encontrado");
+
+    return updatedPost;
   }
 
-  async deletPost(id) {
-    try {
-      return await this.PostRepository.delete(id);
-    } catch (error) {
-      console.error("Error al eliminar el post");
-      throw error;
-    }
+  async deletePost(id) {
+    const deletedPost = await this.PostRepository.delete(id);
+    if (!deletedPost) throw new Error("Post no encontrado");
+    return deletedPost;
   }
 }
 
