@@ -1,5 +1,6 @@
 const AuthProcess = require("@/modules/auth/processes/auth.process");
 const jwt = require("jsonwebtoken");
+const { handleError } = require("@/shared/utils/controller.utils");
 
 class AuthController {
   constructor() {
@@ -14,6 +15,7 @@ class AuthController {
       if (!nombre || !apellido || !nombre_usuario || !email || !contrasena) {
         return res.status(400).json({
           succes: false,
+          status: 400,
           message: "Todos los campos son obligatorios",
         });
       }
@@ -30,6 +32,7 @@ class AuthController {
       // Enviar respuesta
       res.status(201).json({
         succes: true,
+        status: 201,
         message: "Usuario registrado",
         newUser,
       });
@@ -39,6 +42,7 @@ class AuthController {
       if (error.message === "El email ya está registrado") {
         return res.status(404).json({
           success: false,
+          status: 404,
           message: error.message,
         });
       }
@@ -46,11 +50,13 @@ class AuthController {
       if (error.message === "El nombre de usuario ya está en uso") {
         return res.status(404).json({
           success: false,
+          status: 404,
           message: error.message,
         });
       }
       res.status(500).json({
         success: false,
+        status: 500,
         message: "Error interno del servidor al registrar el usuario",
         error:
           process.env.NODE_ENV === "development" ? error.message : undefined,
@@ -66,6 +72,7 @@ class AuthController {
       if (!email || !contrasena) {
         return res.status(400).json({
           succes: false,
+          status: 400,
           message: "Todos los campos son obligatorios",
         });
       }
@@ -81,6 +88,7 @@ class AuthController {
       // Enviar respuesta
       res.status(200).json({
         succes: true,
+        status: 200,
         message: "Inicio de sesión exitoso",
         token,
         user,
@@ -92,11 +100,16 @@ class AuthController {
         error.message === "El usuario no existe" ||
         error.message === "Contraseña incorrecta"
       ) {
-        return res.status(401).json({ success: false, message: error.message });
+        return res.status(401).json({
+          success: false,
+          status: 401,
+          message: error.message,
+        });
       }
 
       res.status(500).json({
         success: false,
+        status: 500,
         message: "Error interno del servidor al iniciar sesión",
         error:
           process.env.NODE_ENV === "development" ? error.message : undefined,

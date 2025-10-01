@@ -1,4 +1,8 @@
 const PostProcess = require("@/modules/posts/processes/post.process");
+const {
+  handleError,
+  validatePagination,
+} = require("@/shared/utils/controller.utils");
 
 class PostController {
   constructor() {
@@ -7,29 +11,16 @@ class PostController {
 
   async findAllPosts(req, res) {
     try {
-      // Parámetros de paginación
-      const page = parseInt(req.query.page) || 1;
-      const limit = parseInt(req.query.limit) || 10;
-
-      // Validar que los valores de paginación son positivos
-      if (page < 1 || limit < 1) {
-        return res.status.json({
-          success: false,
-          message: "Los valores de page y limit deben ser números positivos",
-        });
-      }
-
-      // Limitar el máximo de elementos por página
-      const maxLimit = 100;
-      const finalLimit = limit > maxLimit ? maxLimit : limit;
+      const { page, limit } = validatePagination(req.query);
 
       // Llamar al proceso
-      const result = await this.PostProcess.findAllPosts(page, finalLimit);
+      const result = await this.PostProcess.findAllPosts(page, limit);
 
       // Validar si se encontraron posts
       if (!result.posts || result.posts.length === 0) {
         return res.status(404).json({
           success: false,
+          status: 404,
           message: "No se encontraron post en esta página",
         });
       }
@@ -37,6 +28,7 @@ class PostController {
       // Enviar respuesta
       res.status(200).json({
         success: true,
+        status: 200,
         message: "Post obtenidos exitosamente",
         posts: result.posts,
         pagination: {
@@ -49,13 +41,7 @@ class PostController {
         },
       });
     } catch (error) {
-      console.error("Error al obtener todos los posts:", error);
-      res.status(500).json({
-        success: false,
-        message: "Error interno del servidor al obtener los posts",
-        error:
-          process.env.NODE_ENV === "development" ? error.message : undefined,
-      });
+      handleError(res, error, "obtener todos los posts");
     }
   }
 
@@ -69,6 +55,7 @@ class PostController {
       // Verificar si se encontraron posts
       if (!post) {
         return res.status(404).json({
+          status: 404,
           success: false,
           message: "Post no encontrado",
         });
@@ -77,17 +64,40 @@ class PostController {
       // Enviar respuesta
       res.status(200).json({
         success: true,
+        status: 200,
         message: "Post obtenido exitosamente",
         post,
       });
     } catch (error) {
-      console.error("Error al obtener el post:", error);
-      res.status(500).json({
-        success: false,
-        message: "Error interno del servidor al obtener el post",
-        error:
-          process.env.NODE_ENV === "development" ? error.message : undefined,
+      handleError(res, error, "obtener el post");
+    }
+  }
+
+  async findPostByTitle(req, res) {
+    try {
+      const { titulo } = req.params;
+
+      // Llamar al proceso
+      const post = await this.PostProcess.findPostByTitle(titulo);
+
+      // Verificar si se encontraron posts
+      if (!post) {
+        return res.status(404).json({
+          success: false,
+          status: 404,
+          message: "Post no encontrado",
+        });
+      }
+
+      // Enviar respuesta
+      res.status(200).json({
+        success: true,
+        status: 200,
+        message: "Post obtenido exitosamente",
+        post,
       });
+    } catch (error) {
+      handleError(res, error, "al obtener el post");
     }
   }
 
@@ -102,6 +112,7 @@ class PostController {
       if (!posts || posts.length === 0) {
         return res.status(404).json({
           success: false,
+          status: 404,
           message: "No se encontraron posts del usuario",
         });
       }
@@ -109,17 +120,12 @@ class PostController {
       // Enviar respuesta
       res.status(200).json({
         success: true,
+        status: 200,
         message: "Posts del usuario obtenidos exitosamente",
         posts,
       });
     } catch (error) {
-      console.error("Error al obtener los posts del usuario:", error);
-      res.status(500).json({
-        success: false,
-        message: "Error interno del servidor al obtener los posts del usuario",
-        error:
-          process.env.NODE_ENV === "development" ? error.message : undefined,
-      });
+      handleError(res, error, "obtener el post");
     }
   }
 
@@ -134,6 +140,7 @@ class PostController {
       if (!posts || posts.length === 0) {
         return res.status(404).json({
           success: false,
+          status: 404,
           message: "No se encontraron posts de la categoría",
         });
       }
@@ -141,18 +148,12 @@ class PostController {
       // Enviar respuesta
       res.status(200).json({
         success: true,
+        status: 200,
         message: "Posts de la categoría obtenidos exitosamente",
         posts,
       });
     } catch (error) {
-      console.error("Error al obtener los posts de la categoría:", error);
-      res.status(500).json({
-        success: false,
-        message:
-          "Error interno del servidor al obtener los posts de la categoría",
-        error:
-          process.env.NODE_ENV === "development" ? error.message : undefined,
-      });
+      handleError(res, error, "obtener el post");
     }
   }
 
@@ -164,6 +165,7 @@ class PostController {
       if (!term || term.trim() === "") {
         return res.status(400).json({
           success: false,
+          status: 400,
           message: "El término de búsqueda no puede estar vacío",
         });
       }
@@ -175,6 +177,7 @@ class PostController {
       if (!posts || posts.length === 0) {
         return res.status(404).json({
           success: false,
+          status: 404,
           message:
             "No se encontraron posts que coincidan con el término de búsqueda",
         });
@@ -183,17 +186,12 @@ class PostController {
       // Enviar respuesta
       res.status(200).json({
         success: true,
+        status: 200,
         message: "Posts obtenidos exitosamente",
         posts,
       });
     } catch (error) {
-      console.error("Error al buscar posts:", error);
-      res.status(500).json({
-        success: false,
-        message: "Error interno del servidor al buscar posts",
-        error:
-          process.env.NODE_ENV === "development" ? error.message : undefined,
-      });
+      handleError(res, error, "buscar post");
     }
   }
 
@@ -217,6 +215,7 @@ class PostController {
       ) {
         res.status(400).json({
           success: false,
+          status: 400,
           message: "Todos los campos son obligatorios",
         });
       }
@@ -233,6 +232,7 @@ class PostController {
       // Enviar respuesta
       res.status(201).json({
         success: true,
+        status: 201,
         message: "Post creado exitosamente",
         newPost,
       });
@@ -240,6 +240,7 @@ class PostController {
       console.error("Error al crear el post:", error);
       res.status(500).json({
         success: false,
+        status: 500,
         message: "Error interno del servidor al crear el post",
         error:
           process.env.NODE_ENV === "development" ? error.message : undefined,
@@ -252,39 +253,44 @@ class PostController {
       const { id } = req.params;
       const postData = req.body;
 
-      // Validar que al menos venga un campo para actualizar
-      if (!postData || Object.keys(postData).length === 0) {
-        return res.status(400).json({
-          success: false,
-          message: "Debes enviar al menos un campo para actualizar",
-        });
-      }
-
-      // Llamar al proceso
-      const updatedPost = await this.PostProcess.updatePost(id, postData);
-
-      // Verificar si el post existe
-      if (!updatedPost) {
+      // Buscar el post
+      const existingPost = await this.PostProcess.findPostById(id);
+      if (!existingPost) {
         return res.status(404).json({
           success: false,
+          status: 404,
           message: "Post no encontrado",
         });
       }
 
+      // Verificar si el usuario esta intentando actualizar su propio post
+      if (req.user.id !== id && req.user.rol !== "ADMIN") {
+        return res.status(403).json({
+          success: false,
+          status: 403,
+          message: "No tienes permiso para actualizar este post",
+        });
+      }
+
+      // Validar que al menos venga un campo para actualizar
+      if (!postData || Object.keys(postData).length === 0) {
+        return res.status(400).json({
+          success: false,
+          status: 400,
+          message: "Debes enviar al menos un campo para actualizar",
+        });
+      }
+
+      const updatedPost = await this.PostProcess.updatePost(id, postData);
       // Enviar respuesta
       res.status(200).json({
         success: true,
+        status: 200,
         message: "Post actualizado exitosamente",
         updatedPost,
       });
     } catch (error) {
-      console.error("Error al actualizar el post:", error);
-      res.status(500).json({
-        success: false,
-        message: "Error interno del servidor al actualizar el post",
-        error:
-          process.abort.NODE_ENV === "development" ? error.message : undefined,
-      });
+      handleError(res, error, "actualizar post");
     }
   }
 
@@ -292,30 +298,36 @@ class PostController {
     try {
       const { id } = req.params;
 
-      //Llamar al proceso
-      const deletedPost = await this.PostProcess.deletePost(id);
-
-      // Verificar si el post existe
-      if (!deletedPost) {
+      // Buscar post
+      const existingPost = await this.PostProcess.findPostById(id);
+      if (!existingPost) {
         return res.status(404).json({
           success: false,
+          status: 404,
           message: "Post no encontrado",
         });
       }
 
+      // Verificar si el usuario esta intentando eliminar su propio post
+      if (req.user.id !== id && req.user.rol !== "ADMIN") {
+        return res.status(403).json({
+          success: false,
+          status: 403,
+          message: "No tienes permiso para eliminar este post",
+        });
+      }
+
+      //Llamar al proceso
+      await this.PostProcess.deletePost(id);
+
       // Enviar respuesta
       res.status(200).json({
         success: true,
+        status: 200,
         message: "Post eliminado exitosamente",
       });
     } catch (error) {
-      console.error("Error el eliminar el post:", error);
-      res.status(500).json({
-        success: false,
-        message: "Error interno del servidor al eliminar el post",
-        error:
-          process.env.NODE_ENV === "development" ? error.message : undefined,
-      });
+      handleError(res, error, "eliminar el post");
     }
   }
 }

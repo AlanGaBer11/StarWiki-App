@@ -1,4 +1,8 @@
 const CommentProcess = require("@/modules/comments/processes/comment.process");
+const {
+  handleError,
+  validatePagination,
+} = require("@/shared/utils/controller.utils");
 
 class CommentController {
   constructor() {
@@ -7,32 +11,16 @@ class CommentController {
 
   async findAllComments(req, res) {
     try {
-      // Parámetros de paginación
-      const page = parseInt(req.query.page) || 1;
-      const limit = parseInt(req.query.limit) || 10;
-
-      // Validar que los valores de paginación son positivos
-      if (page < 1 || limit < 1) {
-        return res.status.json({
-          success: false,
-          message: "Los valores de page y limit deben ser números positivos",
-        });
-      }
-
-      // Limitar el máximo de elementos por página
-      const maxLimit = 100;
-      const finalLimit = limit > maxLimit ? maxLimit : limit;
+      const { page, limit } = validatePagination(req.query);
 
       // Llamar al proceso
-      const result = await this.CommentProcess.findAllComments(
-        page,
-        finalLimit
-      );
+      const result = await this.CommentProcess.findAllComments(page, limit);
 
       // Validar si se encontraron comentarios
-      if (!result.comments || result.comments.length === 0) {
+      if (!result.comments?.length) {
         return res.status(404).json({
           success: false,
+          status: 404,
           message: "No se encontraron comentarios en esta página",
         });
       }
@@ -40,6 +28,7 @@ class CommentController {
       // Enviar respuesta
       res.status(200).json({
         success: true,
+        status: 200,
         message: "Comentarios obtenidos exitosamente",
         comments: result.comments,
         pagination: {
@@ -52,13 +41,7 @@ class CommentController {
         },
       });
     } catch (error) {
-      console.error("Error al obtener todos los comentarios:", error);
-      res.status(500).json({
-        success: false,
-        message: "Error interno del servidor al obtener los comentarios",
-        error:
-          process.env.NODE_ENV === "development" ? error.message : undefined,
-      });
+      handleError(res, error, "obtener todos los comentarios");
     }
   }
 
@@ -73,6 +56,7 @@ class CommentController {
       if (!comment) {
         return res.status(404).json({
           success: false,
+          status: 404,
           message: "Comentario no encontrado",
         });
       }
@@ -80,17 +64,12 @@ class CommentController {
       // Enviar respuesta
       res.status(200).json({
         success: true,
+        status: 200,
         message: "Comentario obtenido exitosamente",
         comment,
       });
     } catch (error) {
-      console.error("Error al obtener el comentario:", error);
-      res.status(500).json({
-        success: false,
-        message: "Error interno del servidor al obtener el comentario",
-        error:
-          process.env.NODE_ENV === "development" ? error.message : undefined,
-      });
+      handleError(res, error, "obtener el comentario");
     }
   }
 
@@ -105,6 +84,7 @@ class CommentController {
       if (!comments || comments.length === 0) {
         return res.status(404).json({
           success: false,
+          status: 404,
           message: "No se encontraron comentarios para el post",
         });
       }
@@ -112,18 +92,12 @@ class CommentController {
       // Enviar respuesta
       res.status(200).json({
         success: true,
+        status: 200,
         message: "Comentarios del post obtenidos exitosamente",
         comments,
       });
     } catch (error) {
-      console.error("Error al obtener los comentarios del post:", error);
-      res.status(500).json({
-        success: false,
-        message:
-          "Error interno del servidor al obtener los comentarios del post",
-        error:
-          process.env.NODE_ENV === "development" ? error.message : undefined,
-      });
+      handleError(res, error, "obtener los comentarios del post");
     }
   }
 
@@ -135,6 +109,7 @@ class CommentController {
       if (!titulo_post || !nombre_usuario || !contenido) {
         return res.status(400).json({
           success: false,
+          status: 400,
           message: "Todos los campos son obligatorios",
         });
       }
@@ -149,6 +124,7 @@ class CommentController {
       // Enviar respuesta
       res.status(201).json({
         success: true,
+        status: 201,
         message: "Comentario creado exitosamente",
         newComment,
       });
@@ -156,6 +132,7 @@ class CommentController {
       console.error("Error al crear el comentario:", error);
       res.status(500).json({
         success: false,
+        status: 500,
         message: "Error interno del servidor al crear el comentario",
         error:
           process.env.NODE_ENV === "development" ? error.message : undefined,
@@ -168,10 +145,34 @@ class CommentController {
       const { id } = req.params;
       const commentData = req.body;
 
+      // Obtener el comentario para verificar el propietario
+      const existingComment = await this.CommentProcess.findCommentById(id);
+      if (!existingComment) {
+        return res.status(404).json({
+          success: false,
+          status: 404,
+          message: "Comentario no encontrado",
+        });
+      }
+
+      // Verificar si el usuario es el propietario del comentario o es admin/editor
+      if (
+        req.user.id !== existingComment.id_usuario.toString() &&
+        req.user.rol !== "ADMIN" &&
+        req.user.rol !== "EDITOR"
+      ) {
+        return res.status(403).json({
+          success: false,
+          status: 403,
+          message: "No tienes permiso para actualizar este comentario",
+        });
+      }
+
       // Validar que al menos venga un campo para actualizar
       if (!commentData || Object.keys(commentData).length === 0) {
         return res.status(400).json({
           success: false,
+          status: 400,
           message: "Debes enviar al menos un campo para actualizar",
         });
       }
@@ -182,28 +183,15 @@ class CommentController {
         commentData
       );
 
-      // Verificar si el comentario existe
-      if (!updatedComment) {
-        return res.status(404).json({
-          success: false,
-          message: "Comentario no encontrado",
-        });
-      }
-
       // Enviar respuesta
       res.status(200).json({
         success: true,
+        status: 200,
         message: "Comentario actualizado exitosamente",
         updatedComment,
       });
     } catch (error) {
-      console.error("Error al actualizar el comentario:", error);
-      res.status(500).json({
-        success: false,
-        message: "Error interno del servidor al actualizar el comentario",
-        error:
-          process.env.NODE_ENV === "development" ? error.message : undefined,
-      });
+      handleError(res, error, "actualizar el comentario");
     }
   }
 
@@ -211,30 +199,39 @@ class CommentController {
     try {
       const { id } = req.params;
 
-      // Llamar al proceso
-      const deletedComment = await this.CommentProcess.deleteComment(id);
-
-      // Verificar si el comentario existe
-      if (!deletedComment) {
+      // Obtener el comentario para verificar el propietario
+      const existingComment = await this.CommentProcess.findCommentById(id);
+      if (!existingComment) {
         return res.status(404).json({
           success: false,
+          status: 404,
           message: "Comentario no encontrado",
         });
       }
 
-      // Enviar respuesta
+      // Solo el propietario, admin o editor pueden eliminar
+      if (
+        req.user.id !== existingComment.id_usuario.toString() &&
+        req.user.rol !== "ADMIN" &&
+        req.user.rol !== "EDITOR"
+      ) {
+        return res.status(403).json({
+          success: false,
+          status: 403,
+          message: "No tienes permiso para eliminar este comentario",
+        });
+      }
+
+      // Eliminar el comantario
+      await this.CommentProcess.deleteComment(id);
+
       res.status(200).json({
         success: true,
+        status: 200,
         message: "Comentario eliminado exitosamente",
       });
     } catch (error) {
-      console.error("Error al eliminar el comentario:", error);
-      res.status(500).json({
-        success: false,
-        message: "Error interno del servidor al eliminar el comentario",
-        error:
-          process.env.NODE_ENV === "development" ? error.message : undefined,
-      });
+      handleError(res, error, "eliminar el comentario");
     }
   }
 }

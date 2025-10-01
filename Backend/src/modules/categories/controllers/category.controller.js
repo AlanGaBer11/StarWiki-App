@@ -1,4 +1,8 @@
 const CategoryProcess = require("@/modules/categories/processes/category.process");
+const {
+  handleError,
+  validatePagination,
+} = require("@/shared/utils/controller.utils");
 class CategoryController {
   constructor() {
     this.CategoryProcess = new CategoryProcess();
@@ -6,32 +10,16 @@ class CategoryController {
 
   async findAllCategories(req, res) {
     try {
-      // Obtener parámetros de paginacion
-      const page = parseInt(req.query.page) || 1;
-      const limit = parseInt(req.query.limit) || 10;
-
-      // Validarf que los valores de paginación sean positivos
-      if (page < 1 || limit < 1) {
-        return res.status(400).json({
-          success: false,
-          message: "Los valores de page y limit deben ser números positivos",
-        });
-      }
-
-      // Limitar el máximo de elementos por página
-      const maxLimit = 100;
-      const finalLimit = limit > maxLimit ? maxLimit : limit;
+      const { page, limit } = validatePagination(req.query);
 
       // Llamar al proceso
-      const result = await this.CategoryProcess.findAllCategories(
-        page,
-        finalLimit
-      );
+      const result = await this.CategoryProcess.findAllCategories(page, limit);
 
       // Validar si se encontraron categorías
-      if (!result.categories || result.categories.length === 0) {
+      if (!result.categories?.length) {
         return res.status(404).json({
           success: false,
+          status: 404,
           message: "No se encontraron categorías en esta página",
         });
       }
@@ -39,6 +27,7 @@ class CategoryController {
       // Enviar respuesta
       res.status(200).json({
         success: true,
+        status: 200,
         message: "Categorías obtenidas exitosamente",
         categories: result.categories,
         pagination: {
@@ -51,43 +40,33 @@ class CategoryController {
         },
       });
     } catch (error) {
-      console.error("Error al obtener todas las categorías:", error);
-      res.status(500).json({
-        success: false,
-        message: "Error interno del servidor al obtener las categorías",
-        error:
-          process.env.NODE_ENV === "development" ? error.message : undefined,
-      });
+      handleError(res, error, "obtener todas las categorías");
     }
   }
 
   async findCategoryById(req, res) {
     try {
       const { id } = req.params;
-      // Llamar al proceso
-      const category = await this.CategoryProcess.findCategoryById(id);
 
-      // Verificar si la categoría existe
+      // Buscar la categoría
+      const category = await this.CategoryProcess.findCategoryById(id);
       if (!category) {
         return res.status(400).json({
           success: false,
+          status: 400,
           message: "Categoría no encontrada",
         });
       }
+
       // Enviar respuesta
       res.status(200).json({
         success: true,
+        status: 200,
         message: "Categoría obtenida exitosamente",
         category,
       });
     } catch (error) {
-      console.error("Error al obtener la categoría:", error);
-      res.status(500).json({
-        success: false,
-        message: "Error interno del servidor al obtener la categoría",
-        error:
-          process.env.NODE_ENV === "development" ? error.message : undefined,
-      });
+      handleError(res, error, "obtener la categoría");
     }
   }
 
@@ -102,23 +81,19 @@ class CategoryController {
       if (!category) {
         return res.status(400).json({
           success: false,
+          status: 400,
           message: "Categoría no encontrada",
         });
       }
       // Enviar respuesta
       res.status(200).json({
         success: true,
+        status: 200,
         message: "Categoría obtenida exitosamente",
         category,
       });
     } catch (error) {
-      console.error("Error al obtener la categoría:", error);
-      res.status(500).json({
-        success: false,
-        message: "Error interno del servidor al obtener la categoría",
-        error:
-          process.env.NODE_ENV === "development" ? error.message : undefined,
-      });
+      handleError(res, error, "obtener la categoría");
     }
   }
 
@@ -130,6 +105,7 @@ class CategoryController {
       if (!nombre || !descripcion) {
         return res.status(400).json({
           success: false,
+          status: 400,
           message: "Todos los campos son obligatorios",
         });
       }
@@ -143,6 +119,7 @@ class CategoryController {
       // Enviar respuesta
       res.status(201).json({
         success: true,
+        status: 201,
         message: "Categoría creada exitosamente",
         newCategory,
       });
@@ -152,11 +129,13 @@ class CategoryController {
       if (error.message === "La categoría ya existe") {
         return res.status(400).json({
           success: false,
+          status: 400,
           message: error.message,
         });
       }
       res.status(500).json({
         success: false,
+        status: 500,
         message: "Error interno del servidor al crear la categoría",
         error:
           process.env.NODE_ENV === "development" ? error.message : undefined,
@@ -169,9 +148,19 @@ class CategoryController {
       const { id } = req.params;
       const categoryData = req.body;
 
+      // Buscar la categoría
+      const existingCategory = await this.CategoryProcess.findCategoryById(id);
+      if (!existingCategory) {
+        return res.status(404).json({
+          status: 404,
+          success: false,
+          message: "Categoría no encontrada",
+        });
+      }
       // Validar que al menos venga un campo para actualizar
       if (!categoryData || Object.keys(categoryData).length === 0) {
         return res.status(400).json({
+          status: 400,
           success: false,
           message: "Debes enviar al menos un campo para actualizar",
         });
@@ -183,57 +172,52 @@ class CategoryController {
         categoryData
       );
 
-      // Verificar si la categoría existe
-      if (!updatedCategory) {
-        return res.status(404).json({
-          success: false,
-          message: "Categoría no encontrada",
-        });
-      }
-
       // Enviar respuesta
       res.status(200).json({
         success: true,
+        status: 200,
         message: "Categoría actualizada exitosamente",
         updatedCategory,
       });
     } catch (error) {
-      console.error("Error al actualizar la categoría:", error);
-      res.status(500).json({
-        success: false,
-        message: "Error interno del servidor al actualizar la categoría",
-        error:
-          process.env.NODE_ENV === "development" ? error.message : undefined,
-      });
+      handleError(res, error, "actualizar la categoría");
     }
   }
 
   async deleteCategory(req, res) {
     try {
       const { id } = req.params;
-      // Llamar al proceso
-      const deletedCategory = await this.CategoryProcess.deleteCategory(id);
 
-      // Verificar si la categoría existe
-      if (!deletedCategory) {
+      // Buscar la categoría
+      const existingCategory = await this.CategoryProcess.findCategoryById(id);
+      if (!existingCategory) {
         return res.status(404).json({
+          status: 404,
           success: false,
           message: "Categoría no encontrada",
         });
       }
+
+      // Solo admins pueden eliminar
+      if (req.user.rol !== "ADMIN") {
+        return res.status(403).json({
+          status: 403,
+          success: false,
+          message: "No tienes permiso para eliminar categorías",
+        });
+      }
+
+      // Llamar al proceso
+      await this.CategoryProcess.deleteCategory(id);
+
       // Enviar respuesta
       res.status(200).json({
         success: true,
+        status: 200,
         message: "Categoría eliminada exitosamente",
       });
     } catch (error) {
-      console.error("Error al eliminar la categoría:", error);
-      res.status(500).json({
-        success: false,
-        message: "Error interno del servidor al eliminar la categoría",
-        error:
-          process.env.NODE_ENV === "development" ? error.message : undefined,
-      });
+      handleError(res, error, "eliminar la categoría");
     }
   }
 }

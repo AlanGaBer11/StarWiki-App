@@ -1,4 +1,8 @@
 const UserProcess = require("@/modules/users/processes/user.process");
+const {
+  handleError,
+  validatePagination,
+} = require("@/shared/utils/controller.utils");
 
 class UserController {
   constructor() {
@@ -7,35 +11,23 @@ class UserController {
 
   async findAllUsers(req, res) {
     try {
-      // Obtener parámetros de paginación
-      const page = parseInt(req.query.page) || 1;
-      const limit = parseInt(req.query.limit) || 10;
-
-      //Validar que los valores son positivos
-      if (page < 1 || limit < 1) {
-        return res.status(400).json({
-          success: false,
-          message: "Los valores de page y limit deben ser números positivos",
-        });
-      }
-
-      // Limitar el máximo de elementos por página
-      const maxLimit = 100;
-      const finalLimit = limit > maxLimit ? maxLimit : limit;
+      const { page, limit } = validatePagination(req.query);
 
       // Llamar al proceso
-      const result = await this.UserProcess.findAllUsers(page, finalLimit);
+      const result = await this.UserProcess.findAllUsers(page, limit);
 
       // Validar si se encontraron usuarios
-      if (!result.users || result.users.length == 0) {
+      if (!result.users?.length) {
         return res.status(404).json({
           success: false,
+          status: 404,
           message: "No se encontraron usuarios en esta página",
         });
       }
 
       res.status(200).json({
         success: true,
+        status: 200,
         message: "Usuarios obtenidos exitosamente",
         users: result.users,
         pagination: {
@@ -48,40 +40,42 @@ class UserController {
         },
       });
     } catch (error) {
-      console.error("Error al obtener todos los usuarios:", error);
-      res.status(500).json({
-        success: false,
-        message: "Error interno del servidor al obtener los usuarios",
-        error:
-          process.env.NODE_ENV === "development" ? error.message : undefined,
-      });
+      handleError(res, error, "obtener todos los usuarios");
     }
   }
 
   async findUserById(req, res) {
     try {
       const { id } = req.params;
-      // Llamar al proceso
+
+      // Buscar el usuario
       const user = await this.UserProcess.findUserById(id);
       if (!user) {
         return res.status(400).json({
           success: false,
+          status: 400,
           message: "Usuario no encontrado",
         });
       }
+
+      // Verificar si el usuario esta intentando acceder a su perfil
+      if (req.user.id !== id && req.user.rol !== "ADMIN") {
+        return res.status(403).json({
+          success: false,
+          status: 403,
+          message: "No tienes permiso para acceder a este perfil",
+        });
+      }
+
+      // Enviar respuesta
       res.status(200).json({
         success: true,
+        status: 200,
         message: "Usuario obtenido exitosamente",
         user,
       });
     } catch (error) {
-      console.error("Error al obtener el usuario:", error);
-      res.status(500).json({
-        success: false,
-        message: "Error interno del servidor al obtener el usuario",
-        error:
-          process.env.NODE_ENV === "development" ? error.message : undefined,
-      });
+      handleError(res, error, "obtener el usuario");
     }
   }
 
@@ -100,6 +94,7 @@ class UserController {
       ) {
         return res.status(400).json({
           success: false,
+          status: 400,
           message: "Todos los campos son obligatorios",
         });
       }
@@ -114,6 +109,7 @@ class UserController {
       });
       res.status(201).json({
         success: true,
+        status: 201,
         message: "Usuario creado exitosamente",
         newUser,
       });
@@ -123,32 +119,65 @@ class UserController {
       if (error.message === "El correo electrónico ya está en uso") {
         return res.status(404).json({
           success: false,
+          status: 404,
           message: error.message,
         });
       }
       if (error.message === "El nombre de usuario ya está en uso") {
         return res.status(404).json({
           success: false,
+          status: 404,
           message: error.message,
         });
       }
       res.status(500).json({
         success: false,
+        status: 500,
         message: "Error interno del servidor al crear el usuario",
         error:
           process.env.NODE_ENV === "development" ? error.message : undefined,
       });
     }
   }
+
   async updateUser(req, res) {
     try {
       const { id } = req.params;
       const userData = req.body;
 
+      // Buscar el usuario
+      const existingUser = await this.UserProcess.findUserById(id);
+      if (!existingUser) {
+        return res.status(404).json({
+          success: false,
+          status: 404,
+          message: "Usuario no encontrado",
+        });
+      }
+
+      // Verificar si el usuario esta intentando actualizar su propio perfil
+      if (req.user.id !== id && req.user.rol !== "ADMIN") {
+        return res.status(403).json({
+          success: false,
+          status: 403,
+          message: "Solo puedes actualizar tu propio perfil",
+        });
+      }
+
+      // Si no es admin, no puede cambiar su propio rol
+      if (userData.rol && req.user.rol !== "ADMIN") {
+        return res.status(403).json({
+          success: false,
+          status: 403,
+          message: "No tienes permiso para cambiar roles",
+        });
+      }
+
       // Validar que al menos venga un campo para actualizar
       if (!userData || Object.keys(userData).length === 0) {
         return res.status(400).json({
           success: false,
+          status: 400,
           message: "Debes enviar al menos un campo para actualizar",
         });
       }
@@ -156,51 +185,51 @@ class UserController {
       // Llamar al proceso
       const updatedUser = await this.UserProcess.updateUser(id, userData);
 
-      if (!updatedUser) {
-        return res.status(404).json({
-          success: false,
-          message: "Usuario no encontrado",
-        });
-      }
-
+      // Enviar respuesta
       res.status(200).json({
         success: true,
+        status: 200,
         message: "Usuario actualizado exitosamente",
         updatedUser,
       });
     } catch (error) {
-      console.error("Error al actualizar usuario:", error);
-      res.status(500).json({
-        success: false,
-        message: "Error interno del servidor al actualizar usuario",
-        error:
-          process.env.NODE_ENV === "development" ? error.message : undefined,
-      });
+      handleError(res, error, "actualizar usuario");
     }
   }
 
   async deleteUser(req, res) {
     try {
       const { id } = req.params;
-      const deletedUser = await this.UserProcess.deleteUser(id);
-      if (!deletedUser) {
+
+      // Buscar usuario primero
+      const existingUser = await this.UserProcess.findUserById(id);
+      if (!existingUser) {
         return res.status(404).json({
+          status: 404,
           success: false,
           message: "Usuario no encontrado",
         });
       }
+
+      // Solo admins pueden eliminar
+      if (req.user.rol !== "ADMIN") {
+        return res.status(403).json({
+          status: 403,
+          success: false,
+          message: "No tienes permiso para eliminar usuarios",
+        });
+      }
+
+      // Proceder a eliminar
+      await this.UserProcess.deleteUser(id);
+
       res.status(200).json({
         success: true,
+        status: 200,
         message: "Usuario eliminado exitosamente",
       });
     } catch (error) {
-      console.error("Error al eliminar el usuario:", error);
-      res.status(500).json({
-        success: false,
-        message: "Error interno del servidor al eliminar el usuario",
-        error:
-          process.env.NODE_ENV === "development" ? error.message : undefined,
-      });
+      handleError(res, error, "eliminar el usuario");
     }
   }
 }
