@@ -198,3 +198,17 @@ modules/auth/
 ## 👥 Autores
 
 - **Alan Yahir García Bernal** - _Desarrollo inicial_ - [GitHub](https://github.com/AlanGaber11)
+
+## Commit Convencionales
+
+- `feat`: Nueva funcionalidad
+- `fix`: Corrección de errores
+- `refactor`: Refactorización del código
+- `style`: Cambios en formato que no afectan el significado
+- `docs`: Documentación
+- `test`: Añadir pruebas o refactorizar pruebas
+- `chore`: Tareas de mantenimiento
+- `pref`: Optimización de código
+- `build`: Compilación/Configuración
+- `ci`: Integración continua (CI/CD)
+- `revert`: Revertir cambios
