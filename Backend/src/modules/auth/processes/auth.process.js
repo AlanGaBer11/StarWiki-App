@@ -32,6 +32,16 @@ class AuthProcess {
       throw error;
     }
   }
+
+  async verifyAccount(verificationData) {
+    try {
+      const { email, code } = verificationData;
+      return await this.AuthService.verifiAccount(email, code);
+    } catch (error) {
+      console.error("Error al verificar la cuenta");
+      throw error;
+    }
+  }
 }
 
 module.exports = AuthProcess;

@@ -1,6 +1,5 @@
 const AuthProcess = require("@/modules/auth/processes/auth.process");
 const jwt = require("jsonwebtoken");
-const { handleError } = require("@/shared/utils/controller.utils");
 
 class AuthController {
   constructor() {
@@ -11,16 +10,14 @@ class AuthController {
     try {
       const { nombre, apellido, nombre_usuario, email, contrasena } = req.body;
 
-      // Validaciones básicas
       if (!nombre || !apellido || !nombre_usuario || !email || !contrasena) {
         return res.status(400).json({
-          succes: false,
+          success: false,
           status: 400,
           message: "Todos los campos son obligatorios",
         });
       }
 
-      // Llamar al proceso
       const newUser = await this.AuthProcess.register({
         nombre,
         apellido,
@@ -29,32 +26,27 @@ class AuthController {
         contrasena,
       });
 
-      // Enviar respuesta
-      res.status(201).json({
-        succes: true,
+      return res.status(201).json({
+        success: true,
         status: 201,
-        message: "Usuario registrado",
+        message: "Usuario registrado correctamente",
         newUser,
       });
     } catch (error) {
       console.error("Error al registrar el usuario:", error);
-      // Si es un error de email duplicado
-      if (error.message === "El email ya está registrado") {
-        return res.status(404).json({
+
+      if (
+        error.message === "El email ya está registrado" ||
+        error.message === "El nombre de usuario ya está en uso"
+      ) {
+        return res.status(409).json({
           success: false,
-          status: 404,
+          status: 409,
           message: error.message,
         });
       }
-      // Si es un error de nombre_usuario_duplicado
-      if (error.message === "El nombre de usuario ya está en uso") {
-        return res.status(404).json({
-          success: false,
-          status: 404,
-          message: error.message,
-        });
-      }
-      res.status(500).json({
+
+      return res.status(500).json({
         success: false,
         status: 500,
         message: "Error interno del servidor al registrar el usuario",
@@ -68,26 +60,22 @@ class AuthController {
     try {
       const { email, contrasena } = req.body;
 
-      // Validar
       if (!email || !contrasena) {
         return res.status(400).json({
-          succes: false,
+          success: false,
           status: 400,
-          message: "Todos los campos son obligatorios",
+          message: "El email y la contraseña son obligatorios",
         });
       }
 
-      // Llamar al proceso
       const user = await this.AuthProcess.login({ email, contrasena });
 
-      // Generar token
       const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
         expiresIn: "15m",
       });
 
-      // Enviar respuesta
-      res.status(200).json({
-        succes: true,
+      return res.status(200).json({
+        success: true,
         status: 200,
         message: "Inicio de sesión exitoso",
         token,
@@ -95,7 +83,7 @@ class AuthController {
       });
     } catch (error) {
       console.error("Error al iniciar sesión:", error);
-      // Si el error es de autenticación, enviamos 401
+
       if (
         error.message === "El usuario no existe" ||
         error.message === "Contraseña incorrecta"
@@ -107,7 +95,7 @@ class AuthController {
         });
       }
 
-      res.status(500).json({
+      return res.status(500).json({
         success: false,
         status: 500,
         message: "Error interno del servidor al iniciar sesión",
@@ -121,36 +109,73 @@ class AuthController {
     try {
       const { email } = req.body;
 
-      // Validadción
       if (!email) {
         return res.status(400).json({
-          succes: false,
+          success: false,
           status: 400,
           message: "El email es requerido",
         });
       }
 
-      const result = await this.AuthProcess.sendVerificationCode(email);
+      await this.AuthProcess.sendVerificationCode(email);
 
-      // Enviar respuesta
-      res.status(200).json({
-        succes: true,
+      return res.status(200).json({
+        success: true,
         status: 200,
-        message: "Código de verificación enviado",
-        expiracion_codigo: result.expiracion_codigo,
+        message: "Código de verificación enviado correctamente",
       });
     } catch (error) {
       console.error("Error al enviar el código de verificación:", error);
-      // Manejar errores específicos
+
       if (error.message === "El usuario no existe") {
         return res.status(404).json({
           success: false,
-          status: 400,
+          status: 404,
           message: error.message,
         });
       }
 
-      if (error.message === "El usuario ya está verificado") {
+      return res.status(500).json({
+        success: false,
+        status: 500,
+        message: "Error interno del servidor al enviar el código",
+        error:
+          process.env.NODE_ENV === "development" ? error.message : undefined,
+      });
+    }
+  }
+
+  async verifyAccount(req, res) {
+    try {
+      const { email, code } = req.body;
+
+      if (!email || !code) {
+        return res.status(400).json({
+          success: false,
+          status: 400,
+          message: "El email y el código son requeridos",
+        });
+      }
+
+      await this.AuthProcess.verifyAccount({ email, code });
+
+      return res.status(200).json({
+        success: true,
+        status: 200,
+        message: "Cuenta verificada exitosamente",
+      });
+    } catch (error) {
+      console.error("Error al verificar la cuenta:", error);
+
+      const knownErrors = [
+        "Usuario no encontrado",
+        "El usuario ya está verificado",
+        "No hay un código de verificación pendiente",
+        "El código de verificación ha expirado",
+        "Código de verificación inválido",
+      ];
+
+      if (knownErrors.includes(error.message)) {
         return res.status(400).json({
           success: false,
           status: 400,
@@ -158,10 +183,10 @@ class AuthController {
         });
       }
 
-      res.status(500).json({
+      return res.status(500).json({
         success: false,
         status: 500,
-        message: "Error interno del servidor al iniciar sesión",
+        message: "Error interno del servidor al verificar la cuenta",
         error:
           process.env.NODE_ENV === "development" ? error.message : undefined,
       });

@@ -80,10 +80,6 @@ class AuthService {
         throw new Error("El usuario no existe");
       }
 
-      if (user.verificado) {
-        throw new Error("El usuario ya está verificado");
-      }
-
       // Generar código de verificación (6 dígitos)
       const verificationCode = Math.floor(
         100000 + Math.random() * 900000
@@ -100,22 +96,81 @@ class AuthService {
         codeExpiration
       );
 
-      // Enviar correo con el código
-      const { subject, text, html } = TemplateService.getVerificationEmail({
-        nombre: user.nombre,
-        apellido: user.apellido,
-        codigo_verificacion: verificationCode,
-        expiracion_codigo: codeExpiration,
-      });
+      try {
+        // Enviar correo con el código
+        const { subject, text, html } = TemplateService.getVerificationEmail({
+          nombre: user.nombre,
+          apellido: user.apellido,
+          codigo_verificacion: verificationCode,
+          expiracion_codigo: codeExpiration,
+        });
 
-      await sendEmail(email, subject, text, html);
-
-      return {
-        message: "Código enviado correctamente",
-        expiracion: codeExpiration,
-      };
+        await sendEmail(email, subject, text, html);
+      } catch (emailError) {
+        console.error("Error al enviar el correo de verificación:", emailError);
+        throw emailError;
+      }
     } catch (error) {
       console.error("Error al enviar el código de verificación:", error);
+      throw error;
+    }
+  }
+
+  async verifiAccount(email, code) {
+    try {
+      const user = await this.AuthRepository.findByEmail(email);
+
+      // Verificar si el usuario ya existe
+      if (!user) {
+        throw new Error("Usuario no encontrado");
+      }
+
+      //Verificar si el usuario ya esta verificado
+      if (user.verificado) {
+        throw new Error("El usuario ya está verificado");
+      }
+
+      // Verificar si hay un código pendiente
+      if (!user.codigo_verificacion) {
+        throw new Error("No hay un código de verificación pendiente");
+      }
+
+      // Verificar expiración
+      if (user.expiracion_codigo && new Date() > user.expiracion_codigo) {
+        await this.AuthRepository.verifyUser(email, {
+          // Limpiar código
+          codigo_verificacion: null,
+          expiracion_codigo: null,
+        });
+        throw new Error("El código de verificación ha expirado");
+      }
+
+      // Verificar que el código coincida
+      if (user.codigo_verificacion !== code) {
+        throw new Error("Código de verificación inválido");
+      }
+
+      // Verificar el usuario
+      await this.AuthRepository.verifyUser(email, {
+        verificado: true,
+        codigo_verificacion: null,
+        expiracion_codigo: null,
+      });
+
+      // Enviar correo de confirmación
+      try {
+        const { subject, text, html } = TemplateService.getVerifyAccountEmail({
+          nombre: user.nombre,
+          email: user.email,
+        });
+
+        await sendEmail(user.email, subject, text, html);
+      } catch (emailError) {
+        console.error("Error al enviar el correo de confirmación:", emailError);
+        throw emailError;
+      }
+    } catch (error) {
+      console.error("Error al verificar la cuenta", error);
       throw error;
     }
   }

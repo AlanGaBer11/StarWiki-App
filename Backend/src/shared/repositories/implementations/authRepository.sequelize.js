@@ -21,8 +21,8 @@ class AuthRepository extends IUserRepository {
   }
 
   // MÉTODO PARA VERIFICAR UN USUARIO
-  async verifyUser(id) {
-    return await User.update({ verificado: true }, { where: { id } });
+  async verifyUser(email, userData) {
+    return await User.update(userData, { where: { email } });
   }
 }
 
