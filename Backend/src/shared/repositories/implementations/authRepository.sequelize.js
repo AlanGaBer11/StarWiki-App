@@ -11,6 +11,19 @@ class AuthRepository extends IUserRepository {
   async findByEmail(email) {
     return await User.findOne({ where: { email } });
   }
+
+  // MÉTODO PARA ENVIAR CÓDIGO DE VERIFICACIÓN
+  async verificationCode(email, codigo_verificacion, expiracion_codigo) {
+    return await User.update(
+      { codigo_verificacion, expiracion_codigo },
+      { where: { email } }
+    );
+  }
+
+  // MÉTODO PARA VERIFICAR UN USUARIO
+  async verifyUser(id) {
+    return await User.update({ verificado: true }, { where: { id } });
+  }
 }
 
 module.exports = AuthRepository;

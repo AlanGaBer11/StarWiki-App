@@ -23,6 +23,15 @@ class AuthProcess {
       throw error;
     }
   }
+
+  async sendVerificationCode(email) {
+    try {
+      return await this.AuthService.sendVerificationCode(email);
+    } catch (error) {
+      console.error("Error al enviar el código de verificación");
+      throw error;
+    }
+  }
 }
 
 module.exports = AuthProcess;

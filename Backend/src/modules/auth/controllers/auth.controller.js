@@ -116,6 +116,57 @@ class AuthController {
       });
     }
   }
+
+  async sendVerificationCode(req, res) {
+    try {
+      const { email } = req.body;
+
+      // Validadción
+      if (!email) {
+        return res.status(400).json({
+          succes: false,
+          status: 400,
+          message: "El email es requerido",
+        });
+      }
+
+      const result = await this.AuthProcess.sendVerificationCode(email);
+
+      // Enviar respuesta
+      res.status(200).json({
+        succes: true,
+        status: 200,
+        message: "Código de verificación enviado",
+        expiracion_codigo: result.expiracion_codigo,
+      });
+    } catch (error) {
+      console.error("Error al enviar el código de verificación:", error);
+      // Manejar errores específicos
+      if (error.message === "El usuario no existe") {
+        return res.status(404).json({
+          success: false,
+          status: 400,
+          message: error.message,
+        });
+      }
+
+      if (error.message === "El usuario ya está verificado") {
+        return res.status(400).json({
+          success: false,
+          status: 400,
+          message: error.message,
+        });
+      }
+
+      res.status(500).json({
+        success: false,
+        status: 500,
+        message: "Error interno del servidor al iniciar sesión",
+        error:
+          process.env.NODE_ENV === "development" ? error.message : undefined,
+      });
+    }
+  }
 }
 
 module.exports = AuthController;

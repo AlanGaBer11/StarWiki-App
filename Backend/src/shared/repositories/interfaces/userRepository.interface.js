@@ -16,6 +16,14 @@ class IUserRepository extends IBaseRepository {
     throw new Error("Método no implementado");
   }
 
+  async verificationCode(email) {
+    throw new Error("Método no implementado");
+  }
+
+  async verifyUser(id) {
+    throw new Error("Método no implementado");
+  }
+
   async deactivate(id) {
     throw new Error("Método no implementado");
   }
