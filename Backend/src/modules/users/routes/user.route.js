@@ -39,6 +39,16 @@ router
     authorization,
     checkRole(["ADMIN"]),
     userController.deleteUser.bind(userController)
+  )
+  .patch(
+    "/deactivateUser/:id",
+    authorization,
+    userController.deactivateUser.bind(userController)
+  )
+  .patch(
+    "/reactivateUser/:id",
+    authorization,
+    userController.reactivateUser.bind(userController)
   );
 
 module.exports = router;

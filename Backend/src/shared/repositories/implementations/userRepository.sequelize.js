@@ -53,8 +53,19 @@ class UserRepository extends IUserRepository {
     return await user.destroy();
   }
 
-  // ? DESACTIVAR
-  // ? ACTIVAR
+  // SOLICITAR CODIGO DE VERIFICACIÓN
+  async deactivate(id) {
+    const user = await User.findByPk(id);
+    if (!user) return null;
+    return await user.update({ estado: false });
+  }
+
+  // SOLICITAR CODIGO DE VERIFICACIÓN
+  async reactivate(id) {
+    const user = await User.findByPk(id);
+    if (!user) return null;
+    return await user.update({ estado: true });
+  }
 }
 
 module.exports = UserRepository;

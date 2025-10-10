@@ -1,9 +1,12 @@
 const RepositoryConfig = require("@/shared/config/repository");
 const UserBuilder = require("@/modules/users/builders/user.builder");
+const { sendEmail } = require("@/modules/email/services/email.service");
+const TemplateService = require("@/modules/email/services/emailTemplate.service");
 
 class UserService {
   constructor() {
     this.UserRepository = RepositoryConfig.getRepository("userRepository");
+    this.AuthRepository = RepositoryConfig.getRepository("authRepository");
   }
 
   async findAllUsers(page = 1, limit = 10) {
@@ -155,6 +158,102 @@ class UserService {
       return await this.UserRepository.delete(id);
     } catch (error) {
       console.error("Error al eliminar el usuario");
+      throw error;
+    }
+  }
+
+  async deactivateUser(id, verificationCode) {
+    try {
+      const user = await this.UserRepository.findById(id);
+      if (!user) {
+        throw new Error("Usuario no encontrado");
+      }
+
+      // Validar código de verificación
+      const userAuth = await this.AuthRepository.findByEmail(user.email);
+      if (!userAuth || !userAuth.codigo_verificacion) {
+        throw new Error("No hay un código de verificación pendiente");
+      }
+
+      if (new Date() > userAuth.expiracion_codigo) {
+        throw new Error("El código de verificación ha expirado");
+      }
+
+      if (userAuth.codigo_verificacion !== verificationCode) {
+        throw new Error("Código de verificación inválido");
+      }
+
+      // Desactivar cuenta
+      await this.UserRepository.deactivate(id);
+
+      // Limpiar el código después del uso
+      await this.AuthRepository.verifyUser(user.email, {
+        codigo_verificacion: null,
+        expiracion_codigo: null,
+      });
+
+      // Enviar correo
+      try {
+        const { subject, text, html } = TemplateService.getDeactivateUserEmail({
+          nombre: user.nombre,
+          email: user.email,
+          desactivado: new Date(),
+        });
+        await sendEmail(user.email, subject, text, html);
+      } catch (emailError) {
+        console.error("Error al enviar correo de desactivación:", emailError);
+        throw emailError;
+      }
+    } catch (error) {
+      console.error("Error al desactivar el usuario:", error);
+      throw error;
+    }
+  }
+
+  async reactivateUser(id, verificationCode) {
+    try {
+      const user = await this.UserRepository.findById(id);
+      if (!user) {
+        throw new Error("Usuario no encontrado");
+      }
+
+      // Validar código de verificación
+      const userAuth = await this.AuthRepository.findByEmail(user.email);
+      if (!userAuth || !userAuth.codigo_verificacion) {
+        throw new Error("No hay un código de verificación pendiente");
+      }
+
+      if (new Date() > userAuth.expiracion_codigo) {
+        throw new Error("El código de verificación ha expirado");
+      }
+
+      if (userAuth.codigo_verificacion !== verificationCode) {
+        throw new Error("Código de verificación inválido");
+      }
+
+      // Reactivar cuenta
+      await this.UserRepository.reactivate(id);
+
+      // Limpiar código
+      await this.AuthRepository.verifyUser(user.email, {
+        codigo_verificacion: null,
+        expiracion_codigo: null,
+      });
+
+      // Enviar correo
+      try {
+        const { subject, text, html } = TemplateService.getReactivateUserEmail({
+          nombre: user.nombre,
+          email: user.email,
+          reactivado: new Date(),
+        });
+        await sendEmail(user.email, subject, text, html);
+      } catch (emailError) {
+        console.error("Error al enviar correo de reactivación:", emailError);
+        throw emailError;
+      }
+    } catch (error) {
+      console.error("Error al reactivar el usuario:", error);
       throw error;
     }
   }

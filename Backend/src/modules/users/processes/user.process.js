@@ -48,6 +48,26 @@ class UserProcess {
       throw error;
     }
   }
+
+  async deactivateUser(id, verificationData) {
+    try {
+      const { code } = verificationData;
+      return await this.UserService.deactivateUser(id, code);
+    } catch (error) {
+      console.error("Error al desactivar el usuario");
+      throw error;
+    }
+  }
+
+  async reactivateUser(id, verificationData) {
+    try {
+      const { code } = verificationData;
+      return await this.UserService.reactivateUser(id, code);
+    } catch (error) {
+      console.error("Error al reactivar el usuario");
+      throw error;
+    }
+  }
 }
 
 module.exports = UserProcess;

@@ -2,6 +2,7 @@ const UserProcess = require("@/modules/users/processes/user.process");
 const {
   handleError,
   validatePagination,
+  isOwnerOrAdmin,
 } = require("@/shared/utils/controller.utils");
 
 class UserController {
@@ -59,7 +60,7 @@ class UserController {
       }
 
       // Verificar si el usuario esta intentando acceder a su perfil
-      if (req.user.id !== id && req.user.rol !== "ADMIN") {
+      if (!isOwnerOrAdmin(req, id)) {
         return res.status(403).json({
           success: false,
           status: 403,
@@ -156,7 +157,7 @@ class UserController {
       }
 
       // Verificar si el usuario esta intentando actualizar su propio perfil
-      if (req.user.id !== id && req.user.rol !== "ADMIN") {
+      if (!isOwnerOrAdmin(req, id)) {
         return res.status(403).json({
           success: false,
           status: 403,
@@ -230,6 +231,95 @@ class UserController {
       });
     } catch (error) {
       handleError(res, error, "eliminar el usuario");
+    }
+  }
+
+  async deactivateUser(req, res) {
+    try {
+      const { id } = req.params;
+      const { code } = req.body;
+
+      // Validar que venga el codigo
+      if (!code) {
+        return res.status(400).json({
+          success: false,
+          status: 400,
+          message: "Debes enviar el codigo de verificacion",
+        });
+      }
+
+      //Buscar usuario
+      const existingUser = await this.UserProcess.findUserById(id);
+      if (!existingUser) {
+        return res.status(404).json({
+          success: false,
+          status: 404,
+          message: "Usuario no encontrado",
+        });
+      }
+
+      // Verificar si el usuario esta desactivando su cuenta
+      if (!isOwnerOrAdmin(req, id)) {
+        return res.status(403).json({
+          success: false,
+          status: 403,
+          message: "Solo puedes desactivar tu cuenta",
+        });
+      }
+
+      // Desactivar usuario
+      await this.UserProcess.deactivateUser(id, { code });
+      res.status(200).json({
+        success: true,
+        status: 200,
+        message: "Usuario desactivado exitosamente",
+      });
+    } catch (error) {
+      handleError(res, error, "desactivar el usuario");
+    }
+  }
+
+  async reactivateUser(req, res) {
+    try {
+      const { id } = req.params;
+      const { code } = req.body;
+
+      // Validar que venga el codigo
+      if (!code) {
+        return res.status(400).json({
+          success: false,
+          status: 400,
+          message: "Debes enviar el codigo de verificacion",
+        });
+      }
+
+      // Buscar usuario
+      const existingUser = await this.UserProcess.findUserById(id);
+      if (!existingUser) {
+        return res.status(404).json({
+          success: false,
+          status: 404,
+          message: "Usuario no encontrado ",
+        });
+      }
+
+      // Verificar si el usuario esta reactivando su cuenta
+      if (!isOwnerOrAdmin(req, id)) {
+        return res.status(403).json({
+          success: false,
+          status: 403,
+          message: "Solo puedes reactivar tu cuenta",
+        });
+      }
+      // Reactivar usuario
+      await this.UserProcess.reactivateUser(id, { code });
+      res.status(200).json({
+        success: true,
+        status: 200,
+        message: "Usuario reactivado exitosamente",
+      });
+    } catch (error) {
+      handleError(res, error, "reactivar el usuario");
     }
   }
 }
