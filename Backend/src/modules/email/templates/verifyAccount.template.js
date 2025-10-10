@@ -3,7 +3,7 @@ const emailHelpers = require("@/shared/utils/email.helper");
 const generate = (userData) => {
   const { nombre } = userData;
 
-  const subject = "Cuenta Verificada Exitosamente - StarWiki";
+  const subject = "Cuenta Verificada - StarWiki";
 
   const text = `¡Felicidades ${nombre}! Tu cuenta ha sido verificada con éxito.`;
 
