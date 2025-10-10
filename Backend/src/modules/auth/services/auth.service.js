@@ -98,12 +98,13 @@ class AuthService {
 
       try {
         // Enviar correo con el código
-        const { subject, text, html } = TemplateService.getVerificationEmail({
-          nombre: user.nombre,
-          apellido: user.apellido,
-          codigo_verificacion: verificationCode,
-          expiracion_codigo: codeExpiration,
-        });
+        const { subject, text, html } =
+          TemplateService.getVerificationCodeEmail({
+            nombre: user.nombre,
+            apellido: user.apellido,
+            codigo_verificacion: verificationCode,
+            expiracion_codigo: codeExpiration,
+          });
 
         await sendEmail(email, subject, text, html);
       } catch (emailError) {

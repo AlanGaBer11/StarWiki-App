@@ -264,7 +264,7 @@ class PostController {
       }
 
       // Verificar si el usuario esta intentando actualizar su propio post
-      if (req.user.id !== id && req.user.rol !== "ADMIN") {
+      if (!isOwnerOrAdmin(req, id)) {
         return res.status(403).json({
           success: false,
           status: 403,
@@ -309,7 +309,7 @@ class PostController {
       }
 
       // Verificar si el usuario esta intentando eliminar su propio post
-      if (req.user.id !== id && req.user.rol !== "ADMIN") {
+      if (!isOwnerOrAdmin(req, id)) {
         return res.status(403).json({
           success: false,
           status: 403,

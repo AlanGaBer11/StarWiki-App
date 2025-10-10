@@ -156,11 +156,7 @@ class CommentController {
       }
 
       // Verificar si el usuario es el propietario del comentario o es admin/editor
-      if (
-        req.user.id !== existingComment.id_usuario.toString() &&
-        req.user.rol !== "ADMIN" &&
-        req.user.rol !== "EDITOR"
-      ) {
+      if (!isOwnerOrAdmin(req, id)) {
         return res.status(403).json({
           success: false,
           status: 403,
@@ -210,11 +206,7 @@ class CommentController {
       }
 
       // Solo el propietario, admin o editor pueden eliminar
-      if (
-        req.user.id !== existingComment.id_usuario.toString() &&
-        req.user.rol !== "ADMIN" &&
-        req.user.rol !== "EDITOR"
-      ) {
+      if (!isOwnerOrAdmin(req, id)) {
         return res.status(403).json({
           success: false,
           status: 403,

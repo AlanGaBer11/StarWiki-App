@@ -10,6 +10,10 @@ function validatePagination(query) {
   return { page, limit: limit > maxLimit ? maxLimit : limit };
 }
 
+function isOwnerOrAdmin(req, targetId) {
+  return Number(req.user.id) === Number(targetId) || req.user.rol === "ADMIN";
+}
+
 function handleError(res, error, context) {
   console.error(`Error al ${context}:`, error);
 
@@ -28,4 +32,4 @@ function handleError(res, error, context) {
   });
 }
 
-module.exports = { validatePagination, handleError };
+module.exports = { validatePagination, isOwnerOrAdmin, handleError };
