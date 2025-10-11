@@ -20,7 +20,7 @@ class IUserRepository extends IBaseRepository {
     throw new Error("Método no implementado");
   }
 
-  async verifyUser(id) {
+  async verifyUser(userData) {
     throw new Error("Método no implementado");
   }
 
@@ -28,6 +28,10 @@ class IUserRepository extends IBaseRepository {
     throw new Error("Método no implementado");
   }
   async reactivate(id) {
+    throw new Error("Método no implementado");
+  }
+
+  async resetPassword(email, verificationCode, newPassword) {
     throw new Error("Método no implementado");
   }
 }

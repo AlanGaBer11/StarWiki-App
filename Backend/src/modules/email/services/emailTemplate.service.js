@@ -3,6 +3,7 @@ const verificationTemplate = require("@/modules/email/templates/verification.tem
 const verifyAccountTemplate = require("@/modules/email/templates/verifyAccount.template");
 const deactivateUser = require("@/modules/email/templates/deactivate.template");
 const reactivateUser = require("@/modules/email/templates/reactivate.template");
+const resetPasswordTemplate = require("@/modules/email/templates/resetPaswword.template");
 
 class EmailTemplateService {
   static getWelcomeEmail(userData) {
@@ -25,6 +26,10 @@ class EmailTemplateService {
     return reactivateUser.generate(userData);
   }
 
+  static getResetPasswordEmail(userData) {
+    return resetPasswordTemplate.generate(userData);
+  }
+
   static getTemplates(templateName, data) {
     const templates = {
       welcome: this.getWelcomeEmail,
@@ -32,6 +37,7 @@ class EmailTemplateService {
       verifyAccount: this.getVerifyAccountEmail,
       deactivate: this.getReactivateUserEmail,
       reactivate: this.getReactivateUserEmail,
+      resetPassword: this.getResetPasswordEmail,
     };
 
     const templateFunction = templates[templateName];

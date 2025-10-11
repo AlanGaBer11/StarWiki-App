@@ -42,6 +42,16 @@ class AuthProcess {
       throw error;
     }
   }
+
+  async resetPassword(userData) {
+    try {
+      const { email, code, newPassword } = userData;
+      return await this.AuthService.resetPassword(email, code, newPassword);
+    } catch (error) {
+      console.error("Error al restablecer la contraseña");
+      throw error;
+    }
+  }
 }
 
 module.exports = AuthProcess;

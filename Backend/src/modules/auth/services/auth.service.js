@@ -58,7 +58,7 @@ class AuthService {
     try {
       const user = await this.AuthRepository.findByEmail(email);
       if (!user) {
-        throw new Error("El usuario no existe");
+        throw new Error("Usuario no encontrado");
       }
 
       const isMatch = await bcrypt.compare(contrasena, user.contrasena);
@@ -77,7 +77,7 @@ class AuthService {
     try {
       const user = await this.AuthRepository.findByEmail(email);
       if (!user) {
-        throw new Error("El usuario no existe");
+        throw new Error("Usuario no encontrado");
       }
 
       // Generar código de verificación (6 dígitos)
@@ -121,7 +121,7 @@ class AuthService {
     try {
       const user = await this.AuthRepository.findByEmail(email);
 
-      // Verificar si el usuario ya existe
+      // Buscar usuario
       if (!user) {
         throw new Error("Usuario no encontrado");
       }
@@ -152,7 +152,7 @@ class AuthService {
       }
 
       // Verificar el usuario
-      await this.AuthRepository.verifyUser(email, {
+      await this.AuthRepository(email, {
         verificado: true,
         codigo_verificacion: null,
         expiracion_codigo: null,
@@ -172,6 +172,65 @@ class AuthService {
       }
     } catch (error) {
       console.error("Error al verificar la cuenta", error);
+      throw error;
+    }
+  }
+
+  async resetPassword(email, code, newPassword) {
+    try {
+      // Buscar usuario
+      const user = await this.AuthRepository.findByEmail(email);
+      if (!user) {
+        throw new Error("Usuario no encontrado");
+      }
+
+      // Verificar si hay un código pendiente
+      if (!user.codigo_verificacion) {
+        throw new Error("No hay un código de verificación pendiente");
+      }
+
+      // Verificar expiración
+      if (user.expiracion_codigo && new Date() > user.expiracion_codigo) {
+        await this.AuthRepository.resetPassword(email, {
+          // Limpiar código
+          codigo_verificacion: null,
+          expiracion_codigo: null,
+        });
+        throw new Error("El código de verificación ha expirado");
+      }
+
+      // Verificar que el código coincida
+      if (user.codigo_verificacion !== code) {
+        throw new Error("Código de verificación inválido");
+      }
+
+      // Hashear la nueva contraseña
+      const salt = await bcrypt.genSalt(10);
+      const hasedPassword = await bcrypt.hash(newPassword, salt);
+
+      // Actualizar contraseña
+      await this.AuthRepository.resetPassword(email, {
+        contrasena: hasedPassword,
+        codigo_verificacion: null,
+        expiracion_codigo: null,
+      });
+      // Enviar correo de restablecimiento
+      try {
+        const { subject, text, html } = TemplateService.getResetPasswordEmail({
+          nombre: user.nombre,
+          email: user.email,
+        });
+
+        await sendEmail(user.email, subject, text, html);
+      } catch (emailError) {
+        console.error(
+          "Error al enviar el correo de restablecimiento:",
+          emailError
+        );
+        throw emailError;
+      }
+    } catch (error) {
+      console.error("Error al restablecer la contraseña", error);
       throw error;
     }
   }

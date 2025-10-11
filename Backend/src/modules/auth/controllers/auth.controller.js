@@ -85,7 +85,7 @@ class AuthController {
       console.error("Error al iniciar sesión:", error);
 
       if (
-        error.message === "El usuario no existe" ||
+        error.message === "Usuario no encontrado" ||
         error.message === "Contraseña incorrecta"
       ) {
         return res.status(401).json({
@@ -127,7 +127,7 @@ class AuthController {
     } catch (error) {
       console.error("Error al enviar el código de verificación:", error);
 
-      if (error.message === "El usuario no existe") {
+      if (error.message === "Usuario no encontrado") {
         return res.status(404).json({
           success: false,
           status: 404,
@@ -187,6 +187,46 @@ class AuthController {
         success: false,
         status: 500,
         message: "Error interno del servidor al verificar la cuenta",
+        error:
+          process.env.NODE_ENV === "development" ? error.message : undefined,
+      });
+    }
+  }
+
+  async resetPassword(req, res) {
+    try {
+      const { email, code, newPassword } = req.body;
+
+      //Validaciones Básicas
+      if (!email || !code || !newPassword) {
+        return res.status(400).json({
+          success: false,
+          status: 400,
+          message: "Todos los campos son obligatorios",
+        });
+      }
+
+      await this.AuthProcess.resetPassword({ email, code, newPassword });
+      res.status(200).json({
+        success: true,
+        status: 200,
+        message: "Contraseña restablecida exitosamente",
+      });
+    } catch (error) {
+      console.error("Error al restablecer la contraseña:", error);
+
+      if (error.message === "Usuario no encontrado") {
+        return res.status(404).json({
+          success: false,
+          status: 404,
+          message: error.message,
+        });
+      }
+
+      return res.status(500).json({
+        success: false,
+        status: 500,
+        message: "Error interno del servidor al restablecer la contraseña",
         error:
           process.env.NODE_ENV === "development" ? error.message : undefined,
       });

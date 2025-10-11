@@ -12,6 +12,7 @@ router
     "/send-verification-code",
     authController.sendVerificationCode.bind(authController)
   )
-  .post("/verify-account", authController.verifyAccount.bind(authController));
+  .post("/verify-account", authController.verifyAccount.bind(authController))
+  .post("/reset-password", authController.resetPassword.bind(authController));
 
 module.exports = router;

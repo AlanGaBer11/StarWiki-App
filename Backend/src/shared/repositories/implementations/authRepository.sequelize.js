@@ -24,6 +24,11 @@ class AuthRepository extends IUserRepository {
   async verifyUser(email, userData) {
     return await User.update(userData, { where: { email } });
   }
+
+  // MÉTODO PARA RECUPERAR CONTRASEÑA
+  async resetPassword(email, userData) {
+    return await User.update(userData, { where: { email } });
+  }
 }
 
 module.exports = AuthRepository;
