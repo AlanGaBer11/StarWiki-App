@@ -55,7 +55,7 @@ app.get("/", (req, res) => {
 });
 
 // USAR TODAS LAS RUTAS
-app.use("/api", routes);
+app.use("/api/v2", routes);
 
 // RUTAS QUE NO EXISTEN
 app.use((req, res, next) => {
