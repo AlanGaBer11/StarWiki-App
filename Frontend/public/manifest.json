@@ -1,6 +1,7 @@
 {
-  "short_name": "Ionic App",
-  "name": "My Ionic App",
+  "short_name": "StarWiki App",
+  "name": "StarWiki App",
+  "description": "",
   "icons": [
     {
       "src": "assets/icon/favicon.png",
