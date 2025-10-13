@@ -17,63 +17,68 @@
 - `npm nodemailer` - Enviar correos electrónicos
 - `npm multer` - Subida de archivos (imágenes, documentos)
 - `npm sharp` - Optimización de imágenes (redimensionar, comprimir, convertir formatos)
+- `npm jest` - Para realizar pruebas unitarias
+- `npm supertest` - Para realizar pruebas de integración
 
 # Endpoints
 
 ## Autenticación
 
-| Método | Endpoint                  | Descripción                  |
-| ------ | ------------------------- | ---------------------------- |
-| POST   | `/api/auth/register`      | Registra un usuario          |
-| POST   | `/api/auth/login`         | Logea un usuario             |
-| POST   | `/api/auth/sendCode`      | Envía código de verificación |
-| POST   | `/api/auth/verifyAccount` | Verifica cuenta              |
-| POST   | `/api/auth/resetPassword` | Recuperar contraseña         |
+| Método | Endpoint                              | Descripción                  |
+| ------ | ------------------------------------- | ---------------------------- |
+| POST   | `/api/v2/auth/register`               | Registra un usuario          |
+| POST   | `/api/v2/auth/login`                  | Logea un usuario             |
+| POST   | `/api/v2/auth/send-verification-code` | Envía código de verificación |
+| POST   | `/api/v2/auth/verify-account`         | Verifica cuenta              |
+| POST   | `/api/v2/auth/reset-password`         | Recuperar contraseña         |
 
 ## Usuarios
 
-| Método | Endpoint                    | Descripción                |
-| ------ | --------------------------- | -------------------------- |
-| GET    | `/api/users/getUsers`       | Obtiene todos los usuarios |
-| GET    | `/api/users/getUser/:id`    | Obtiene un usuario por ID  |
-| POST   | `/api/users/createUser`     | Crea un usuario            |
-| PATCH  | `/api/users/updateUser/:id` | Actualiza un usuario       |
-| DELETE | `/api/users/deleteUser/:id` | Elimina un usuario         |
+| Método | Endpoint                           | Descripción                |
+| ------ | ---------------------------------- | -------------------------- |
+| GET    | `/api/v2/users/getUsers`           | Obtiene todos los usuarios |
+| GET    | `/api/v2/users/getUserById/:id`    | Obtiene un usuario por ID  |
+| POST   | `/api/v2/users/createUser`         | Crea un usuario            |
+| PATCH  | `/api/v2/users/updateUser/:id`     | Actualiza un usuario       |
+| DELETE | `/api/v2/users/deleteUser/:id`     | Elimina un usuario         |
+| PATCH  | `/api/v2/users/deactivateUser/:id` | Desactiva un usuario       |
+| PATCH  | `/api/v2/users/reactivateUser/:id` | Reactiva un usuario        |
 
 ## Categorías
 
-| Método | Endpoint                                    | Descripción                         |
-| ------ | ------------------------------------------- | ----------------------------------- |
-| GET    | `/api/categories/getCategories`             | Obtiene todas las categorías        |
-| GET    | `/api/categories/getCategory/:id`           | Obtiene una categoría por ID        |
-| GET    | `/api/categories/getCategoryByName/:nombre` | Obtiene una categoría por su nombre |
-| POST   | `/api/categories/createCategory`            | Crea una categoría                  |
-| PATCH  | `/api/categories/updateCategory/:id`        | Actualiza una categoría             |
-| DELETE | `/api/categories/deleteCategory/:id`        | Elimina una categoría               |
+| Método | Endpoint                                       | Descripción                         |
+| ------ | ---------------------------------------------- | ----------------------------------- |
+| GET    | `/api/v2/categories/getCategories`             | Obtiene todas las categorías        |
+| GET    | `/api/v2/categories/getCategoryById/:id`       | Obtiene una categoría por ID        |
+| GET    | `/api/v2/categories/getCategoryByName/:nombre` | Obtiene una categoría por su nombre |
+| POST   | `/api/v2/categories/createCategory`            | Crea una categoría                  |
+| PATCH  | `/api/v2/categories/updateCategory/:id`        | Actualiza una categoría             |
+| DELETE | `/api/v2/categories/deleteCategory/:id`        | Elimina una categoría               |
 
 ## Posts
 
-| Método | Endpoint                    | Descripción             |
-| ------ | --------------------------- | ----------------------- |
-| GET    | `/api/posts/getPosts`       | Obtiene todos los posts |
-| GET    | `/api/posts/getPost/:id`    | Obtiene un post por ID  |
-| GET    | `/api/posts/category/:id `  | Posts por categoría     |
-| GET    | `/api/posts/user/:id `      | Posts por usuario       |
-| GET    | `/api/posts/search`         | Búsqueda de posts       |
-| POST   | `/api/posts/createPost`     | Crea un post            |
-| PATCH  | `/api/posts/updatePost/:id` | Actualiza un post       |
-| DELETE | `/api/posts/deletePost/:id` | Elimina un post         |
+| Método | Endpoint                               | Descripción                |
+| ------ | -------------------------------------- | -------------------------- |
+| GET    | `/api/v2/posts/getPosts`               | Obtiene todos los posts    |
+| GET    | `/api/v2/posts/getPostById/:id`        | Obtiene un post por ID     |
+| GET    | `/api/v2/posts/user/:id_usuario `      | Posts por usuario          |
+| GET    | `/api/v2/posts/getPostByTitle/:titulo` | Obtiene un post por título |
+| GET    | `/api/v2/posts/category/:id_categoria` | Posts por categoría        |
+| GET    | `/api/v2/posts/search`                 | Búsqueda de posts          |
+| POST   | `/api/v2/posts/createPost`             | Crea un post               |
+| PATCH  | `/api/v2/posts/updatePost/:id`         | Actualiza un post          |
+| DELETE | `/api/v2/posts/deletePost/:id`         | Elimina un post            |
 
 ## Comentarios
 
-| Método | Endpoint                          | Descripción                       |
-| ------ | --------------------------------- | --------------------------------- |
-| GET    | `/api/comments/getComments`       | Obtiene todos los comentarios     |
-| GET    | `/api/comments/getComment/:id`    | Obtiene un comentario por ID      |
-| GET    | `/api/comments/post/:id  `        | Comentarios de un post específico |
-| POST   | `/api/comments/createComment`     | Crea un comentario                |
-| PATCH  | `/api/comments/updateComment/:id` | Actualiza un comentario           |
-| DELETE | `/api/comments/deleteComment/:id` | Elimina un comentario             |
+| Método | Endpoint                              | Descripción                       |
+| ------ | ------------------------------------- | --------------------------------- |
+| GET    | `/api/v2/comments/getComments`        | Obtiene todos los comentarios     |
+| GET    | `/api/v2/comments/getCommentById/:id` | Obtiene un comentario por ID      |
+| GET    | `/api/v2/comments/post/:id  `         | Comentarios de un post específico |
+| POST   | `/api/v2/comments/createComment`      | Crea un comentario                |
+| PATCH  | `/api/v2/comments/updateComment/:id`  | Actualiza un comentario           |
+| DELETE | `/api/v2/comments/deleteComment/:id`  | Elimina un comentario             |
 
 # Seguridad
 
