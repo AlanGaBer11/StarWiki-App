@@ -15,7 +15,7 @@ CREATE TABLE usuarios (
     fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     rol VARCHAR(20) DEFAULT 'USER' CHECK (rol IN ('ADMIN', 'EDITOR', 'USER')),
     estado BOOLEAN DEFAULT true,
-    verificado BOOLEAN DEFAULT false,
+    verificado BOOLEAN DEFAULT false,   
     codigo_verificacion VARCHAR(6),
     expiracion_codigo TIMESTAMP
 );
@@ -24,19 +24,6 @@ CREATE TABLE usuarios (
 CREATE INDEX idx_email ON usuarios(email);
 CREATE INDEX idx_nombre_usuario ON usuarios(nombre_usuario);
 CREATE INDEX idx_rol ON usuarios(rol);
-
-
--- Tabla Roles
-CREATE TABLE roles(
-    id SERIAL PRIMARY KEY, 
-    nombre VARCHAR(20) NOT NULL UNIQUE,
-    descripcion TEXT,
-    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-)
-
--- Índices de la tabla roles
-CREATE INDEX idx_nombre ON roles(nombre)
-
 
 
 -- Tabla Categorías
@@ -78,7 +65,7 @@ CREATE TABLE comentarios (
     id_post INT NOT NULL,
     id_usuario INT NOT NULL,
     contenido TEXT NOT NULL,
-    fecha_comentario TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     fecha_actualizacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     estado BOOLEAN DEFAULT true,
     
