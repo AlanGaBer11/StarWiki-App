@@ -73,7 +73,7 @@ class CategoryService {
 
   async updateCategory(id, categoryData) {
     try {
-      const { nombre, descripcion } = categoryData;
+      const { nombre, descripcion, fecha_actualizacion } = categoryData;
 
       // Verificar si la categoría existe
       const existingCategory = await this.CategoryRepository.findById(id);
@@ -91,16 +91,10 @@ class CategoryService {
 
       const builder = new CategoryBuilder()
         .setNombre(nombre)
-        .setDescripcion(descripcion);
+        .setDescripcion(descripcion)
+        .setFechaActualizacion(fecha_actualizacion || new Date());
 
       let categoryToUpdate = builder.build();
-
-      // Filtrar undefined para no sobreescribir campos con null
-      categoryToUpdate = Object.fromEntries(
-        Object.entries(categoryToUpdate).filter(
-          ([_, value]) => value !== undefined
-        )
-      );
 
       return await this.CategoryRepository.update(id, categoryToUpdate);
     } catch {

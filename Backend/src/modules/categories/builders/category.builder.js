@@ -12,6 +12,16 @@ class CategoryBuilder {
     return this;
   }
 
+  setFechaCreacion(fecha_creacion) {
+    this.category.fecha_creacion = fecha_creacion;
+    return this;
+  }
+
+  setFechaActualizacion(fecha_actualizacion) {
+    this.category.fecha_actualizacion = fecha_actualizacion;
+    return this;
+  }
+
   build() {
     return this.category;
   }
