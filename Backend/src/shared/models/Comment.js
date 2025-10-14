@@ -31,7 +31,7 @@ const Comments = sequelize.define(
       type: DataTypes.TEXT,
       allowNull: false,
     },
-    fecha_comentario: {
+    fecha_creacion: {
       type: DataTypes.DATE,
       defaultValue: DataTypes.NOW,
     },
