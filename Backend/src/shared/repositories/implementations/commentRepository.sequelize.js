@@ -12,7 +12,7 @@ class CommentRepository extends ICommentRepository {
       attributes: [
         "id",
         "contenido",
-        "fecha_comentario",
+        "fecha_creacion",
         "fecha_actualizacion",
         "estado",
       ],
@@ -23,7 +23,7 @@ class CommentRepository extends ICommentRepository {
           attributes: ["id", "nombre", "apellido", "nombre_usuario", "email"],
         },
       ],
-      order: [["fecha_comentario", "DESC"]],
+      order: [["fecha_creacion", "DESC"]],
     });
 
     return {
@@ -39,7 +39,7 @@ class CommentRepository extends ICommentRepository {
       attributes: [
         "id",
         "contenido",
-        "fecha_comentario",
+        "fecha_creacion",
         "fecha_actualizacion",
         "estado",
       ],
@@ -63,7 +63,7 @@ class CommentRepository extends ICommentRepository {
           attributes: ["id", "nombre", "apellido", "nombre_usuario", "email"],
         },
       ],
-      order: [["fecha_comentario", "DESC"]],
+      order: [["fecha_creacion", "DESC"]],
     });
   }
 
