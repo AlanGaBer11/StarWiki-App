@@ -81,14 +81,6 @@ class CategoryService {
         throw new Error("Categoría no encontrada");
       }
 
-      // Validar si el nombre ya existe
-      const existingCategoryByName = await this.CategoryRepository.findByName(
-        nombre
-      );
-      if (existingCategoryByName && existingCategoryByName.id !== id) {
-        throw new Error("El nombre de la categoría ya está en uso");
-      }
-
       const builder = new CategoryBuilder()
         .setNombre(nombre)
         .setDescripcion(descripcion)
@@ -97,7 +89,7 @@ class CategoryService {
       let categoryToUpdate = builder.build();
 
       return await this.CategoryRepository.update(id, categoryToUpdate);
-    } catch {
+    } catch (error) {
       console.error("Error al actualizar la categoría");
       throw error;
     }
