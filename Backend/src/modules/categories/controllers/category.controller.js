@@ -34,7 +34,7 @@ class CategoryController {
           currentPage: page,
           totalPages: result.totalPages,
           totalCategories: result.totalCategories,
-          categoriesPerPage: finalLimit,
+          categoriesPerPage: limit,
           hasNextPage: page < result.totalPages,
           hasPreviousPage: page > 1,
         },

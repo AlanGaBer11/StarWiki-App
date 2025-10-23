@@ -35,7 +35,7 @@ class UserController {
           currentPage: page,
           totalPages: result.totalPages,
           totalUsers: result.totalUsers,
-          usersPerPage: finalLimit,
+          usersPerPage: limit,
           hasNextPage: page < result.totalPages,
           hasPreviousPage: page > 1,
         },

@@ -35,7 +35,7 @@ class PostController {
           currentPage: page,
           totalPages: result.totalPages,
           totalPosts: result.totalPosts,
-          postsPerPage: finalLimit,
+          postsPerPage: limit,
           hasNextPage: page < result.totalPages,
           hasPreviousPage: page > 1,
         },

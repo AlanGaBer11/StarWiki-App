@@ -2,6 +2,7 @@ const CommentProcess = require("@/modules/comments/processes/comment.process");
 const {
   handleError,
   validatePagination,
+  isOwnerOrAdmin,
 } = require("@/shared/utils/controller.utils");
 
 class CommentController {
@@ -35,7 +36,7 @@ class CommentController {
           currentPage: page,
           totalPages: result.totalPages,
           totalComments: result.totalComments,
-          commentsPerPage: finalLimit,
+          commentsPerPage: limit,
           hasNextPage: page < result.totalPages,
           hasPreviousPage: page > 1,
         },
