@@ -11,7 +11,7 @@ router
   .get(
     "/getComments",
     authorization,
-    checkRole(["ADMIN", "EDITOR"]),
+    checkRole(["ADMIN", "EDITOR", "USER"]),
     commentController.findAllComments.bind(commentController)
   )
   .get(
@@ -41,7 +41,7 @@ router
   .delete(
     "/deleteComment/:id",
     authorization,
-    checkRole(["ADMIN"]),
+    // checkRole(["ADMIN"]),
     commentController.deleteComment.bind(commentController)
   );
 

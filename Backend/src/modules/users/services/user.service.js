@@ -205,7 +205,7 @@ class UserService {
         throw emailError;
       }
     } catch (error) {
-      console.error("Error al desactivar el usuario:", error);
+      console.error("Error al desactivar el usuario");
       throw error;
     }
   }
@@ -253,7 +253,7 @@ class UserService {
         throw emailError;
       }
     } catch (error) {
-      console.error("Error al reactivar el usuario:", error);
+      console.error("Error al reactivar el usuario");
       throw error;
     }
   }

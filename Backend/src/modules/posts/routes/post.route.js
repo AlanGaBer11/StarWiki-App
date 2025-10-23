@@ -24,7 +24,7 @@ router
     "/createPost",
     validator,
     authorization,
-    checkRole(["ADMIN", "EDITOR", "USER"]),
+    checkRole(["ADMIN", "EDITOR"]),
     postController.createPost.bind(postController)
   )
   .patch(
