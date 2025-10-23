@@ -1,7 +1,7 @@
 import { IonReactRouter } from "@ionic/react-router";
 import { IonRouterOutlet } from "@ionic/react";
 import { Redirect, Route } from "react-router-dom";
-import Menu from "../components/Menu";
+import Menu from "../components/menu/Menu";
 import Page from "../pages/Page";
 
 const AppRouter: React.FC = () => {
