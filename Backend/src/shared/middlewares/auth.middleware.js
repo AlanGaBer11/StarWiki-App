@@ -8,6 +8,7 @@ const authMiddleware = async (req, res, next) => {
 
     if (!token) {
       return res.status(401).json({
+        status: 401,
         success: false,
         message: "Acceso Denegado, Token Requerido.",
       });
@@ -25,6 +26,7 @@ const authMiddleware = async (req, res, next) => {
 
     if (!user) {
       return res.status(404).json({
+        status: 404,
         success: false,
         message: "Usuario no encontrado",
       });
@@ -37,6 +39,7 @@ const authMiddleware = async (req, res, next) => {
   } catch (error) {
     return res.status(401).json({
       success: false,
+      status: 401,
       message: "Token Invalido",
       error: error.message,
     });
