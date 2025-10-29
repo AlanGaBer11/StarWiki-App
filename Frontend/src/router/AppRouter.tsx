@@ -3,6 +3,7 @@ import { IonRouterOutlet } from "@ionic/react";
 import { Redirect, Route } from "react-router-dom";
 import Menu from "../components/menu/Menu";
 import Page from "../pages/Page";
+import HomePage from "../pages/home/HomePage";
 
 const AppRouter: React.FC = () => {
   return (
@@ -11,7 +12,10 @@ const AppRouter: React.FC = () => {
       <IonRouterOutlet id="main">
         {/* Rutas */}
         <Route path="/" exact={true}> {/* Ruta por defecto */}
-          <Redirect to="/folder/Inbox" />
+          <Redirect to="/inicio" />
+        </Route>
+        <Route path="/inicio" exact={true}> {/* Ruta por defecto */}
+          <HomePage/>
         </Route>
         <Route path="/folder/:name" exact={true}> {/* Ruta dinamica */}
           <Page />
