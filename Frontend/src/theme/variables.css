@@ -137,45 +137,171 @@
   --ion-color-dark-shade: #1e2023;
   --ion-color-dark-tint: #383a3e;
 
+  /* Colores de fondo */
+  --ion-background-color: #f4f5f8;
+  --ion-background-color-rgb: 244, 245, 248;
+
+  --ion-text-color: #222428;
+  --ion-text-color-rgb: 34, 36, 40;
+
+  --ion-text-color-step-50: #2d2e32;
+  --ion-text-color-step-100: #37393d;
+  --ion-text-color-step-150: #424347;
+  --ion-text-color-step-200: #4c4e52;
+  --ion-text-color-step-250: #57585c;
+  --ion-text-color-step-300: #616366;
+  --ion-text-color-step-350: #6c6d71;
+  --ion-text-color-step-400: #76787b;
+  --ion-text-color-step-450: #818286;
+  --ion-text-color-step-500: #8b8d90;
+  --ion-text-color-step-550: #96979a;
+  --ion-text-color-step-600: #a0a1a5;
+  --ion-text-color-step-650: #abacaf;
+  --ion-text-color-step-700: #b5b6ba;
+  --ion-text-color-step-750: #c0c1c4;
+  --ion-text-color-step-800: #cacbce;
+  --ion-text-color-step-850: #d5d6d9;
+  --ion-text-color-step-900: #dfe0e3;
+  --ion-text-color-step-950: #e9ebee;
+
+  --ion-background-color-step-50: #e9ebee;
+  --ion-background-color-step-100: #dfe0e3;
+  --ion-background-color-step-150: #d5d6d9;
+  --ion-background-color-step-200: #cacbce;
+  --ion-background-color-step-250: #c0c1c4;
+  --ion-background-color-step-300: #b5b6ba;
+  --ion-background-color-step-350: #abacaf;
+  --ion-background-color-step-400: #a0a1a5;
+  --ion-background-color-step-450: #96979a;
+  --ion-background-color-step-500: #8b8d90;
+  --ion-background-color-step-550: #818286;
+  --ion-background-color-step-600: #76787b;
+  --ion-background-color-step-650: #6c6d71;
+  --ion-background-color-step-700: #616366;
+  --ion-background-color-step-750: #57585c;
+  --ion-background-color-step-800: #4c4e52;
+  --ion-background-color-step-850: #424347;
+  --ion-background-color-step-900: #37393d;
+  --ion-background-color-step-950: #2d2e32;
+
   --ion-font-family: "Poppins", sans-serif;
+
+  color-scheme: light;
 }
 
+/* --------------------------------------------------------------------------------------
+   5. MODO OSCURO
+   -------------------------------------------------------------------------------------- */
+/* --------------------------------------------------------------------------------------
+   5. MODO OSCURO (ACTIVACIÓN MANUAL) - MEJOR CONTRASTE
+   -------------------------------------------------------------------------------------- */
+
+body.dark {
+  --ion-background-color: #121212; /* Fondo muy oscuro, estándar en modo oscuro */
+  --ion-background-color-rgb: 18, 18, 18;
+
+  --ion-text-color: #f4f5f8; /* Texto muy claro */
+  --ion-text-color-rgb: 244, 245, 248;
+
+  --ion-color-step-50: #1c1c1c; /* Pasos para elementos intermedios */
+  --ion-color-step-100: #262626;
+
+  color-scheme: dark; /* Habilita el modo oscuro nativo para scrollbars, etc. */
+
+  /* =====================
+     1. PRIMARY (#094753) - Adaptado
+     ===================== */
+  /* Lo aclaramos para que destaque sobre el fondo oscuro */
+  --ion-color-primary: #3b8e9d;
+  --ion-color-primary-rgb: 59, 142, 157;
+  --ion-color-primary-contrast: #ffffff; /* Sigue siendo blanco */
+  --ion-color-primary-shade: #347d8b;
+  --ion-color-primary-tint: #4f99a9;
+
+  /* =====================
+     2. SECONDARY (#7f999d) - Adaptado
+     ===================== */
+  --ion-color-secondary: #a7c1c4; /* Un poco más claro */
+  --ion-color-secondary-rgb: 167, 193, 196;
+  --ion-color-secondary-contrast: #000000; /* Texto oscuro si el fondo no es muy oscuro */
+  --ion-color-secondary-shade: #94aaad;
+  --ion-color-secondary-tint: #b2c8cb;
+
+  /* =====================
+     3. TERTIARY (#eaebed) - Adaptado
+     ===================== */
+  --ion-color-tertiary: #333333; /* Fondo de contenedores en gris oscuro */
+  --ion-color-tertiary-rgb: 51, 51, 51;
+  --ion-color-tertiary-contrast: #ffffff;
+  --ion-color-tertiary-shade: #2e2e2e;
+  --ion-color-tertiary-tint: #494949;
+
+  /* SUCCESS - Mantenemos un verde brillante */
+  --ion-color-success: #3be074;
+  --ion-color-success-shade: #33c667;
+  --ion-color-success-tint: #4fe482;
+
+  /* WARNING - Mantenemos un naranja brillante */
+  --ion-color-warning: #ffd966;
+  --ion-color-warning-shade: #e0be5a;
+  --ion-color-warning-tint: #ffdb76;
+
+  /* DANGER - Mantenemos un rojo fuerte */
+  --ion-color-danger: #f55f72;
+  --ion-color-danger-shade: #d85366;
+  --ion-color-danger-tint: #f57182;
+
+  /* =====================
+     7. LIGHT (Claro) - Se usa para contenedores
+     ===================== */
+  --ion-color-light: #2d2d2d; /* El "claro" del modo oscuro es un gris oscuro */
+  --ion-color-light-shade: #282828;
+  --ion-color-light-tint: #434343;
+
+  /* =====================
+     9. DARK (Oscuro) - Se usa para texto/bordes de alto contraste
+     ===================== */
+  --ion-color-dark: #f4f5f8; /* El "oscuro" es el color del texto */
+  --ion-color-dark-shade: #d8dade;
+  --ion-color-dark-tint: #f7f9fc;
+
+  color-scheme: dark;
+}
 /* --------------------------------------------------------------------------------------
    3. ESTILOS GLOBALES DE TIPOGRAFÍA
    -------------------------------------------------------------------------------------- */
 
-/* Aplicar la fuente y el comportamiento de scroll de manera general */
 html,
 body {
   scroll-behavior: smooth;
+  background: var(--ion-background-color);
   font-family: var(--ion-font-family);
-  background: var(--ion-color-light);
 }
 
 /* Estilos para encabezados y párrafos */
 h1 {
-  color: var(--ion-color-dark);
-  font-size: 30px;
+  color: var(--ion-text-color);
+  font-size: 40px;
   font-weight: bold;
   line-height: 1.4;
 }
 
 h2 {
-  color: var(--ion-color-dark);
+  color: var(--ion-text-color);
   font-size: 24px;
   font-weight: 600;
   line-height: 1.4;
 }
 
 h3 {
-  color: var(--ion-color-dark);
+  color: var(--ion-text-color);
   font-size: 20px;
   font-weight: 500;
   line-height: 1.4;
 }
 
 p {
-  color: var(--ion-color-dark);
+  color: var(--ion-text-color);
   font-size: 14px;
   font-weight: 500;
   line-height: 1.5;
