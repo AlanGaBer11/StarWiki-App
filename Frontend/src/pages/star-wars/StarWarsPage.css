@@ -1,0 +1,107 @@
+.container {
+  max-width: 1200px; /* Limitar el ancho máximo en escritorio */
+  margin: 0 auto;
+}
+p {
+  text-align: center;
+}
+/* Content Left (Películas) */
+.content-left {
+  padding-right: 20px;
+}
+
+/* Cards Películas */
+.cards-pelis {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 20px;
+  justify-items: center;
+  margin: 20px 0;
+}
+
+.cards-pelis img {
+  width: 100%;
+  height: auto;
+  max-width: 200px;
+  filter: drop-shadow(0 0 10px var(--ion-color-dark-shade, rgba(0, 0, 0, 0.8)));
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+.cards-pelis img:hover {
+  transform: scale(1.05);
+}
+
+/* Content Right (Detalles de la Película) */
+.content-right {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.main-image {
+  width: 90%;
+  border-radius: 4px;
+}
+
+.descripcion {
+  width: 90%;
+  padding: 20px;
+  border-radius: 4px;
+  background-color: var(--ion-color-light);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+/* Personajes */
+.character-card {
+  padding: 10px 20px 20px 20px;
+  background-color: var(--ion-color-light);
+  border-radius: 8px;
+  box-shadow: 8px 8px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  justify-content: center;
+  overflow: hidden;
+  height: 61px; /* Altura de tarjeta cerrada */
+  transition: height 0.5s;
+}
+
+.character-card:hover {
+  height: 230px; /* Altura de tarjeta abierta */
+}
+
+/* Estilos de texto */
+.character-role b {
+  color: var(--ion-text-color);
+}
+.character-role {
+  color: var(--ion-color-medium); /* Gris suave para el texto de rol */
+}
+
+/* --- MÓVIL (Responsividad) --- */
+@media (max-width: 768px) {
+  .container {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  .cards-pelis {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin: 10px;
+  }
+
+  .content-left,
+  .content-right {
+    padding: 0;
+  }
+
+  .character-card:hover {
+    height: 100%;
+  }
+}
