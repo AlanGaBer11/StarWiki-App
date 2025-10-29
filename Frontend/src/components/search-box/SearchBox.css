@@ -1,0 +1,50 @@
+.search-box {
+  margin-top: auto;
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  gap: 20px;
+  align-items: center;
+}
+
+.wiki-search-input {
+  /* Estilo visual del input */
+  --border-radius: 15px;
+  --background: var(--ion-color-tertiary);
+  color: var(--ion-text-color);
+}
+
+.search-btn {
+  width: 100px;
+  height: 60px;
+  --background: var(--ion-color-secondary);
+  --border-radius: 15px;
+  color: #000;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+/* Estilo hover (Escritorio) */
+@media (hover: hover) and (pointer: fine) {
+  .search-btn:hover {
+    --background: var(--ion-color-secondary-shade);
+  }
+}
+
+/* --- MÓVIL (Responsividad) --- */
+@media (max-width: 768px) {
+  .search-box {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .input-group {
+    width: 100%;
+  }
+
+  .search-btn {
+    width: 100%;
+    height: 50px;
+  }
+}
