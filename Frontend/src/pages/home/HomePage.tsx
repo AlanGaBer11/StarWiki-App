@@ -13,7 +13,7 @@ import {
 } from "@ionic/react";
 import SearchBox from "../../components/search-box/SearchBox";
 import WikiCard from "../../components/wiki-card/WikiCard";
-import { WIKICARDS } from "../../data/wikiCards";
+import { WIKICARDS } from "../../data/wikiCardsData";
 import "./HomePage.css";
 
 const HomePage: React.FC = () => {
