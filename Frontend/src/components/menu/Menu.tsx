@@ -41,6 +41,18 @@ const appPages: AppPage[] = [
     iosIcon: starOutline,
     mdIcon: starSharp,
   },
+  {
+    title: "Videojuegos",
+    url: "/videojuegos",
+    iosIcon: "",
+    mdIcon: "",
+  },
+  {
+    title: "Anime",
+    url: "/anime",
+    iosIcon: "",
+    mdIcon: "",
+  },
 ];
 
 const labels = ["Family", "Friends", "Notes", "Work", "Travel", "Reminders"];
