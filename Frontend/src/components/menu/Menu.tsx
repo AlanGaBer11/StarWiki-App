@@ -10,12 +10,16 @@ import {
   IonNote,
 } from "@ionic/react";
 
-import { useLocation } from "react-router-dom";
+import { useLocation } from "react-router";
 import {
   homeOutline,
   homeSharp,
-  starOutline,
-  starSharp,
+  videocamOutline,
+  videocamSharp,
+  gameControllerOutline,
+  gameControllerSharp,
+  tvOutline,
+  tvSharp,
   bookmarkOutline,
 } from "ionicons/icons";
 import DarkModeToggle from "../dark-mode-toggle/DarkModeToggle";
@@ -38,20 +42,20 @@ const appPages: AppPage[] = [
   {
     title: "Star Wars",
     url: "/star-wars",
-    iosIcon: starOutline,
-    mdIcon: starSharp,
+    iosIcon: videocamOutline,
+    mdIcon: videocamSharp,
   },
   {
     title: "Videojuegos",
     url: "/videojuegos",
-    iosIcon: "",
-    mdIcon: "",
+    iosIcon: gameControllerOutline,
+    mdIcon: gameControllerSharp,
   },
   {
     title: "Anime",
     url: "/anime",
-    iosIcon: "",
-    mdIcon: "",
+    iosIcon: tvOutline,
+    mdIcon: tvSharp,
   },
 ];
 
