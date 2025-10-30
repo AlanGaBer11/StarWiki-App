@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import axios from "axios";
-import { Personaje } from "../data/useStarWarsData";
+import { Personaje } from "../data/starWarsMoviesData";
 
 // Definición de tipos de la respuesta de SWAPI (movida al store)
 type SwapiResponse = {
