@@ -1,4 +1,5 @@
 import React from "react";
+import "./TimelineItem.css";
 
 interface TimeLineItemProps {
   titulo: string;

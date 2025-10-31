@@ -2,13 +2,15 @@ import { IonReactRouter } from "@ionic/react-router";
 import { IonRouterOutlet } from "@ionic/react";
 import { Redirect, Route } from "react-router";
 import Menu from "../components/menu/Menu";
-import Page from "../pages/Page";
 import HomePage from "../pages/home/HomePage";
 import StarWarsPage from "../pages/star-wars/StarWarsPage";
 import TrilogiaPrecuelasPage from "../pages/star-wars/TrilogiaPrecuelasPage";
 import TrilogiaOriginalPage from "../pages/star-wars/TrilogiaOriginalPage";
 import TrilogiaSecuelasPage from "../pages/star-wars/TrilogiaSecuelasPage";
-import VideGamesPage from "../pages/videogames/VideoGamesPage";
+import VideoGamesPage from "../pages/videogames/VideoGamesPage";
+import XboxPage from "../pages/videogames/XboxPage";
+import PlayStationPage from "../pages/videogames/PlayStationPage";
+import NintendoPage from "../pages/videogames/NintendoPage";
 
 const AppRouter: React.FC = () => {
   return (
@@ -29,6 +31,15 @@ const AppRouter: React.FC = () => {
         <Route path="/star-wars" exact={true}>
           <StarWarsPage />
         </Route>
+        <Route path="/star-wars/trilogia-precuelas" exact={true}>
+          <TrilogiaPrecuelasPage />
+        </Route>
+        <Route path="/star-wars/trilogia-original" exact={true}>
+          <TrilogiaOriginalPage />
+        </Route>
+        <Route path="/star-wars/trilogia-secuelas" exact={true}>
+          <TrilogiaSecuelasPage />
+        </Route>
         <Route path="/star-wars/trilogia-precuelas/:tab" exact={true}>
           <TrilogiaPrecuelasPage />
         </Route>
@@ -39,15 +50,16 @@ const AppRouter: React.FC = () => {
           <TrilogiaSecuelasPage />
         </Route>
         <Route path="/videojuegos" exact={true}>
-          <VideGamesPage />
+          <VideoGamesPage />
         </Route>
-
-        {/* Dynamic per-episode route removed: we now use trilogy pages with ?tab=<episodeId> */}
-
-        <Route path="/folder/:name" exact={true}>
-          {" "}
-          {/* Ruta dinamica */}
-          <Page />
+        <Route path="/videojuegos/xbox">
+          <XboxPage />
+        </Route>
+        <Route path="/videojuegos/playstation">
+          <PlayStationPage />
+        </Route>
+        <Route path="/videojuegos/nintendo">
+          <NintendoPage />
         </Route>
       </IonRouterOutlet>
     </IonReactRouter>

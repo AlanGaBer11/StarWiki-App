@@ -11,7 +11,7 @@ import {
   IonMenuButton,
 } from "@ionic/react";
 import { STMOVIES } from "../../data/starWarsMoviesData";
-import MovieContent from "../../components/movie-content/MovieContent";
+import MovieContent from "../../components/content/MovieContent";
 import "./TrilogiasPages.css";
 
 // Datos estáticos

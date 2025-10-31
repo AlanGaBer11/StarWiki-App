@@ -91,6 +91,47 @@
   color: var(--ion-text-color);
 }
 
+/* --- Timeline --- */
+.scroll-area {
+  overflow-y: auto;
+  padding: 10px;
+  border: 1px solid var(--ion-color-medium); /* Borde gris */
+  border-radius: 8px;
+  margin-bottom: 50px;
+}
+
+.timeline {
+  list-style: none;
+  padding: 0;
+  position: relative;
+  border-left: 2px solid var(--ion-color-medium-tint); /* Línea divisoria suave */
+}
+
+.timeline-item {
+  position: relative;
+  padding-left: 20px;
+  margin-bottom: 20px;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  background-color: var(--ion-color-primary);
+  border-radius: 50%;
+  position: absolute;
+  left: -6px; /* Ajustar posición para que quede sobre la línea */
+  top: 5px;
+}
+
+.timeline-title {
+  color: var(--ion-color-primary);
+}
+
+.timeline-text {
+  color: var(--ion-color-medium);
+  text-align: left;
+}
+
 /* --- MÓVIL (Responsividad) --- */
 @media (max-width: 768px) {
   .tabs-list {
