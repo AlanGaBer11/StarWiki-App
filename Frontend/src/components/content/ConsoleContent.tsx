@@ -70,6 +70,10 @@ const ConsolePageContent: React.FC<ConsolePageContentProps> = ({
       >
         <div>
           <h2>Juegos Populares</h2>
+          <p>
+            Algunos de los títulos más destacados en la plataforma Xbox
+            {consoleName}
+          </p>
 
           <IonGrid>
             <IonRow>
