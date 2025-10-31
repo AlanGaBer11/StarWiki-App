@@ -18,6 +18,7 @@
     "@capacitor/haptics": "7.0.2",
     "@capacitor/keyboard": "7.0.2",
     "@capacitor/splash-screen": "^7.0.3",
+    "@capacitor/assets": "^3.0.5",
     "@capacitor/status-bar": "7.0.2",
     "@ionic/pwa-elements": "^3.3.0",
     "@ionic/react": "^8.5.0",
@@ -33,7 +34,6 @@
     "zustand": "^5.0.8"
   },
   "devDependencies": {
-    "@capacitor/assets": "^3.0.5",
     "@capacitor/cli": "7.4.2",
     "@testing-library/dom": ">=7.21.4",
     "@testing-library/jest-dom": "^5.16.5",

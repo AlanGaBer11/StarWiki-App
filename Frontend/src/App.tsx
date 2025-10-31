@@ -1,4 +1,6 @@
+import React, { useEffect } from "react";
 import { IonApp, IonSplitPane, setupIonicReact } from "@ionic/react";
+import { SplashScreen } from "@capacitor/splash-screen";
 import AppRouter from "./router/AppRouter";
 
 /* Core CSS required for Ionic components to work properly */
@@ -23,6 +25,20 @@ import "./theme/variables.css";
 setupIonicReact();
 
 const App: React.FC = () => {
+  useEffect(() => {
+    const showSplash = async () => {
+      try {
+        await SplashScreen.show({
+          showDuration: 3000,
+          autoHide: true,
+        });
+      } catch (e) {
+        // opcional: manejar error en entorno web o si no está disponible el plugin
+        // console.warn('SplashScreen no disponible', e);
+      }
+    };
+    showSplash();
+  }, []);
   return (
     <IonApp>
       {/* Envolvemos todo en el split pane (menú lateral)*/}
