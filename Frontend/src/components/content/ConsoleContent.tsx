@@ -35,7 +35,7 @@ const ConsolePageContent: React.FC<ConsolePageContentProps> = ({
       >
         <div>
           <h2 className="subtitle">Historia de {consoleName} </h2>
-          <p className="ion-text-left">
+          <p className="text">
             Un vistazo detallado a la evolución de {consoleName}
           </p>
 
@@ -69,8 +69,8 @@ const ConsolePageContent: React.FC<ConsolePageContentProps> = ({
         id="juegoPopular"
       >
         <div>
-          <h2>Juegos Populares</h2>
-          <p>
+          <h2 className="subtitle">Juegos Populares</h2>
+          <p className="text">
             Algunos de los títulos más destacados en la plataforma Xbox
             {consoleName}
           </p>
@@ -82,7 +82,9 @@ const ConsolePageContent: React.FC<ConsolePageContentProps> = ({
                   <IonCard className="game-card">
                     <img src={juego.imagen} alt={juego.juego} />
                     <IonCardHeader>
-                      <IonCardTitle color="primary">{juego.juego}</IonCardTitle>
+                      <IonCardTitle color="primary" className="ion-text-center">
+                        {juego.juego}
+                      </IonCardTitle>
                     </IonCardHeader>
                   </IonCard>
                 </IonCol>

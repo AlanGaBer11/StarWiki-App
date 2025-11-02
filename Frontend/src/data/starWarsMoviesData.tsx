@@ -82,10 +82,3 @@ export type Personaje = {
   hair_color: string;
   eye_color: string;
 };
-
-type SwapiResponse = {
-  count: number;
-  next: string | null; // URL para la siguiente página
-  previous: string | null;
-  results: Personaje[];
-};
