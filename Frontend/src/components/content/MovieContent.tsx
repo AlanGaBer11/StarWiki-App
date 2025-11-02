@@ -26,7 +26,7 @@ const MovieContent: React.FC<MovieContentProps> = ({
     <div className={`tabs-content ${activeClass}`}>
       {/* Sinopsis y Poster */}
       <div className="grid">
-        <div className="ion-hide-md-down">
+        <div>
           <img src={movie.imagen} alt={movie.titulo} className="poster" />
         </div>
         <div className="text-container">

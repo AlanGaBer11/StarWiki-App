@@ -101,6 +101,11 @@
     grid-template-columns: 1fr;
     margin-bottom: 30px;
   }
+
+  .poster {
+    margin-top: 20px;
+  }
+
   .subtitle {
     text-align: center;
     margin-top: 15px;

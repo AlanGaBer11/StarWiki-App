@@ -15,6 +15,7 @@ import {
   IonCard,
   IonCardContent,
   IonCardTitle,
+  IonBackButton,
 } from "@ionic/react";
 
 import {
@@ -61,6 +62,7 @@ const StarWarsPage: React.FC = () => {
         <IonToolbar>
           <IonButtons slot="start">
             <IonMenuButton />
+            <IonBackButton defaultHref="/inicio" />
           </IonButtons>
           <IonTitle>Star Wars</IonTitle>
         </IonToolbar>

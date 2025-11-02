@@ -9,6 +9,7 @@ import {
   IonButtons,
   IonButton,
   IonMenuButton,
+  IonBackButton,
 } from "@ionic/react";
 import { STMOVIES } from "../../data/starWarsMoviesData";
 import MovieContent from "../../components/content/MovieContent";
@@ -147,6 +148,7 @@ const TrilogiaSecuelasPage: React.FC = () => {
         <IonToolbar>
           <IonButtons slot="start">
             <IonMenuButton />
+            <IonBackButton />
           </IonButtons>
           <IonTitle>Trilogía de Secuelas</IonTitle>
         </IonToolbar>
