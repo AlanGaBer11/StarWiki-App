@@ -57,7 +57,7 @@ const VideoGamesPage: React.FC = () => {
                       </IonCardTitle>
                     </IonCardHeader>
                     <IonCardContent>{console.descripcion}</IonCardContent>
-                    <IonButton routerLink={console.link}>
+                    <IonButton expand="full" routerLink={console.link}>
                       Consulta tus juegos favoritos
                     </IonButton>
                   </IonCard>

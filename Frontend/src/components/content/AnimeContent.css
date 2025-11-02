@@ -1,0 +1,58 @@
+.anime-detail-container {
+  max-width: 900px; /* Ajusta el ancho máximo del contenido */
+  margin: 20px auto;
+  padding: 10px;
+}
+
+/* Párrafos de descripción */
+.anime-description {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: var(--ion-text-color);
+  text-align: justify; /* Justificamos el texto */
+  margin: 0;
+}
+
+/* Divisor */
+.divider {
+  height: 2px;
+  background-color: var(--ion-color-tertiary); /* Color gris claro */
+  margin: 30px auto; /* Espacio y centrado */
+  width: 80%; /* Más corto que el ancho total */
+  border-radius: 2px;
+}
+
+.anime-poster-center {
+  width: 100%;
+  max-width: 700px; /* Límite de ancho para la imagen */
+  margin: 10px auto; /* Centrar horizontalmente */
+  display: block; /* Necesario para que margin: auto funcione */
+  border-radius: 8px;
+  box-shadow: 0 4px 12px var(--ion-color-dark-shade, rgba(0, 0, 0, 0.15));
+}
+
+/* Sección de Personajes (sin cambios) */
+.personajes-section {
+  margin-top: 40px;
+  text-align: center;
+}
+.personajes-section h2 {
+  font-size: 2rem;
+  font-weight: 600;
+  text-align: left;
+  color: var(--ion-text-color);
+}
+
+/* Responsividad (simplificada) */
+@media (max-width: 768px) {
+  .anime-description {
+    text-align: center;
+  }
+  .divider {
+    width: 100%;
+  }
+
+  .personajes-section h2 {
+    text-align: center;
+  }
+}

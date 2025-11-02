@@ -11,6 +11,13 @@ import VideoGamesPage from "../pages/videogames/VideoGamesPage";
 import XboxPage from "../pages/videogames/XboxPage";
 import PlayStationPage from "../pages/videogames/PlayStationPage";
 import NintendoPage from "../pages/videogames/NintendoPage";
+import AnimePage from "../pages/anime/AnimePage";
+import PokemonPage from "../pages/anime/PokemonPage";
+import DemonSlayerPage from "../pages/anime/DemonSlayerPage";
+import DragonBallPage from "../pages/anime/DragonBallPage";
+import NarutoPage from "../pages/anime/NarutoPage";
+import AttackOnTitanPage from "../pages/anime/AttackOnTitanPage";
+import OnePiecePage from "../pages/anime/OnePiece";
 
 const AppRouter: React.FC = () => {
   return (
@@ -52,14 +59,35 @@ const AppRouter: React.FC = () => {
         <Route path="/videojuegos" exact={true}>
           <VideoGamesPage />
         </Route>
-        <Route path="/videojuegos/xbox">
+        <Route path="/videojuegos/xbox" exact={true}>
           <XboxPage />
         </Route>
-        <Route path="/videojuegos/playstation">
+        <Route path="/videojuegos/playstation" exact={true}>
           <PlayStationPage />
         </Route>
-        <Route path="/videojuegos/nintendo">
+        <Route path="/videojuegos/nintendo" exact={true}>
           <NintendoPage />
+        </Route>
+        <Route path="/anime" exact={true}>
+          <AnimePage />
+        </Route>
+        <Route path="/anime/pokemon" exact={true}>
+          <PokemonPage />
+        </Route>
+        <Route path="/anime/demon-slayer" exact={true}>
+          <DemonSlayerPage />
+        </Route>
+        <Route path="/anime/dragon-ball" exact={true}>
+          <DragonBallPage />
+        </Route>
+        <Route path="/anime/naruto" exact={true}>
+          <NarutoPage />
+        </Route>
+        <Route path="/anime/attack-on-titan" exact={true}>
+          <AttackOnTitanPage />
+        </Route>
+        <Route path="/anime/one-piece" exact={true}>
+          <OnePiecePage />
         </Route>
       </IonRouterOutlet>
     </IonReactRouter>
