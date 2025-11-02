@@ -4,7 +4,6 @@ import {
   IonCol,
   IonCard,
   IonCardHeader,
-  IonCardTitle,
   IonSpinner,
   // IonButton,
   IonText,
@@ -90,12 +89,10 @@ const Pokedex: React.FC = () => {
         {listPokemons.map((pokemon) => (
           <IonCol size="12" sizeMd="6" sizeLg="4" key={pokemon.name}>
             <IonCard className="pokemon-card">
-              <img src={pokemon.image} alt={pokemon.name} />
-              <IonCardHeader>
-                <IonCardTitle className="ion-text-center" color="primary">
-                  {pokemon.name}
-                </IonCardTitle>
+              <IonCardHeader color="primary ion-text-center">
+                {pokemon.name}
               </IonCardHeader>
+              <img src={pokemon.image} alt={pokemon.name} />
             </IonCard>
           </IonCol>
         ))}

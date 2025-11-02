@@ -221,7 +221,7 @@ const StarWarsPage: React.FC = () => {
 
               {/* Mensaje de Fin de Lista */}
               {!isLoading && !hasMore && listPersonajes.length > 0 && (
-                <p>Has llegado al final de la lista de personajes. 🌌</p>
+                <p>Has llegado al final de la lista de personajes.</p>
               )}
             </IonCol>
           </IonRow>

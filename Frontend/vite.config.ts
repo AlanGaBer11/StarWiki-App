@@ -31,4 +31,14 @@ export default defineConfig({
     environment: "jsdom",
     setupFiles: "./src/setupTests.ts",
   },
+  server: {
+    proxy: {
+      "/api/demonslayer": {
+        target: "https://www.demonslayer-api.com",
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api\/demonslayer/, ""),
+        secure: false,
+      },
+    },
+  },
 });
