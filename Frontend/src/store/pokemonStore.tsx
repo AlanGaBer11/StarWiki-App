@@ -1,17 +1,26 @@
 import { create } from "zustand";
 import axios from "axios";
 
+interface PokemonType {
+  slot: number;
+  type: {
+    name: string;
+    url: string;
+  };
+}
+
 interface PokemonListItem {
   name: string;
   url: string;
   image: string;
+  types: string[];
 }
 
 type PokeApiResponse = {
   count: number;
   next: string | null;
   previous: string | null;
-  results: PokemonListItem[];
+  results: { name: string; url: string }[];
 };
 
 interface PokemonState {
@@ -40,7 +49,7 @@ export const usePokemonStore = create<PokemonState>((set, get) => ({
 
   loadData: async (url: string, append = false) => {
     const state = get();
-    if (state.isLoading) return; // evita llamadas dobles
+    if (state.isLoading) return;
 
     set({ isLoading: true, error: null });
     try {
@@ -56,13 +65,16 @@ export const usePokemonStore = create<PokemonState>((set, get) => ({
         pokemons.map(async (p) => {
           try {
             const r = await axios.get(p.url);
+            const types =
+              r.data.types?.map((t: PokemonType) => t.type.name) || [];
             return {
               name: p.name,
               url: p.url,
               image: r.data.sprites?.front_default || "",
+              types: types,
             };
           } catch {
-            return { name: p.name, url: p.url, image: "" };
+            return { name: p.name, url: p.url, image: "", types: [] };
           }
         })
       );
@@ -112,13 +124,16 @@ export const usePokemonStore = create<PokemonState>((set, get) => ({
         response.data.results.map(async (p) => {
           try {
             const r = await axios.get(p.url);
+            const types =
+              r.data.types?.map((t: PokemonType) => t.type.name) || [];
             return {
               name: p.name,
               url: p.url,
               image: r.data.sprites?.front_default || "",
+              types: types,
             };
           } catch {
-            return { name: p.name, url: p.url, image: "" };
+            return { name: p.name, url: p.url, image: "", types: [] };
           }
         })
       );

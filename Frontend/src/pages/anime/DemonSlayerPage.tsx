@@ -16,6 +16,8 @@ import {
   IonSpinner,
   IonText,
   IonButton,
+  IonChip,
+  IonBackButton,
 } from "@ionic/react";
 import { ANIMES } from "../../data/AnimeData";
 import AnimeContent from "../../components/content/AnimeContent";
@@ -30,6 +32,7 @@ const DemonSlayerPage: React.FC = () => {
     loadMore,
     hasMore,
     loadInitialData,
+    totalElements,
   } = useDemonStore();
 
   useEffect(() => {
@@ -42,6 +45,7 @@ const DemonSlayerPage: React.FC = () => {
         <IonToolbar>
           <IonButtons slot="start">
             <IonMenuButton />
+            <IonBackButton />
           </IonButtons>
           <IonTitle>{DemonSlayer.nombre}</IonTitle>
         </IonToolbar>
@@ -80,20 +84,42 @@ const DemonSlayerPage: React.FC = () => {
 
                   <img src={personaje.img} alt={personaje.name} />
 
-                  <IonCardContent>
+                  <IonCardContent className="ion-text-center">
                     <IonText>
-                      <p>
-                        <b>Edad:</b> {personaje.age}
-                      </p>
-                      <p>
-                        <b>Género:</b> {personaje.gender}
-                      </p>
-                      <p>
-                        <b>Descripción:</b> {personaje.description}
-                      </p>
-                      <p>
-                        <b>Raza:</b> {personaje.race}
-                      </p>
+                      <IonGrid>
+                        <IonRow className="ion-justify-content-center ion-align-items-center">
+                          {personaje.age && (
+                            <IonCol size="auto">
+                              <b>Edad:</b>
+                              <IonChip color="primary">{personaje.age}</IonChip>
+                            </IonCol>
+                          )}
+
+                          {personaje.gender && (
+                            <IonCol size="auto">
+                              <b>Género:</b>
+                              <IonChip color="primary">
+                                {personaje.gender}
+                              </IonChip>
+                            </IonCol>
+                          )}
+
+                          {personaje.race && (
+                            <IonCol size="auto">
+                              <b>Raza:</b>
+                              <IonChip color="primary">
+                                {personaje.race}
+                              </IonChip>
+                            </IonCol>
+                          )}
+                        </IonRow>
+                      </IonGrid>
+
+                      {personaje.description && (
+                        <p style={{ marginTop: "10px" }}>
+                          <b>Descripción:</b> {personaje.description}
+                        </p>
+                      )}
                     </IonText>
                   </IonCardContent>
                 </IonCard>
@@ -120,6 +146,18 @@ const DemonSlayerPage: React.FC = () => {
               {!isLoading && !hasMore && listPersonajes.length > 0 && (
                 <p>Has llegado al final de la lista de personajes.</p>
               )}
+            </IonCol>
+          </IonRow>
+
+          {/* Barra Informativa */}
+          <IonRow className="ion-justify-content-center ion-padding-vertical">
+            <IonCol size="12" className="ion-text-center">
+              <IonText color="medium">
+                <h3>
+                  Mostrando {listPersonajes.length} personajes de{" "}
+                  {totalElements}
+                </h3>
+              </IonText>
             </IonCol>
           </IonRow>
         </IonGrid>

@@ -5,11 +5,12 @@ import {
   IonCard,
   IonCardHeader,
   IonSpinner,
-  // IonButton,
   IonText,
   IonSegment,
   IonSegmentButton,
   IonLabel,
+  IonCardContent,
+  IonChip,
 } from "@ionic/react";
 import React, { useEffect, useState } from "react";
 import { usePokemonStore } from "../../store/pokemonStore";
@@ -89,10 +90,28 @@ const Pokedex: React.FC = () => {
         {listPokemons.map((pokemon) => (
           <IonCol size="12" sizeMd="6" sizeLg="4" key={pokemon.name}>
             <IonCard className="pokemon-card">
-              <IonCardHeader color="primary ion-text-center">
+              <IonCardHeader color="primary" className="ion-text-center">
                 {pokemon.name}
               </IonCardHeader>
+
               <img src={pokemon.image} alt={pokemon.name} />
+
+              <IonCardContent>
+                <IonText className="ion-text-center">
+                  {pokemon.types && pokemon.types.length > 0 && (
+                    <div>
+                      <b>Tipos</b>
+                      <div style={{ marginTop: "5px" }}>
+                        {pokemon.types.map((type) => (
+                          <IonChip key={type} color="primary">
+                            {type}
+                          </IonChip>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </IonText>
+              </IonCardContent>
             </IonCard>
           </IonCol>
         ))}
