@@ -15,6 +15,7 @@ import {
   IonCardTitle,
   IonCardContent,
   IonButton,
+  IonBackButton,
 } from "@ionic/react";
 
 import { GAMECONSOLES } from "../../data/videoGamesData";
@@ -27,6 +28,7 @@ const VideoGamesPage: React.FC = () => {
         <IonToolbar>
           <IonButtons slot="start">
             <IonMenuButton />
+            <IonBackButton defaultHref="/inicio" />
           </IonButtons>
           <IonTitle>Videojuegos</IonTitle>
         </IonToolbar>

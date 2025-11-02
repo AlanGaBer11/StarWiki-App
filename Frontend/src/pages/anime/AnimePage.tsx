@@ -15,6 +15,7 @@ import {
   IonCardTitle,
   IonCardContent,
   IonButton,
+  IonBackButton,
 } from "@ionic/react";
 import { ANIMES } from "../../data/AnimeData";
 import "./AnimaPage.css";
@@ -26,6 +27,7 @@ const AnimePage: React.FC = () => {
         <IonToolbar>
           <IonButtons slot="start">
             <IonMenuButton />
+            <IonBackButton defaultHref="/inicio" />
           </IonButtons>
           <IonTitle>Anime</IonTitle>
         </IonToolbar>
