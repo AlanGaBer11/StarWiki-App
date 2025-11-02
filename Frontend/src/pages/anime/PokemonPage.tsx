@@ -6,6 +6,7 @@ import {
   IonTitle,
   IonButtons,
   IonMenuButton,
+  IonBackButton,
   IonContent,
 } from "@ionic/react";
 import { ANIMES } from "../../data/AnimeData";
@@ -21,6 +22,7 @@ const PokemonPage: React.FC = () => {
         <IonToolbar>
           <IonButtons slot="start">
             <IonMenuButton />
+            <IonBackButton />
           </IonButtons>
           <IonTitle>{pokemonData.nombre}</IonTitle>
         </IonToolbar>

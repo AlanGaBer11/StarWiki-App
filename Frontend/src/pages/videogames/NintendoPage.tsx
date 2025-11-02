@@ -8,6 +8,7 @@ import {
   IonMenuButton,
   IonContent,
   IonButton,
+  IonBackButton,
 } from "@ionic/react";
 import {
   TABSCONSOLE,
@@ -25,6 +26,7 @@ const NintendoPage: React.FC = () => {
         <IonToolbar>
           <IonButtons slot="start">
             <IonMenuButton />
+            <IonBackButton />
           </IonButtons>
           <IonTitle>Nintendo</IonTitle>
         </IonToolbar>
