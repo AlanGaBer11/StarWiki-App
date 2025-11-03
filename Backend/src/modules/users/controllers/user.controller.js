@@ -30,7 +30,6 @@ class UserController {
         success: true,
         status: 200,
         message: "Usuarios obtenidos exitosamente",
-        users: result.users,
         pagination: {
           currentPage: page,
           totalPages: result.totalPages,
@@ -39,6 +38,7 @@ class UserController {
           hasNextPage: page < result.totalPages,
           hasPreviousPage: page > 1,
         },
+        users: result.users,
       });
     } catch (error) {
       handleError(res, error, "obtener todos los usuarios");

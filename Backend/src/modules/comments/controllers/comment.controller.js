@@ -31,7 +31,6 @@ class CommentController {
         success: true,
         status: 200,
         message: "Comentarios obtenidos exitosamente",
-        comments: result.comments,
         pagination: {
           currentPage: page,
           totalPages: result.totalPages,
@@ -40,6 +39,7 @@ class CommentController {
           hasNextPage: page < result.totalPages,
           hasPreviousPage: page > 1,
         },
+        comments: result.comments,
       });
     } catch (error) {
       handleError(res, error, "obtener todos los comentarios");

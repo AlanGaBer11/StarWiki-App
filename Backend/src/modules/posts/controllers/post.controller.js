@@ -30,7 +30,6 @@ class PostController {
         success: true,
         status: 200,
         message: "Post obtenidos exitosamente",
-        posts: result.posts,
         pagination: {
           currentPage: page,
           totalPages: result.totalPages,
@@ -39,6 +38,7 @@ class PostController {
           hasNextPage: page < result.totalPages,
           hasPreviousPage: page > 1,
         },
+        posts: result.posts,
       });
     } catch (error) {
       handleError(res, error, "obtener todos los posts");

@@ -29,7 +29,6 @@ class CategoryController {
         success: true,
         status: 200,
         message: "Categorías obtenidas exitosamente",
-        categories: result.categories,
         pagination: {
           currentPage: page,
           totalPages: result.totalPages,
@@ -38,6 +37,7 @@ class CategoryController {
           hasNextPage: page < result.totalPages,
           hasPreviousPage: page > 1,
         },
+        categories: result.categories,
       });
     } catch (error) {
       handleError(res, error, "obtener todas las categorías");
