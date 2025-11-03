@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { IonApp, IonSplitPane, setupIonicReact } from "@ionic/react";
 import { SplashScreen } from "@capacitor/splash-screen";
 import AppRouter from "./router/AppRouter";
+import Toast from "./components/toast/Toast";
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -34,7 +35,7 @@ const App: React.FC = () => {
         });
       } catch (e) {
         // opcional: manejar error en entorno web o si no está disponible el plugin
-        // console.warn('SplashScreen no disponible', e);
+        console.warn("SplashScreen no disponible", e);
       }
     };
     showSplash();
@@ -45,6 +46,7 @@ const App: React.FC = () => {
       <IonSplitPane contentId="main">
         <AppRouter /> {/* Componente de Router */}
       </IonSplitPane>
+      <Toast />
     </IonApp>
   );
 };
