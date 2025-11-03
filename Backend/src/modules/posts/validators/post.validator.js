@@ -1,9 +1,9 @@
 const { check, validationResult } = require("express-validator");
 
 const postValidator = [
-  check("nombre_usuario")
+  /*   check("nombre_usuario")
     .notEmpty()
-    .withMessage("El nombre de usuario es obligatorio"),
+    .withMessage("El nombre de usuario es obligatorio"), */
 
   check("nombre_categoria")
     .notEmpty()

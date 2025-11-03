@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const PostController = require("@/modules/posts/controllers/post.controller");
 const validator = require("@/modules/posts/validators/post.validator");
-const authorization = require("@/shared/middlewares/auth.middleware");
+const authMiddleware = require("@/shared/middlewares/auth.middleware");
 const { checkRole } = require("@/shared/middlewares/rol.middleware");
 
 const postController = new PostController();
@@ -23,19 +23,19 @@ router
   .post(
     "/createPost",
     validator,
-    authorization,
+    authMiddleware,
     checkRole(["ADMIN", "EDITOR"]),
     postController.createPost.bind(postController)
   )
   .patch(
     "/updatePost/:id",
-    authorization,
+    authMiddleware,
     checkRole(["ADMIN", "EDITOR", "USER"]),
     postController.updatePost.bind(postController)
   )
   .delete(
     "/deletePost/:id",
-    authorization,
+    authMiddleware,
     checkRole(["ADMIN", "EDITOR"]),
     postController.deletePost.bind(postController)
   );

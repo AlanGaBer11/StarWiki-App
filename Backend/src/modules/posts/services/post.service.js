@@ -47,11 +47,17 @@ class PostService {
   }
 
   async createPost(postData) {
-    const { nombre_usuario, nombre_categoria, titulo, contenido, url_imagen } =
-      postData;
+    const {
+      id_usuario,
+      nombre_usuario,
+      nombre_categoria,
+      titulo,
+      contenido,
+      url_imagen,
+    } = postData;
 
     // Validar usuario
-    const user = await this.UserRepository.findByUsername(nombre_usuario);
+    const user = await this.UserRepository.findById(id_usuario);
     if (!user) throw new Error("El usuario no existe");
 
     // Validar categoría

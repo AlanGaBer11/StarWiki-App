@@ -2,6 +2,7 @@ const PostProcess = require("@/modules/posts/processes/post.process");
 const {
   handleError,
   validatePagination,
+  isOwnerOrAdmin,
 } = require("@/shared/utils/controller.utils");
 
 class PostController {
@@ -197,22 +198,21 @@ class PostController {
 
   async createPost(req, res) {
     try {
-      const {
-        nombre_usuario,
-        nombre_categoria,
-        titulo,
-        contenido,
-        url_imagen,
-      } = req.body;
+      const { nombre_categoria, titulo, contenido, url_imagen } = req.body;
+
+      const id_usuario = req.user?.id;
+      const nombre_usuario = req.user?.nombre_usuario;
+
+      if (!id_usuario || !nombre_usuario) {
+        return res.status(401).json({
+          success: false,
+          status: 401,
+          message: "No se pudo identificar al usuario autenticado",
+        });
+      }
 
       //Validaciones básicas
-      if (
-        !nombre_usuario ||
-        !nombre_categoria ||
-        !titulo ||
-        !contenido ||
-        !url_imagen
-      ) {
+      if (!nombre_categoria || !titulo || !contenido || !url_imagen) {
         res.status(400).json({
           success: false,
           status: 400,
@@ -222,6 +222,7 @@ class PostController {
 
       // Llamar al proceso
       const newPost = await this.PostProcess.createPost({
+        id_usuario,
         nombre_usuario,
         nombre_categoria,
         titulo,
@@ -268,7 +269,8 @@ class PostController {
         return res.status(403).json({
           success: false,
           status: 403,
-          message: "No tienes permiso para actualizar este post",
+          message:
+            "No tienes permiso para actualizar este post. Solo el autor puede hacerlo.",
         });
       }
 
@@ -313,7 +315,8 @@ class PostController {
         return res.status(403).json({
           success: false,
           status: 403,
-          message: "No tienes permiso para eliminar este post",
+          message:
+            "No tienes permiso para eliminar este post. Solo el autor puede hacerlo.",
         });
       }
 

@@ -79,7 +79,7 @@ class PostProcess {
 
   async deletePost(id) {
     try {
-      return await this.PostService.deletPost(id);
+      return await this.PostService.deletePost(id);
     } catch (error) {
       console.error("Error al eliminar el post");
       throw error;

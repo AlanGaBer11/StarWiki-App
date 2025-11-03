@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const UserController = require("@/modules/users/controllers/user.controller");
 const validator = require("@/modules/users/validators/user.validator");
-const authorization = require("@/shared/middlewares/auth.middleware");
+const authMiddleware = require("@/shared/middlewares/auth.middleware");
 const { checkRole } = require("@/shared/middlewares/rol.middleware");
 
 const userController = new UserController();
@@ -10,44 +10,44 @@ const userController = new UserController();
 router
   .get(
     "/getUsers",
-    authorization,
+    authMiddleware,
     checkRole(["ADMIN"]),
     userController.findAllUsers.bind(userController)
   )
   .get(
     "/getUserById/:id",
-    authorization,
-    checkRole(["ADMIN", "USER"]),
+    authMiddleware,
+    checkRole(["ADMIN", "USER", "EDITOR"]),
     userController.findUserById.bind(userController)
   )
   .post(
     "/createUser",
     validator,
-    authorization,
+    authMiddleware,
     checkRole(["ADMIN"]),
     userController.createUser.bind(userController)
   )
   .patch(
     "/updateUser/:id",
     /* validator, */
-    authorization,
-    checkRole(["ADMIN", "USER"]),
+    authMiddleware,
+    checkRole(["ADMIN", "USER", "EDITOR"]),
     userController.updateUser.bind(userController)
   )
   .delete(
     "/deleteUser/:id",
-    authorization,
+    authMiddleware,
     checkRole(["ADMIN"]),
     userController.deleteUser.bind(userController)
   )
   .patch(
     "/deactivateUser/:id",
-    authorization,
+    authMiddleware,
     userController.deactivateUser.bind(userController)
   )
   .patch(
     "/reactivateUser/:id",
-    authorization,
+    authMiddleware,
     userController.reactivateUser.bind(userController)
   );
 
