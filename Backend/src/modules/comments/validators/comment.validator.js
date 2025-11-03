@@ -5,9 +5,9 @@ const commentValidator = [
     .notEmpty()
     .withMessage("El titulo del post es obligatorio"),
 
-  check("nombre_usuario")
+  /*   check("nombre_usuario")
     .notEmpty()
-    .withMessage("El nombre de usuario es obligatorio"),
+    .withMessage("El nombre de usuario es obligatorio"), */
 
   check("contenido").notEmpty().withMessage("El contenido es obligatorio"),
 

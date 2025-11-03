@@ -104,10 +104,19 @@ class CommentController {
 
   async createComment(req, res) {
     try {
-      const { titulo_post, nombre_usuario, contenido } = req.body;
+      const { titulo_post, contenido } = req.body;
+
+      const nombre_usuario = req.user?.nombre_usuario;
+      if (!nombre_usuario) {
+        return res.status(401).json({
+          success: false,
+          status: 401,
+          message: "No se pudo identificar al usuario autenticado",
+        });
+      }
 
       // Validaciones básicas
-      if (!titulo_post || !nombre_usuario || !contenido) {
+      if (!titulo_post || !contenido) {
         return res.status(400).json({
           success: false,
           status: 400,
@@ -161,7 +170,8 @@ class CommentController {
         return res.status(403).json({
           success: false,
           status: 403,
-          message: "No tienes permiso para actualizar este comentario",
+          message:
+            "No tienes permiso para actualizar este comentario. Solo el autor puede hacerlo",
         });
       }
 
@@ -211,7 +221,8 @@ class CommentController {
         return res.status(403).json({
           success: false,
           status: 403,
-          message: "No tienes permiso para eliminar este comentario",
+          message:
+            "No tienes permiso para eliminar este comentario. Solo el autor puede hacerlo",
         });
       }
 
