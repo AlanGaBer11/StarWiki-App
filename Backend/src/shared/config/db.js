@@ -21,7 +21,7 @@ class Database {
         },
       });
     } else {
-      this.sequelize = new Sequelize(process.env.POSTGRES_URI_PROD, {
+      this.sequelize = new Sequelize(process.env.POSTGRES_URL, {
         dialect: "postgres",
         logging: false,
         define: {

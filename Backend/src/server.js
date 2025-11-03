@@ -50,7 +50,7 @@ app.use(cors(corsOptions));
 app.use(bodyParser.json());
 
 // RUTA DE BIENVENIDA
-app.get("/", (req, res) => {
+app.get("/api/v2", (req, res) => {
   res.send("🔧 Bienvenido a StarWiki API");
 });
 
