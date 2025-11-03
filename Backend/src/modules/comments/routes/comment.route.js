@@ -28,6 +28,7 @@ router
   )
   .post(
     "/createComment",
+    validator,
     authMiddleware,
     checkRole(["USER", "ADMIN", "EDITOR"]),
     commentController.createComment.bind(commentController)
