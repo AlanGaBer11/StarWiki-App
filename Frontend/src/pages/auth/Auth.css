@@ -1,0 +1,52 @@
+ion-content {
+  --background: transparent;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.auth-card {
+  border-radius: 12px;
+  filter: drop-shadow(0 0 10px var(--ion-color-dark-shade, rgba(0, 0, 0, 0.8)));
+  width: 420px;
+  max-width: calc(100% - 32px);
+  box-sizing: border-box;
+}
+
+.auth-logo {
+  font-size: 28px;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 12px;
+  color: var(--ion-color-primary);
+}
+
+.input-row {
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+  width: 100%;
+}
+
+.auth-footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+/* Ajustes para pantallas pequeñas */
+@media (max-width: 600px) {
+  .input-row {
+    flex-direction: column;
+  }
+  ion-card {
+    width: 100%;
+    padding: 12px;
+  }
+}

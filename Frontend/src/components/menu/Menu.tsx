@@ -59,7 +59,12 @@ const appPages: AppPage[] = [
   },
 ];
 
-const labels = ["Family", "Friends", "Notes", "Work", "Travel", "Reminders"];
+const labels = [
+  {
+    title: "Posts",
+    link: "/posts",
+  },
+];
 
 const Menu: React.FC = () => {
   const location = useLocation();
@@ -99,9 +104,9 @@ const Menu: React.FC = () => {
         <IonList id="labels-list">
           <IonListHeader>Labels</IonListHeader>
           {labels.map((label, index) => (
-            <IonItem lines="none" key={index}>
+            <IonItem lines="none" key={index} routerLink={label.title}>
               <IonIcon aria-hidden="true" slot="start" icon={bookmarkOutline} />
-              <IonLabel>{label}</IonLabel>
+              <IonLabel>{label.title}</IonLabel>
             </IonItem>
           ))}
         </IonList>
