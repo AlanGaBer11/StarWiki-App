@@ -1,4 +1,4 @@
-const IPostRepository = require("../../repositories/interfaces/postRepository.interface");
+const IPostRepository = require("../interfaces/postRepository.interface");
 const Post = require("../../models/Post");
 const User = require("../../models/User");
 const Category = require("../../models/Category");
