@@ -1,9 +1,9 @@
-const PostProcess = require("@/modules/posts/processes/post.process");
+const PostProcess = require("../processes/post.process");
 const {
   handleError,
   validatePagination,
   isOwnerOrAdmin,
-} = require("@/shared/utils/controller.utils");
+} = require("../../../shared/utils/controller.utils");
 
 class PostController {
   constructor() {

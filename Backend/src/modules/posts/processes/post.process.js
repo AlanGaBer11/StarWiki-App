@@ -1,4 +1,4 @@
-const PostService = require("@/modules/posts/services/post.service");
+const PostService = require("../services/post.service");
 
 class PostProcess {
   constructor() {

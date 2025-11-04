@@ -1,7 +1,7 @@
-const ICommentRepository = require("@/shared/repositories/interfaces/commentRepository.interface");
-const Comment = require("@/shared/models/Comment");
-const Post = require("@/shared/models/Post");
-const User = require("@/shared/models/User");
+const ICommentRepository = require("../../repositories/interfaces/commentRepository.interface");
+const Comment = require("../../models/Comment");
+const Post = require("../../models/Post");
+const User = require("../../models/User");
 
 class CommentRepository extends ICommentRepository {
   async findAll(page = 1, limit = 10) {

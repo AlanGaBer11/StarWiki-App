@@ -1,9 +1,9 @@
-const UserProcess = require("@/modules/users/processes/user.process");
+const UserProcess = require("../processes/user.process");
 const {
   handleError,
   validatePagination,
   isOwnerOrAdmin,
-} = require("@/shared/utils/controller.utils");
+} = require("../../../shared/utils/controller.utils");
 
 class UserController {
   constructor() {

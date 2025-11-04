@@ -1,8 +1,8 @@
-const CategoryProcess = require("@/modules/categories/processes/category.process");
+const CategoryProcess = require("../processes/category.process");
 const {
   handleError,
   validatePagination,
-} = require("@/shared/utils/controller.utils");
+} = require("../../../shared/utils/controller.utils");
 class CategoryController {
   constructor() {
     this.CategoryProcess = new CategoryProcess();

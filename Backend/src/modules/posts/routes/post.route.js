@@ -1,9 +1,9 @@
 const express = require("express");
 const router = express.Router();
-const PostController = require("@/modules/posts/controllers/post.controller");
-const validator = require("@/modules/posts/validators/post.validator");
-const authMiddleware = require("@/shared/middlewares/auth.middleware");
-const { checkRole } = require("@/shared/middlewares/rol.middleware");
+const PostController = require("../controllers/post.controller");
+const validator = require("../validators/post.validator");
+const authMiddleware = require("../../../shared/middlewares/auth.middleware");
+const { checkRole } = require("../../../shared/middlewares/rol.middleware");
 
 const postController = new PostController();
 

@@ -1,4 +1,4 @@
-const IBaseRepository = require("@/shared/repositories/interfaces/baseRepository.interface");
+const IBaseRepository = require("../interfaces/baseRepository.interface");
 
 class IPostRepository extends IBaseRepository {
   async findByTitle(titulo) {

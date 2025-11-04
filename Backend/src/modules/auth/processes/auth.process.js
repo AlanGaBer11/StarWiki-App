@@ -1,4 +1,4 @@
-const AuthService = require("@/modules/auth/services/auth.service");
+const AuthService = require("../services/auth.service");
 
 class AuthProcess {
   constructor() {

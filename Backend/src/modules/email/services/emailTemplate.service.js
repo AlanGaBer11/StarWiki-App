@@ -1,9 +1,9 @@
-const welcomeTemplate = require("@/modules/email/templates/welcome.template");
-const verificationTemplate = require("@/modules/email/templates/verification.template");
-const verifyAccountTemplate = require("@/modules/email/templates/verifyAccount.template");
-const deactivateUser = require("@/modules/email/templates/deactivate.template");
-const reactivateUser = require("@/modules/email/templates/reactivate.template");
-const resetPasswordTemplate = require("@/modules/email/templates/resetPaswword.template");
+const welcomeTemplate = require("../templates/welcome.template");
+const verificationTemplate = require("../templates/verification.template");
+const verifyAccountTemplate = require("../templates/verifyAccount.template");
+const deactivateUser = require("../templates/deactivate.template");
+const reactivateUser = require("../templates/reactivate.template");
+const resetPasswordTemplate = require("../templates/resetPaswword.template");
 
 class EmailTemplateService {
   static getWelcomeEmail(userData) {

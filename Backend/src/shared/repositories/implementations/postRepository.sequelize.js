@@ -1,7 +1,7 @@
-const IPostRepository = require("@/shared/repositories/interfaces/postRepository.interface");
-const Post = require("@/shared/models/Post");
-const User = require("@/shared/models/User");
-const Category = require("@/shared/models/Category");
+const IPostRepository = require("../../repositories/interfaces/postRepository.interface");
+const Post = require("../../models/Post");
+const User = require("../../models/User");
+const Category = require("../../models/Category");
 const { Op } = require("sequelize");
 
 class PostRepository extends IPostRepository {

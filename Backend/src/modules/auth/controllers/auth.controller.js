@@ -1,4 +1,4 @@
-const AuthProcess = require("@/modules/auth/processes/auth.process");
+const AuthProcess = require("../processes/auth.process");
 const jwt = require("jsonwebtoken");
 
 class AuthController {

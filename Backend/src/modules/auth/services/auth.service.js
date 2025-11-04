@@ -1,8 +1,8 @@
-const RepositoryConfig = require("@/shared/config/repository");
-const UserBuilder = require("@/modules/users/builders/user.builder");
+const RepositoryConfig = require("../../../shared/config/repository");
+const UserBuilder = require("../../users/builders/user.builder");
+const { sendEmail } = require("../../email/services/email.service");
+const TemplateService = require("../../email/services/emailTemplate.service");
 const bcrypt = require("bcryptjs");
-const { sendEmail } = require("@/modules/email/services/email.service");
-const TemplateService = require("@/modules/email/services/emailTemplate.service");
 
 class AuthService {
   constructor() {

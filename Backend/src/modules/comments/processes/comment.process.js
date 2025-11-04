@@ -1,4 +1,4 @@
-const CommentService = require("@/modules/comments/services/comment.service");
+const CommentService = require("../services/comment.service");
 
 class CommentProcess {
   constructor() {

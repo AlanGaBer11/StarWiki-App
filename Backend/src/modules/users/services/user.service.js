@@ -1,7 +1,7 @@
-const RepositoryConfig = require("@/shared/config/repository");
-const UserBuilder = require("@/modules/users/builders/user.builder");
-const { sendEmail } = require("@/modules/email/services/email.service");
-const TemplateService = require("@/modules/email/services/emailTemplate.service");
+const RepositoryConfig = require("../../../shared/config/repository");
+const UserBuilder = require("../builders/user.builder");
+const { sendEmail } = require("../../email/services/email.service");
+const TemplateService = require("../../email/services/emailTemplate.service");
 
 class UserService {
   constructor() {

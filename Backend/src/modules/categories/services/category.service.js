@@ -1,5 +1,5 @@
-const RepositoryConfig = require("@/shared/config/repository");
-const CategoryBuilder = require("@/modules/categories/builders/category.builder");
+const RepositoryConfig = require("../../../shared/config/repository");
+const CategoryBuilder = require("../builders/category.builder");
 
 class CategoryService {
   constructor() {

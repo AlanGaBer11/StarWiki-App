@@ -1,5 +1,5 @@
-const IUserRepository = require("@/shared/repositories/interfaces/userRepository.interface");
-const User = require("@/shared/models/User");
+const IUserRepository = require("../../repositories/interfaces/userRepository.interface");
+const User = require("../../models/User");
 
 class UserRepository extends IUserRepository {
   // MÉTODOS

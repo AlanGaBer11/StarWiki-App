@@ -1,9 +1,9 @@
-const CommentProcess = require("@/modules/comments/processes/comment.process");
+const CommentProcess = require("../processes/comment.process");
 const {
   handleError,
   validatePagination,
   isOwnerOrAdmin,
-} = require("@/shared/utils/controller.utils");
+} = require("../../../shared/utils/controller.utils");
 
 class CommentController {
   constructor() {

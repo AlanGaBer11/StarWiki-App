@@ -1,5 +1,5 @@
 const { DataTypes, STRING } = require("sequelize");
-const sequelize = require("@/shared/config/db");
+const sequelize = require("../config/db");
 
 const User = sequelize.define(
   "User",

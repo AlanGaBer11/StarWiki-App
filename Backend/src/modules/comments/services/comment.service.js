@@ -1,5 +1,5 @@
-const RepositoryConfig = require("@/shared/config/repository");
-const CommentBuilder = require("@/modules/comments/builders/comment.build");
+const RepositoryConfig = require("../../../shared/config/repository");
+const CommentBuilder = require("../builders/comment.build");
 
 class CommentService {
   constructor() {

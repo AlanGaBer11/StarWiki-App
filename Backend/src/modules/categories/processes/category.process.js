@@ -1,4 +1,4 @@
-const CategoryService = require("@/modules/categories/services/category.service");
+const CategoryService = require("../services/category.service");
 
 class CategoryProcess {
   constructor() {

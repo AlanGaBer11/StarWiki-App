@@ -1,4 +1,4 @@
-const emailHelpers = require("@/shared/utils/email.helper");
+const emailHelpers = require("../../../shared/utils/email.helper");
 
 const generate = (data) => {
   const { nombre } = data;

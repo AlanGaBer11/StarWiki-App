@@ -1,5 +1,5 @@
 const { DataTypes } = require("sequelize");
-const sequelize = require("@/shared/config/db");
+const sequelize = require("../config/db");
 
 const Category = sequelize.define(
   "Category",

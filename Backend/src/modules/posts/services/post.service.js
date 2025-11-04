@@ -1,5 +1,5 @@
-const RepositoryConfig = require("@/shared/config/repository");
-const PostBuilder = require("@/modules/posts/builders/post.builder");
+const RepositoryConfig = require("../../../shared/config/repository");
+const PostBuilder = require("../builders/post.builder");
 
 class PostService {
   constructor() {

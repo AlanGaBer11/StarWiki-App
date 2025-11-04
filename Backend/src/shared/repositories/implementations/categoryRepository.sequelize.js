@@ -1,5 +1,5 @@
-const ICategoryRepository = require("@/shared/repositories/interfaces/categoryRepository.interface");
-const Category = require("@/shared/models/Category");
+const ICategoryRepository = require("../..//repositories/interfaces/categoryRepository.interface");
+const Category = require("../../models/Category");
 const { Op } = require("sequelize");
 
 class CategoryRepository extends ICategoryRepository {
