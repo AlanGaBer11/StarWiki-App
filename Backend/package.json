@@ -1,16 +1,19 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "StarWiki API Backend",
+  "main": "src/server.js",
   "scripts": {
-    "start": "node ./src/index.js",
-    "dev": "nodemon ./src/index.js",
-    "lint": "standard ./src/**/*.js"
+    "start": "node /src/server.js",
+    "dev": "nodemon /src/server.js",
+    "lint": "standard /src/**/*.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "engines": {
+    "node": "18.x"
+  },
   "dependencies": {
     "bcryptjs": "^3.0.2",
     "body-parser": "^2.2.0",
@@ -34,6 +37,6 @@
     "standard": "^17.1.2"
   },
   "_moduleAliases": {
-    "@": "src"
+    "@": "backend/src"
   }
 }

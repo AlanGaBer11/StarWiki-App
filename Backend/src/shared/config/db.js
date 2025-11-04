@@ -41,7 +41,7 @@ class Database {
       .authenticate()
       .then(() =>
         console.log(
-          "✅ Conexión a PostgreSQL establecida correctamente con Sequelize."
+          `✅ Conexión a PostgreSQL establecida correctamente desde ${process.env.NODE_ENV}.`
         )
       )
       .catch((error) =>

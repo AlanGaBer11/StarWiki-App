@@ -1,4 +1,4 @@
-const IBaseRepository = require("../interfaces/baseRepository.interface");
+const IBaseRepository = require("./baseRepository.interface");
 
 class ICategoryRepository extends IBaseRepository {
   findByName(nombre) {

@@ -1,4 +1,4 @@
-const ICategoryRepository = require("../..//repositories/interfaces/categoryRepository.interface");
+const ICategoryRepository = require("../interfaces/categoryRepository.interface");
 const Category = require("../../models/Category");
 const { Op } = require("sequelize");
 
