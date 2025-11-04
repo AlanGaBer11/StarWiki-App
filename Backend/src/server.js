@@ -65,8 +65,7 @@ app.use((req, res, next) => {
 });
 
 // INICIAR EL SERVIDOR
-if (process.env.NODE_ENV !== "production") {
-  app.listen(PORT, () => {
-    console.log(`🚀 Servidor local en http://localhost:${PORT}`);
-  });
-}
+
+app.listen(PORT, () => {
+  console.log(`🚀 Servidor local en http://localhost:${PORT}`);
+});
