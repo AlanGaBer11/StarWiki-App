@@ -11,9 +11,6 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "engines": {
-    "node": "18.x"
-  },
   "dependencies": {
     "bcryptjs": "^3.0.2",
     "body-parser": "^2.2.0",
@@ -35,8 +32,5 @@
   "devDependencies": {
     "nodemon": "^3.1.10",
     "standard": "^17.1.2"
-  },
-  "_moduleAliases": {
-    "@": "backend/src"
   }
 }
